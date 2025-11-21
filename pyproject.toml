@@ -8,7 +8,27 @@ authors = [
     { name = "Steven Fazzio", email = "fazzios@gmail.com" }
 ]
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    # Data ingestion
+    "pandas>=2.0",
+    "cenpy>=1.0",
+
+    # Spatial operations
+    "geopandas>=0.14",
+    "shapely>=2.0",
+
+    # TopoJSON/Topology
+    "topojson>=1.6",
+
+    # Caching
+    "requests-cache>=1.1",
+
+    # File formats
+    "pyarrow>=14.0",
+
+    # Environment variables
+    "python-dotenv>=1.0",
+]
 
 [project.scripts]
 half-america = "half_america:main"
@@ -21,6 +41,10 @@ build-backend = "hatchling.build"
 dev = [
     "black>=25.11.0",
     "mypy>=1.18.2",
+    "pandas-stubs>=2.0",
     "pytest>=9.0.1",
     "ruff>=0.14.5",
 ]
+
+[tool.mypy]
+ignore_missing_imports = true

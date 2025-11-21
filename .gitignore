@@ -14,3 +14,9 @@ wheels/
 
 # Claude Code local files
 .claude/
+
+# Environment
+.env
+
+# Data cache (large files)
+/data/

@@ -292,13 +292,13 @@ QUANTIZATION_GRID_SIZE = 0.01
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Dependencies install cleanly: `uv sync`
-- [ ] Module imports work: `uv run python -c "from half_america.data import constants"`
-- [ ] Type checking passes: `uv run mypy src/`
-- [ ] Linting passes: `uv run ruff check src/`
+- [x] Dependencies install cleanly: `uv sync`
+- [x] Module imports work: `uv run python -c "from half_america.data import constants"`
+- [x] Type checking passes: `uv run mypy src/`
+- [x] Linting passes: `uv run ruff check src/`
 
 #### Manual Verification:
-- [ ] `.env.example` contains clear instructions for API key setup
+- [x] `.env.example` contains clear instructions for API key setup
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to the next phase.
 
@@ -458,14 +458,14 @@ __all__ = [
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Module imports: `uv run python -c "from half_america.data import download_state_tracts"`
-- [ ] Type checking passes: `uv run mypy src/`
-- [ ] Linting passes: `uv run ruff check src/`
+- [x] Module imports: `uv run python -c "from half_america.data import download_state_tracts"`
+- [x] Type checking passes: `uv run mypy src/`
+- [x] Linting passes: `uv run ruff check src/`
 
 #### Manual Verification:
-- [ ] Download DC tracts (smallest state): `uv run python -c "from half_america.data import download_state_tracts; gdf = download_state_tracts('11'); print(f'Downloaded {len(gdf)} tracts')"`
-- [ ] Cache file created at `data/cache/raw/tiger/tracts_11_2024.parquet`
-- [ ] Second run uses cache (no download message)
+- [x] Download DC tracts (smallest state): `uv run python -c "from half_america.data import download_state_tracts; gdf = download_state_tracts('11'); print(f'Downloaded {len(gdf)} tracts')"`
+- [x] Cache file created at `data/cache/raw/tiger/tracts_11_2024.parquet`
+- [x] Second run uses cache (no download message)
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to the next phase.
 
@@ -624,15 +624,15 @@ __all__ = [
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Module imports: `uv run python -c "from half_america.data import fetch_state_population"`
-- [ ] Type checking passes: `uv run mypy src/`
-- [ ] Linting passes: `uv run ruff check src/`
+- [x] Module imports: `uv run python -c "from half_america.data import fetch_state_population"`
+- [x] Type checking passes: `uv run mypy src/`
+- [x] Linting passes: `uv run ruff check src/`
 
 #### Manual Verification:
-- [ ] Create `.env` file with valid `CENSUS_API_KEY`
-- [ ] Fetch DC population: `uv run python -c "from half_america.data import fetch_state_population; df = fetch_state_population('11'); print(f'Got {len(df)} tracts, total pop: {df.population.sum():,}')"`
-- [ ] Cache file created at `data/cache/raw/census/population_11_2022.parquet`
-- [ ] requests-cache database created at `data/cache/requests_cache.sqlite`
+- [x] Create `.env` file with valid `CENSUS_API_KEY`
+- [x] Fetch DC population: `uv run python -c "from half_america.data import fetch_state_population; df = fetch_state_population('11'); print(f'Got {len(df)} tracts, total pop: {df.population.sum():,}')"`
+- [x] Cache file created at `data/cache/raw/census/population_11_2022.parquet`
+- [x] requests-cache database created at `data/cache/requests_cache.sqlite`
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to the next phase.
 
