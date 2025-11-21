@@ -44,5 +44,6 @@ uv run half-america precompute       # Pre-compute optimization results
 ## Documentation
 
 - [README.md](README.md) - Project overview, installation, and usage
+- [docs/API.md](docs/API.md) - Python API reference
 - [METHODOLOGY.md](METHODOLOGY.md) - Mathematical formulation and algorithm details
 - [ROADMAP.md](ROADMAP.md) - Implementation phases and roadmap

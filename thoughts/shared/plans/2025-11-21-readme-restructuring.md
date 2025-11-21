@@ -243,14 +243,14 @@ See [METHODOLOGY.md](../METHODOLOGY.md) for mathematical details on the optimiza
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File exists: `test -f docs/API.md`
-- [ ] File has expected content: `grep -q "# API Reference" docs/API.md`
-- [ ] Links are valid markdown: Check for `](../README.md)` and `](../METHODOLOGY.md)`
+- [x] File exists: `test -f docs/API.md`
+- [x] File has expected content: `grep -q "# API Reference" docs/API.md`
+- [x] Links are valid markdown: Check for `](../README.md)` and `](../METHODOLOGY.md)`
 
 #### Manual Verification:
-- [ ] Content matches current README API sections
-- [ ] Code examples are properly formatted
-- [ ] Tables render correctly in GitHub preview
+- [x] Content matches current README API sections
+- [x] Code examples are properly formatted
+- [x] Tables render correctly in GitHub preview
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that the manual testing was successful before proceeding to the next phase.
 
@@ -355,14 +355,14 @@ MIT License. See [LICENSE](LICENSE).
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] README line count: `wc -l README.md` should be ~115-130 lines
-- [ ] Link to API.md exists: `grep -q "docs/API.md" README.md`
-- [ ] No broken internal links: All `](*.md)` links point to existing files
+- [x] README line count: `wc -l README.md` should be ~115-130 lines (actual: 114)
+- [x] Link to API.md exists: `grep -q "docs/API.md" README.md`
+- [x] No broken internal links: All `](*.md)` links point to existing files
 
 #### Manual Verification:
-- [ ] README reads well as a landing page
-- [ ] Quick Start example is self-contained and demonstrates core workflow
-- [ ] Footer sections are clean and not cluttered
+- [x] README reads well as a landing page
+- [x] Quick Start example is self-contained and demonstrates core workflow
+- [x] Footer sections are clean and not cluttered
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that the manual testing was successful before proceeding to the next phase.
 
@@ -401,8 +401,8 @@ Update the Documentation section in CLAUDE.md to reference the new docs/API.md f
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Link added: `grep -q "docs/API.md" CLAUDE.md`
-- [ ] File still valid markdown
+- [x] Link added: `grep -q "docs/API.md" CLAUDE.md`
+- [x] File still valid markdown
 
 #### Manual Verification:
 - [ ] Documentation section is complete and accurate
