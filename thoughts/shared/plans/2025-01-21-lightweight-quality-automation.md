@@ -152,7 +152,7 @@ repos:
 - [x] `uv run pre-commit run --all-files` passes
 
 #### Manual Verification:
-- [ ] Create a test commit to verify hooks run
+- [x] Create a test commit to verify hooks run
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to Phase 3.
 
@@ -212,8 +212,8 @@ jobs:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File created at `.github/workflows/ci.yml`
-- [ ] YAML syntax is valid: `uv run pre-commit run check-yaml --files .github/workflows/ci.yml`
+- [x] File created at `.github/workflows/ci.yml`
+- [x] YAML syntax is valid: `uv run pre-commit run check-yaml --files .github/workflows/ci.yml`
 
 #### Manual Verification:
 - [ ] Push to a branch and verify workflow runs in GitHub Actions
