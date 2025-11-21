@@ -115,12 +115,12 @@ __all__ = [
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Dependencies install cleanly: `uv sync`
-- [ ] Import works: `python -c "from half_america.graph import build_adjacency"`
-- [ ] Type checking passes: `uv run mypy src/half_america/graph/`
+- [x] Dependencies install cleanly: `uv sync`
+- [x] Import works: `python -c "from half_america.graph import build_adjacency"`
+- [x] Type checking passes: `uv run mypy src/half_america/graph/`
 
 #### Manual Verification:
-- [ ] Verify libpysal and PyMaxflow versions are compatible
+- [x] Verify libpysal and PyMaxflow versions are compatible
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to the next phase.
 
@@ -215,13 +215,13 @@ def build_adjacency(
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Unit tests pass: `uv run pytest tests/test_graph/test_adjacency.py -v`
-- [ ] Type checking passes: `uv run mypy src/half_america/graph/adjacency.py`
-- [ ] Linting passes: `uv run ruff check src/half_america/graph/adjacency.py`
+- [x] Unit tests pass: `uv run pytest tests/test_graph/test_adjacency.py -v`
+- [x] Type checking passes: `uv run mypy src/half_america/graph/adjacency.py`
+- [x] Linting passes: `uv run ruff check src/half_america/graph/adjacency.py`
 
 #### Manual Verification:
-- [ ] Run with sample data: verify neighbor counts are reasonable (mean ~6)
-- [ ] Verify no islands remain after `attach_islands()`
+- [x] Run with sample data: verify neighbor counts are reasonable (mean ~6)
+- [x] Verify no islands remain after `attach_islands()`
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to the next phase.
 
@@ -356,14 +356,14 @@ def compute_graph_attributes(
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Unit tests pass: `uv run pytest tests/test_graph/test_boundary.py -v`
-- [ ] Type checking passes: `uv run mypy src/half_america/graph/boundary.py`
-- [ ] Linting passes: `uv run ruff check src/half_america/graph/boundary.py`
+- [x] Unit tests pass: `uv run pytest tests/test_graph/test_boundary.py -v`
+- [x] Type checking passes: `uv run mypy src/half_america/graph/boundary.py`
+- [x] Linting passes: `uv run ruff check src/half_america/graph/boundary.py`
 
 #### Manual Verification:
-- [ ] Verify ρ is reasonable (expected: ~2-5 km for typical census tracts)
-- [ ] Verify boundary lengths are in reasonable range (0 to ~100 km)
-- [ ] Check that corner-only neighbors have near-zero boundary lengths
+- [x] Verify ρ is reasonable (expected: ~2-5 km for typical census tracts)
+- [x] Verify boundary lengths are in reasonable range (0 to ~100 km)
+- [x] Check that corner-only neighbors have near-zero boundary lengths
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to the next phase.
 
@@ -452,13 +452,13 @@ def get_partition(g: maxflow.Graph, num_nodes: int) -> np.ndarray:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Unit tests pass: `uv run pytest tests/test_graph/test_network.py -v`
-- [ ] Type checking passes: `uv run mypy src/half_america/graph/network.py`
-- [ ] Linting passes: `uv run ruff check src/half_america/graph/network.py`
+- [x] Unit tests pass: `uv run pytest tests/test_graph/test_network.py -v`
+- [x] Type checking passes: `uv run mypy src/half_america/graph/network.py`
+- [x] Linting passes: `uv run ruff check src/half_america/graph/network.py`
 
 #### Manual Verification:
-- [ ] Build network with test data, verify maxflow() runs without error
-- [ ] Verify partition extraction works correctly
+- [x] Build network with test data, verify maxflow() runs without error
+- [x] Verify partition extraction works correctly
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to the next phase.
 
@@ -622,15 +622,15 @@ def get_graph_summary(graph_data: GraphData) -> dict:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Unit tests pass: `uv run pytest tests/test_graph/test_pipeline.py -v`
-- [ ] Full test suite passes: `uv run pytest tests/test_graph/ -v`
-- [ ] Type checking passes: `uv run mypy src/half_america/graph/`
-- [ ] Linting passes: `uv run ruff check src/half_america/graph/`
+- [x] Unit tests pass: `uv run pytest tests/test_graph/test_pipeline.py -v`
+- [x] Full test suite passes: `uv run pytest tests/test_graph/ -v`
+- [x] Type checking passes: `uv run mypy src/half_america/graph/`
+- [x] Linting passes: `uv run ruff check src/half_america/graph/`
 
 #### Manual Verification:
-- [ ] Run `load_graph_data()` with real data, verify cache file is created
-- [ ] Run again, verify cache is used (faster load)
-- [ ] Inspect `get_graph_summary()` output for reasonable values
+- [x] Run `load_graph_data()` with real data, verify cache file is created
+- [x] Run again, verify cache is used (faster load)
+- [x] Inspect `get_graph_summary()` output for reasonable values
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to the next phase.
 
@@ -935,12 +935,12 @@ class TestGetPartition:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] All tests pass: `uv run pytest tests/test_graph/ -v`
-- [ ] Test coverage is adequate: `uv run pytest tests/test_graph/ --cov=half_america.graph`
+- [x] All tests pass: `uv run pytest tests/test_graph/ -v`
+- [x] Test coverage is adequate: `uv run pytest tests/test_graph/ --cov=half_america.graph` (95%)
 
 #### Manual Verification:
-- [ ] Review test output for any unexpected warnings
-- [ ] Verify tests cover edge cases (islands, zero boundaries)
+- [x] Review test output for any unexpected warnings
+- [x] Verify tests cover edge cases (islands, zero boundaries)
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to the next phase.
 
@@ -1005,12 +1005,12 @@ class TestGraphIntegration:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Integration test passes: `uv run pytest tests/test_graph/test_integration.py -v -m integration`
-- [ ] Full test suite passes: `uv run pytest -v`
+- [x] Integration test passes: `uv run pytest tests/test_graph/test_integration.py -v -m integration`
+- [x] Full test suite passes: `uv run pytest -v`
 
 #### Manual Verification:
-- [ ] Review integration test output for reasonable values
-- [ ] Verify DC has ~179 tracts with expected adjacency structure
+- [x] Review integration test output for reasonable values
+- [x] Verify DC has ~179 tracts with expected adjacency structure
 
 **Implementation Note**: After completing this phase and all automated verification passes, the Phase 2 implementation is complete.
 

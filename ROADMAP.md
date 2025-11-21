@@ -4,7 +4,7 @@ This document outlines the implementation plan for Half of America.
 
 ## Current Status
 
-**Phase 1: Data Pipeline** is complete. The project can download ~73,000 Census Tract geometries, fetch population data via Census API, clean geometries, and cache all data locally.
+**Phase 2: Graph Construction** is complete. The project can build spatial adjacency graphs using Queen contiguity, compute shared boundary lengths, and construct s-t flow networks ready for optimization.
 
 ---
 
@@ -32,16 +32,16 @@ Build the spatial adjacency graph from Census Tract data.
 
 ### Milestones
 
-- [ ] Compute tract-level attributes:
+- [x] Compute tract-level attributes:
   - Population (p_i)
   - Land Area (a_i)
   - Shared boundary lengths with neighbors (l_ij)
-- [ ] Build adjacency graph using libpysal (Queen contiguity)
-- [ ] Calculate characteristic length scale ρ = median(√a_i)
-- [ ] Construct s-t flow network structure:
+- [x] Build adjacency graph using libpysal (Queen contiguity)
+- [x] Calculate characteristic length scale ρ = median(√a_i)
+- [x] Construct s-t flow network structure:
   - n-links (neighborhood edges): capacity = λ × l_ij / ρ
   - t-links (terminal edges to source/sink)
-- [ ] Unit tests for graph construction
+- [x] Unit tests for graph construction
 
 ---
 
@@ -51,7 +51,7 @@ Implement the Max-Flow Min-Cut solver with constraint tuning.
 
 ### Milestones
 
-- [ ] Add PyMaxFlow dependency
+- [x] Add PyMaxFlow dependency (done in Phase 2)
 - [ ] Implement graph-cut solver wrapper
 - [ ] Implement binary search for Lagrange multiplier (μ) to hit 50% population target
 - [ ] Build outer loop for λ parameter sweep (0.0 → 1.0)
