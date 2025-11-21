@@ -71,14 +71,14 @@ uv sync
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Directory exists: `ls -la /Users/stevenfazzio/repos/half-america`
-- [ ] Venv recreated: `ls -la /Users/stevenfazzio/repos/half-america/.venv`
-- [ ] Dependencies installed: `uv run python -c "import half_america; print('OK')"`
-- [ ] CLI works: `uv run half-america --help`
-- [ ] Tests pass: `uv run pytest`
+- [x] Directory exists: `ls -la /Users/stevenfazzio/repos/half-america`
+- [x] Venv recreated: `ls -la /Users/stevenfazzio/repos/half-america/.venv`
+- [x] Dependencies installed: `uv run python -c "import half_america; print('OK')"`
+- [x] CLI works: `uv run half-america --help`
+- [x] Tests pass: `uv run pytest`
 
 #### Manual Verification:
-- [ ] Confirm you're in the renamed directory
+- [x] Confirm you're in the renamed directory
 
 **Implementation Note**: Complete this phase before proceeding. The remaining phases assume you're working from `/Users/stevenfazzio/repos/half-america`.
 
@@ -106,11 +106,11 @@ git remote add origin git@github.com:stevenfazzio/half-america.git
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Remote configured: `git remote -v` shows origin
-- [ ] Can push: `git push -u origin master`
+- [x] Remote configured: `git remote -v` shows origin
+- [x] Can push: `git push -u origin master`
 
 #### Manual Verification:
-- [ ] Repository visible at `https://github.com/stevenfazzio/half-america`
+- [x] Repository visible at `https://github.com/stevenfazzio/half-america`
 
 ---
 
@@ -136,7 +136,7 @@ Add after the "## Project Overview" heading:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] CLAUDE.md contains naming clarification: `grep -q "half-america.*hyphenated" CLAUDE.md`
+- [x] CLAUDE.md contains naming clarification: `grep -q "half-america.*hyphenated" CLAUDE.md`
 
 #### Manual Verification:
 - [ ] Documentation reads clearly
