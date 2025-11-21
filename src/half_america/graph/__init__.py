@@ -7,7 +7,7 @@ from half_america.graph.boundary import (
     compute_graph_attributes,
     GraphAttributes,
 )
-from half_america.graph.network import build_flow_network, get_partition
+from half_america.graph.network import build_flow_network, get_partition, compute_energy
 from half_america.graph.pipeline import load_graph_data, get_graph_summary, GraphData
 
 __all__ = [
@@ -22,6 +22,7 @@ __all__ = [
     # Network
     "build_flow_network",
     "get_partition",
+    "compute_energy",
     # Pipeline
     "load_graph_data",
     "get_graph_summary",

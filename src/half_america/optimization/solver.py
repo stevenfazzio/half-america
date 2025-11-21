@@ -4,7 +4,7 @@ from typing import NamedTuple
 
 import numpy as np
 
-from half_america.graph.network import build_flow_network, get_partition
+from half_america.graph.network import build_flow_network, get_partition, compute_energy
 from half_america.graph.pipeline import GraphData
 
 
@@ -21,6 +21,7 @@ class OptimizationResult(NamedTuple):
     lambda_param: float  # Surface tension parameter used
     mu: float  # Lagrange multiplier used
     flow_value: float  # Minimum cut value from maxflow
+    energy: float  # Full energy function value
 
 
 # Target tolerance: population fraction must be within this of 0.5
@@ -92,6 +93,15 @@ def solve_partition(
         else:
             print(f"  Target satisfied: No (need 49-51%, got {100 * population_fraction:.2f}%)")
 
+    # Compute energy function value
+    energy = compute_energy(
+        graph_data.attributes,
+        graph_data.edges,
+        partition,
+        lambda_param,
+        mu,
+    )
+
     return OptimizationResult(
         partition=partition,
         selected_population=selected_population,
@@ -103,4 +113,5 @@ def solve_partition(
         lambda_param=lambda_param,
         mu=mu,
         flow_value=flow_value,
+        energy=energy,
     )

@@ -1,183 +1,11 @@
-# Optimization Correctness Unit Tests Implementation Plan
-
-## Overview
-
-Implement mathematical correctness tests for the optimization engine as the final Phase 3 task. The existing 41 tests cover behavioral correctness (convergence, types, validation) but not mathematical correctness (does it compute the right answer?). This plan adds `test_correctness.py` with tests for partition invariants, energy function, optimality, determinism, and numerical stability.
-
-## Current State Analysis
-
-**Existing test coverage (41 tests):**
-- `test_solver.py` (15 tests): Parameter validation, result types, extreme values
-- `test_search.py` (12 tests): Binary search convergence, monotonicity
-- `test_sweep.py` (14 tests): Parallel execution, persistence
-
-**Gap:** No tests verify:
-- Energy function computed correctly
-- Partition is mathematically optimal
-- Numerical invariants hold (population/area sums)
-- Results are deterministic
-
-### Key Discoveries:
-- Energy function: `E(X) = λΣ(l_ij/ρ)|x_i-x_j| + (1-λ)Σ(a_i·x_i) - μΣ(p_i·x_i)` (METHODOLOGY.md:36)
-- Flow network encoding at `network.py:37-51`
-- Existing fixtures: `simple_graph_data` (3-node), `complex_graph_data` (5-node) at `conftest.py:9-52`
-- `OptimizationResult` at `solver.py:11-23` - need to add `energy` field
-
-## Desired End State
-
-A new `tests/test_optimization/test_correctness.py` file with 5 test classes (~15-20 tests total) verifying mathematical correctness. The `OptimizationResult` will include an `energy` field for verification.
-
-**Verification:**
-- All tests pass: `uv run pytest tests/test_optimization/test_correctness.py -v`
-- Full suite still passes: `uv run pytest`
-- Type checking passes: `uv run mypy src/`
-
-## What We're NOT Doing
-
-- Adding integration tests with real Census data (already covered by existing integration tests)
-- Testing the binary search convergence (already covered in `test_search.py`)
-- Adding CLI or visualization tests
-- Refactoring existing test files
-
-## Implementation Approach
-
-Add `energy` field to production code first, then add test classes in priority order: invariants → energy → optimality → determinism → numerical stability.
-
----
-
-## Phase 1: Add Energy Field to OptimizationResult
-
-### Overview
-Extend `OptimizationResult` with an `energy` field that computes the full energy function value. This enables correctness verification in tests and is useful for users who want to see energy values.
-
-### Changes Required:
-
-#### 1. Add `compute_energy` function to `network.py`
-**File**: `src/half_america/graph/network.py`
-**Changes**: Add function to compute energy from partition
-
-```python
-def compute_energy(
-    attributes: GraphAttributes,
-    edges: list[tuple[int, int]],
-    partition: np.ndarray,
-    lambda_param: float,
-    mu: float,
-) -> float:
-    """
-    Compute energy function value for a given partition.
-
-    E(X) = λ Σ(l_ij/ρ)|x_i - x_j| + (1-λ) Σ a_i x_i - μ Σ p_i x_i
-
-    Args:
-        attributes: GraphAttributes with population, area, rho, edge_lengths
-        edges: List of (i, j) neighbor pairs
-        partition: Boolean array where True = selected
-        lambda_param: Surface tension parameter [0, 1)
-        mu: Lagrange multiplier
-
-    Returns:
-        Total energy value (lower is better for the optimizer)
-    """
-    # Boundary cost: λ Σ(l_ij/ρ)|x_i - x_j|
-    # Only count edges crossing the cut (where x_i != x_j)
-    boundary_cost = 0.0
-    rho = attributes.rho
-    for i, j in edges:
-        if partition[i] != partition[j]:
-            l_ij = attributes.edge_lengths[(i, j)]
-            boundary_cost += lambda_param * l_ij / rho
-
-    # Area cost: (1-λ) Σ a_i x_i (for selected nodes only)
-    area_cost = (1 - lambda_param) * attributes.area[partition].sum()
-
-    # Population reward: μ Σ p_i x_i (for selected nodes only)
-    population_reward = mu * attributes.population[partition].sum()
-
-    return boundary_cost + area_cost - population_reward
-```
-
-#### 2. Update `OptimizationResult` to include `energy`
-**File**: `src/half_america/optimization/solver.py`
-**Changes**: Add energy field, import compute_energy, call it in solve_partition
-
-Update the NamedTuple:
-```python
-class OptimizationResult(NamedTuple):
-    """Result from graph cut optimization."""
-
-    partition: np.ndarray  # Boolean array: True = selected (source partition)
-    selected_population: int  # Sum of p_i for selected tracts
-    selected_area: float  # Sum of a_i for selected tracts in sq meters
-    total_population: int  # Total population across all tracts
-    total_area: float  # Total area in sq meters
-    population_fraction: float  # selected_population / total_population
-    satisfied_target: bool  # True if population_fraction within 1% of 50%
-    lambda_param: float  # Surface tension parameter used
-    mu: float  # Lagrange multiplier used
-    flow_value: float  # Minimum cut value from maxflow
-    energy: float  # Full energy function value
-```
-
-Update the import at top of file:
-```python
-from half_america.graph.network import build_flow_network, get_partition, compute_energy
-```
-
-Compute energy in `solve_partition()` before return:
-```python
-    # Compute energy function value
-    energy = compute_energy(
-        graph_data.attributes,
-        graph_data.edges,
-        partition,
-        lambda_param,
-        mu,
-    )
-
-    return OptimizationResult(
-        partition=partition,
-        # ... existing fields ...
-        flow_value=flow_value,
-        energy=energy,
-    )
-```
-
-#### 3. Export `compute_energy` from graph module
-**File**: `src/half_america/graph/__init__.py`
-**Changes**: Add compute_energy to exports
-
-### Success Criteria:
-
-#### Automated Verification:
-- [x] Type checking passes: `uv run mypy src/`
-- [x] Existing tests still pass: `uv run pytest tests/test_optimization/ -v`
-- [x] Linting passes: `uv run ruff check src/`
-
-#### Manual Verification:
-- [x] None required for this phase
-
-**Implementation Note**: After completing this phase and all automated verification passes, proceed to Phase 2.
-
----
-
-## Phase 2: Implement TestPartitionInvariants
-
-### Overview
-Add tests verifying fundamental partition properties: population and area sums, exhaustive/exclusive partition membership.
-
-### Changes Required:
-
-#### 1. Create `test_correctness.py`
-**File**: `tests/test_optimization/test_correctness.py`
-**Changes**: Create new file with TestPartitionInvariants class
-
-```python
 """Tests for mathematical correctness of optimization."""
+
+from itertools import product
 
 import numpy as np
 import pytest
 
+from half_america.graph.network import compute_energy
 from half_america.optimization import solve_partition
 
 
@@ -253,33 +81,8 @@ class TestPartitionInvariants:
 
             assert result.selected_population + unselected_pop == result.total_population
             assert result.selected_area + unselected_area == pytest.approx(result.total_area)
-```
 
-### Success Criteria:
 
-#### Automated Verification:
-- [x] New tests pass: `uv run pytest tests/test_optimization/test_correctness.py::TestPartitionInvariants -v`
-- [x] Full test suite passes: `uv run pytest`
-
-#### Manual Verification:
-- [x] None required for this phase
-
-**Implementation Note**: After completing this phase and all automated verification passes, proceed to Phase 3.
-
----
-
-## Phase 3: Implement TestEnergyFunction
-
-### Overview
-Add tests verifying the energy function is computed correctly by manually calculating expected values for known partitions.
-
-### Changes Required:
-
-#### 1. Add TestEnergyFunction class
-**File**: `tests/test_optimization/test_correctness.py`
-**Changes**: Add class with energy verification tests
-
-```python
 class TestEnergyFunction:
     """Tests verifying energy calculation."""
 
@@ -375,73 +178,6 @@ class TestEnergyFunction:
 
             expected_energy = boundary_cost + area_cost - pop_reward
             assert result.energy == pytest.approx(expected_energy, rel=1e-9)
-```
-
-### Success Criteria:
-
-#### Automated Verification:
-- [x] New tests pass: `uv run pytest tests/test_optimization/test_correctness.py::TestEnergyFunction -v`
-- [x] Full test suite passes: `uv run pytest`
-
-#### Manual Verification:
-- [x] None required for this phase
-
-**Implementation Note**: After completing this phase and all automated verification passes, proceed to Phase 4.
-
----
-
-## Phase 4: Implement TestOptimality
-
-### Overview
-Add brute-force tests that enumerate all 2^n partitions for small graphs (n=3,4,5,6) and verify the graph cut finds the optimal solution.
-
-### Changes Required:
-
-#### 1. Add helper fixture for tiny graphs
-**File**: `tests/test_optimization/conftest.py`
-**Changes**: Add parametrized fixture for tiny graphs
-
-```python
-@pytest.fixture
-def tiny_graph_factory():
-    """Factory to create tiny graphs for brute-force testing."""
-    def _create(n: int) -> GraphData:
-        """Create n-node linear chain graph."""
-        # Generate populations that sum to nice numbers
-        populations = np.array([100 * (i + 1) for i in range(n)])
-        areas = np.array([1000.0] * n)
-
-        # Linear chain edges
-        edges = [(i, i + 1) for i in range(n - 1)]
-
-        # Edge lengths all equal
-        edge_lengths = {}
-        for i, j in edges:
-            edge_lengths[(i, j)] = 50.0
-            edge_lengths[(j, i)] = 50.0
-
-        attributes = GraphAttributes(
-            population=populations,
-            area=areas,
-            rho=100.0,
-            edge_lengths=edge_lengths,
-        )
-        return GraphData(
-            edges=edges,
-            attributes=attributes,
-            num_nodes=n,
-            num_edges=len(edges),
-        )
-    return _create
-```
-
-#### 2. Add TestOptimality class
-**File**: `tests/test_optimization/test_correctness.py`
-**Changes**: Add class with brute-force optimality tests
-
-```python
-from itertools import product
-from half_america.graph.network import compute_energy
 
 
 class TestOptimality:
@@ -465,7 +201,7 @@ class TestOptimality:
         solver_energy = result.energy
 
         # Brute-force: enumerate all 2^n partitions
-        min_energy = float('inf')
+        min_energy = float("inf")
         for bits in product([False, True], repeat=n):
             partition = np.array(bits)
             energy = compute_energy(
@@ -508,33 +244,8 @@ class TestOptimality:
             assert solver_energy <= swapped_energy + 1e-9, (
                 f"Swap at node {i} improves energy: {solver_energy} > {swapped_energy}"
             )
-```
 
-### Success Criteria:
 
-#### Automated Verification:
-- [x] New tests pass: `uv run pytest tests/test_optimization/test_correctness.py::TestOptimality -v`
-- [x] Full test suite passes: `uv run pytest`
-
-#### Manual Verification:
-- [x] None required for this phase
-
-**Implementation Note**: After completing this phase and all automated verification passes, proceed to Phase 5.
-
----
-
-## Phase 5: Implement TestDeterminism
-
-### Overview
-Add tests verifying that identical inputs produce identical outputs across multiple runs.
-
-### Changes Required:
-
-#### 1. Add TestDeterminism class
-**File**: `tests/test_optimization/test_correctness.py`
-**Changes**: Add class with determinism tests
-
-```python
 class TestDeterminism:
     """Tests verifying reproducibility."""
 
@@ -573,38 +284,16 @@ class TestDeterminism:
             # All results for this lambda should be identical
             for i in range(1, len(results)):
                 assert np.array_equal(results[0].partition, results[i].partition)
-```
 
-### Success Criteria:
 
-#### Automated Verification:
-- [x] New tests pass: `uv run pytest tests/test_optimization/test_correctness.py::TestDeterminism -v`
-- [x] Full test suite passes: `uv run pytest`
-
-#### Manual Verification:
-- [x] None required for this phase
-
-**Implementation Note**: After completing this phase and all automated verification passes, proceed to Phase 6.
-
----
-
-## Phase 6: Implement TestNumericalStability
-
-### Overview
-Add tests for numerical edge cases with extreme population/area values.
-
-### Changes Required:
-
-#### 1. Add TestNumericalStability class
-**File**: `tests/test_optimization/test_correctness.py`
-**Changes**: Add class with numerical stability tests
-
-```python
 class TestNumericalStability:
     """Tests for numerical edge cases."""
 
     def test_tiny_populations(self):
         """Handle very small populations (1 person per tract)."""
+        from half_america.graph.boundary import GraphAttributes
+        from half_america.graph.pipeline import GraphData
+
         attributes = GraphAttributes(
             population=np.array([1, 1, 1]),
             area=np.array([1000.0, 1000.0, 1000.0]),
@@ -626,6 +315,9 @@ class TestNumericalStability:
 
     def test_large_populations(self):
         """Handle large populations (1 million per tract)."""
+        from half_america.graph.boundary import GraphAttributes
+        from half_america.graph.pipeline import GraphData
+
         attributes = GraphAttributes(
             population=np.array([1_000_000, 1_000_000, 1_000_000]),
             area=np.array([1000.0, 1000.0, 1000.0]),
@@ -674,51 +366,3 @@ class TestNumericalStability:
         assert len(result.partition) == simple_graph_data.num_nodes
         # Energy should be computed correctly
         assert isinstance(result.energy, float)
-```
-
-### Success Criteria:
-
-#### Automated Verification:
-- [x] New tests pass: `uv run pytest tests/test_optimization/test_correctness.py::TestNumericalStability -v`
-- [x] Full test suite passes: `uv run pytest`
-- [x] All tests pass: `uv run pytest -v`
-- [x] Type checking passes: `uv run mypy src/`
-- [x] Linting passes: `uv run ruff check src/ tests/`
-
-#### Manual Verification:
-- [x] Review test coverage and confirm all recommended correctness tests from research are implemented
-
-**Implementation Note**: After completing this phase and all verification passes, the Phase 3 optimization correctness task is complete.
-
----
-
-## Testing Strategy
-
-### Unit Tests Added:
-- `TestPartitionInvariants`: 5 tests for population/area sum invariants
-- `TestEnergyFunction`: 4 tests for energy calculation verification
-- `TestOptimality`: 2 tests (1 parametrized over n=3,4,5,6) for brute-force optimality
-- `TestDeterminism`: 2 tests for reproducibility
-- `TestNumericalStability`: 4 tests for extreme values
-
-### Key Edge Cases:
-- Empty partition (mu=0)
-- Full partition (high mu)
-- Partial partitions with known expected values
-- Tiny populations (1 person)
-- Large populations (1 million)
-- Lambda extremes (0.001 and 0.99)
-
-## Performance Considerations
-
-- Brute-force tests limited to n≤6 (64 partitions max) to keep tests fast
-- No real Census data in unit tests - synthetic fixtures only
-- Tests should complete in <1 second each
-
-## References
-
-- Research: `thoughts/shared/research/2025-11-21-unit-tests-optimization-correctness.md`
-- METHODOLOGY.md energy function: lines 32-36
-- Existing tests: `tests/test_optimization/test_*.py`
-- Solver implementation: `src/half_america/optimization/solver.py`
-- Network construction: `src/half_america/graph/network.py`

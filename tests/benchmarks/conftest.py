@@ -6,7 +6,6 @@ to produce meaningful performance measurements.
 
 import gc
 
-import numpy as np
 import pytest
 from shapely import box
 

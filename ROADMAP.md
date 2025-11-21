@@ -4,7 +4,7 @@ This document outlines the implementation plan for Half of America.
 
 ## Current Status
 
-**Phase 3: Optimization Engine** is nearly complete. The Max-Flow Min-Cut solver, binary search for Lagrange multiplier, lambda parameter sweep, and pre-computation CLI are all implemented. Performance benchmarking confirmed acceptable performance (~10-15s for full sweep). Only unit tests for optimization correctness remain.
+**Phase 3: Optimization Engine** is complete. The Max-Flow Min-Cut solver, binary search for Lagrange multiplier, lambda parameter sweep, pre-computation CLI, performance benchmarking, and mathematical correctness tests are all implemented. **Phase 4: Post-Processing** is next.
 
 ---
 
@@ -62,7 +62,7 @@ Implement the Max-Flow Min-Cut solver with constraint tuning.
   - Benchmarks show ~10-15s for full sweep (acceptable for pre-computation)
   - Primary bottleneck is PyMaxFlow C++ solver (not optimizable from Python)
   - Micro-optimizations deferred as unnecessary
-- [ ] Unit tests for optimization correctness
+- [x] Unit tests for optimization correctness
 
 ---
 

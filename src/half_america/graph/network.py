@@ -65,3 +65,43 @@ def get_partition(g: maxflow.Graph, num_nodes: int) -> np.ndarray:
         Boolean array where True = node in source partition (selected)
     """
     return np.array([g.get_segment(i) == 0 for i in range(num_nodes)])
+
+
+def compute_energy(
+    attributes: GraphAttributes,
+    edges: list[tuple[int, int]],
+    partition: np.ndarray,
+    lambda_param: float,
+    mu: float,
+) -> float:
+    """
+    Compute energy function value for a given partition.
+
+    E(X) = λ Σ(l_ij/ρ)|x_i - x_j| + (1-λ) Σ a_i x_i - μ Σ p_i x_i
+
+    Args:
+        attributes: GraphAttributes with population, area, rho, edge_lengths
+        edges: List of (i, j) neighbor pairs
+        partition: Boolean array where True = selected
+        lambda_param: Surface tension parameter [0, 1)
+        mu: Lagrange multiplier
+
+    Returns:
+        Total energy value (lower is better for the optimizer)
+    """
+    # Boundary cost: λ Σ(l_ij/ρ)|x_i - x_j|
+    # Only count edges crossing the cut (where x_i != x_j)
+    boundary_cost = 0.0
+    rho = attributes.rho
+    for i, j in edges:
+        if partition[i] != partition[j]:
+            l_ij = attributes.edge_lengths[(i, j)]
+            boundary_cost += lambda_param * l_ij / rho
+
+    # Area cost: (1-λ) Σ a_i x_i (for selected nodes only)
+    area_cost = (1 - lambda_param) * attributes.area[partition].sum()
+
+    # Population reward: μ Σ p_i x_i (for selected nodes only)
+    population_reward = mu * attributes.population[partition].sum()
+
+    return boundary_cost + area_cost - population_reward

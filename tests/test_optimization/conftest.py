@@ -50,3 +50,38 @@ def complex_graph_data():
         num_nodes=5,
         num_edges=4,
     )
+
+
+@pytest.fixture
+def tiny_graph_factory():
+    """Factory to create tiny graphs for brute-force testing."""
+
+    def _create(n: int) -> GraphData:
+        """Create n-node linear chain graph."""
+        # Generate populations that sum to nice numbers
+        populations = np.array([100 * (i + 1) for i in range(n)])
+        areas = np.array([1000.0] * n)
+
+        # Linear chain edges
+        edges = [(i, i + 1) for i in range(n - 1)]
+
+        # Edge lengths all equal
+        edge_lengths = {}
+        for i, j in edges:
+            edge_lengths[(i, j)] = 50.0
+            edge_lengths[(j, i)] = 50.0
+
+        attributes = GraphAttributes(
+            population=populations,
+            area=areas,
+            rho=100.0,
+            edge_lengths=edge_lengths,
+        )
+        return GraphData(
+            edges=edges,
+            attributes=attributes,
+            num_nodes=n,
+            num_edges=len(edges),
+        )
+
+    return _create
