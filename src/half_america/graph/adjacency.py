@@ -77,7 +77,9 @@ def build_adjacency(
     w = Queen.from_dataframe(gdf, use_index=False)
 
     if verbose:
-        print(f"  Initial neighbors: mean={w.mean_neighbors:.1f}, max={w.max_neighbors}")
+        print(
+            f"  Initial neighbors: mean={w.mean_neighbors:.1f}, max={w.max_neighbors}"
+        )
 
     # Handle islands (tracts with no neighbors)
     num_islands = len(w.islands)

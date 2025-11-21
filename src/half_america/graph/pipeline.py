@@ -24,7 +24,9 @@ class GraphData(NamedTuple):
 
 def _get_graph_cache_path() -> Path:
     """Get path to cached graph data."""
-    return get_processed_cache_path(f"graph_{TIGER_YEAR}_{ACS_YEAR}").with_suffix(".pkl")
+    return get_processed_cache_path(f"graph_{TIGER_YEAR}_{ACS_YEAR}").with_suffix(
+        ".pkl"
+    )
 
 
 def load_graph_data(

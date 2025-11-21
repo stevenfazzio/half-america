@@ -67,7 +67,9 @@ def fetch_state_population(
     df = pd.DataFrame(data)
 
     # Convert population to numeric (API returns strings)
-    df["population"] = pd.to_numeric(df["B01003_001E"], errors="coerce").fillna(0).astype(int)
+    df["population"] = (
+        pd.to_numeric(df["B01003_001E"], errors="coerce").fillna(0).astype(int)
+    )
 
     # Create GEOID for joining with TIGER data
     # GEOID format: state (2) + county (3) + tract (6) = 11 digits

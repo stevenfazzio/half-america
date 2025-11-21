@@ -20,13 +20,15 @@ def sample_polygon() -> Polygon:
 def invalid_polygon() -> Polygon:
     """Create a self-intersecting (bowtie) polygon in US coordinates."""
     # Bowtie shape - self-intersecting
-    return Polygon([
-        (DC_LON, DC_LAT),
-        (DC_LON + 0.01, DC_LAT + 0.01),
-        (DC_LON + 0.01, DC_LAT),
-        (DC_LON, DC_LAT + 0.01),
-        (DC_LON, DC_LAT),
-    ])
+    return Polygon(
+        [
+            (DC_LON, DC_LAT),
+            (DC_LON + 0.01, DC_LAT + 0.01),
+            (DC_LON + 0.01, DC_LAT),
+            (DC_LON, DC_LAT + 0.01),
+            (DC_LON, DC_LAT),
+        ]
+    )
 
 
 @pytest.fixture

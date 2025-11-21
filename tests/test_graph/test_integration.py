@@ -39,6 +39,10 @@ class TestGraphIntegration:
         print(f"  Tracts: {adj_result.num_nodes}")
         print(f"  Edges: {adj_result.num_edges}")
         print(f"  Rho: {attrs.rho:.1f} m ({attrs.rho/1000:.2f} km)")
-        print(f"  Selected: {partition.sum()} tracts ({100*partition.sum()/len(partition):.1f}%)")
-        print(f"  Population: {selected_pop:,} / {total_pop:,} ({100*selected_pop/total_pop:.1f}%)")
+        print(
+            f"  Selected: {partition.sum()} tracts ({100*partition.sum()/len(partition):.1f}%)"
+        )
+        print(
+            f"  Population: {selected_pop:,} / {total_pop:,} ({100*selected_pop/total_pop:.1f}%)"
+        )
         print(f"  Max flow: {flow:.2f}")

@@ -91,7 +91,9 @@ def solve_partition(
         if satisfied_target:
             print("  Target satisfied: Yes")
         else:
-            print(f"  Target satisfied: No (need 49-51%, got {100 * population_fraction:.2f}%)")
+            print(
+                f"  Target satisfied: No (need 49-51%, got {100 * population_fraction:.2f}%)"
+            )
 
     # Compute energy function value
     energy = compute_energy(

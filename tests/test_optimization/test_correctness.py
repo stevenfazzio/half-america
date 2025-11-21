@@ -36,7 +36,9 @@ class TestPartitionInvariants:
         attrs = simple_graph_data.attributes
         unselected_area = float(attrs.area[~result.partition].sum())
 
-        assert result.selected_area + unselected_area == pytest.approx(result.total_area)
+        assert result.selected_area + unselected_area == pytest.approx(
+            result.total_area
+        )
 
     def test_partition_exhaustive(self, simple_graph_data):
         """Every node is assigned to exactly one partition."""
@@ -79,8 +81,12 @@ class TestPartitionInvariants:
             unselected_pop = int(attrs.population[~result.partition].sum())
             unselected_area = float(attrs.area[~result.partition].sum())
 
-            assert result.selected_population + unselected_pop == result.total_population
-            assert result.selected_area + unselected_area == pytest.approx(result.total_area)
+            assert (
+                result.selected_population + unselected_pop == result.total_population
+            )
+            assert result.selected_area + unselected_area == pytest.approx(
+                result.total_area
+            )
 
 
 class TestEnergyFunction:
@@ -241,9 +247,9 @@ class TestOptimality:
             )
 
             # Original should be at least as good
-            assert solver_energy <= swapped_energy + 1e-9, (
-                f"Swap at node {i} improves energy: {solver_energy} > {swapped_energy}"
-            )
+            assert (
+                solver_energy <= swapped_energy + 1e-9
+            ), f"Swap at node {i} improves energy: {solver_energy} > {swapped_energy}"
 
 
 class TestDeterminism:
@@ -331,7 +337,9 @@ class TestNumericalStability:
             num_edges=2,
         )
 
-        result = solve_partition(graph_data, lambda_param=0.5, mu=0.00001, verbose=False)
+        result = solve_partition(
+            graph_data, lambda_param=0.5, mu=0.00001, verbose=False
+        )
 
         # Should not crash and should produce valid result
         assert result.total_population == 3_000_000
