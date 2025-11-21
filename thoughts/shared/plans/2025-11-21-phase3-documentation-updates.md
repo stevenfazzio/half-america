@@ -105,14 +105,14 @@ uv run half-america precompute       # Pre-compute optimization results
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] `grep "Optimization Engine Complete (Phase 3)" README.md` returns a match
-- [ ] `grep "Optimization.*implemented" CLAUDE.md` returns a match
-- [ ] `grep "precompute" CLAUDE.md` returns a match
+- [x] `grep "Optimization Engine Complete (Phase 3)" README.md` returns a match
+- [x] `grep "Optimization.*implemented" CLAUDE.md` returns a match
+- [x] `grep "precompute" CLAUDE.md` returns a match
 
 #### Manual Verification:
-- [ ] README project status accurately reflects Phase 3 completion
-- [ ] CLAUDE.md implementation stack shows all completed phases as "implemented"
-- [ ] CLAUDE.md commands section includes `precompute` with appropriate comment
+- [x] README project status accurately reflects Phase 3 completion
+- [x] CLAUDE.md implementation stack shows all completed phases as "implemented"
+- [x] CLAUDE.md commands section includes `precompute` with appropriate comment
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to Phase 2.
 
@@ -200,18 +200,18 @@ See [METHODOLOGY.md](METHODOLOGY.md) for mathematical details on the optimizatio
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] `grep "## Optimization" README.md` returns a match (note: section uses `###`)
-- [ ] `grep "### Optimization" README.md` returns a match
-- [ ] `grep "sweep_lambda" README.md` returns a match
-- [ ] `grep "half-america precompute" README.md` returns a match
+- [x] `grep "## Optimization" README.md` returns a match (note: section uses `###`)
+- [x] `grep "### Optimization" README.md` returns a match
+- [x] `grep "sweep_lambda" README.md` returns a match
+- [x] `grep "half-america precompute" README.md` returns a match
 
 #### Manual Verification:
-- [ ] Optimization section appears between Graph Construction and Project Status
-- [ ] CLI documentation matches actual `--help` output
-- [ ] Python example is syntactically correct and follows project patterns
-- [ ] Function reference matches actual module exports
-- [ ] No redundant content with Graph Construction section
-- [ ] Link to METHODOLOGY.md works correctly
+- [x] Optimization section appears between Graph Construction and Project Status
+- [x] CLI documentation matches actual `--help` output
+- [x] Python example is syntactically correct and follows project patterns
+- [x] Function reference matches actual module exports
+- [x] No redundant content with Graph Construction section
+- [x] Link to METHODOLOGY.md works correctly
 
 **Implementation Note**: After completing this phase and all verification passes, the documentation update is complete.
 

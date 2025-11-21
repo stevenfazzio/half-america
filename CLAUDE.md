@@ -23,6 +23,7 @@ uv run black src/ tests/             # Format code
 uv run ruff check src/ tests/        # Lint
 uv run mypy src/                     # Type check
 uv run half-america                  # Run CLI
+uv run half-america precompute       # Pre-compute optimization results
 ```
 
 ## Architecture
@@ -30,7 +31,7 @@ uv run half-america                  # Run CLI
 **Implementation Stack (from METHODOLOGY.md):**
 - **Data Ingestion:** pandas, cenpy (Census API) - *implemented*
 - **Spatial Logic:** geopandas, libpysal (adjacency graph building) - *implemented*
-- **Optimization:** PyMaxFlow (C++ graph cuts wrapper) - *Phase 3*
+- **Optimization:** PyMaxFlow (C++ graph cuts wrapper) - *implemented*
 - **Geometry Operations:** shapely, topojson - *implemented*
 - **Web Frontend:** React, Mapbox GL JS - *Phase 5*
 

@@ -162,9 +162,70 @@ print(f"Selected {selected.sum()} tracts")
 
 Graph data is cached in `data/cache/` after first computation.
 
+### Optimization
+
+The optimization module runs Max-Flow Min-Cut optimization across lambda values to find population partitions.
+
+#### CLI Usage
+
+```bash
+# Pre-compute optimization results for all lambda values (recommended)
+uv run half-america precompute
+
+# Options
+uv run half-america precompute --force           # Rebuild cache
+uv run half-america precompute --lambda-step 0.05  # Finer granularity
+uv run half-america precompute --skip-failures   # Continue on convergence errors
+```
+
+Results are cached in `data/cache/processed/` after computation.
+
+#### Quick Start
+
+```python
+from half_america.data import load_all_tracts
+from half_america.graph import load_graph_data
+from half_america.optimization import sweep_lambda, save_sweep_result
+
+# Load data and graph
+gdf = load_all_tracts()
+graph_data = load_graph_data(gdf)
+
+# Run optimization across all lambda values
+result = sweep_lambda(graph_data)
+
+# Check results
+for lambda_val, lambda_result in result.results.items():
+    opt = lambda_result.search_result.result
+    print(f"lambda={lambda_val:.1f}: {opt.population_fraction:.2%} selected")
+
+# Persist for post-processing
+save_sweep_result(result, Path("data/cache/processed/sweep.pkl"))
+```
+
+#### Function Reference
+
+| Function | Description |
+|----------|-------------|
+| `sweep_lambda(graph_data)` | Run optimization across all lambda values (main entry point) |
+| `find_optimal_mu(graph_data, lambda_val)` | Find mu that achieves 50% population for given lambda |
+| `solve_partition(graph_data, lambda_val, mu)` | Solve single graph-cut for specific parameters |
+| `save_sweep_result(result, path)` | Persist sweep results to disk |
+| `load_sweep_result(path)` | Load persisted sweep results |
+
+#### Data Types
+
+| Type | Description |
+|------|-------------|
+| `SweepResult` | Full sweep results (dict of lambda to result, timing, convergence) |
+| `SearchResult` | Binary search result (final result, iterations, mu history) |
+| `OptimizationResult` | Single solve result (partition, statistics, energy) |
+
+See [METHODOLOGY.md](METHODOLOGY.md) for mathematical details on the optimization algorithm.
+
 ## Project Status
 
-**Current Phase**: Graph Construction Complete (Phase 2)
+**Current Phase**: Optimization Engine Complete (Phase 3)
 
 See [ROADMAP.md](ROADMAP.md) for the full implementation plan.
 
