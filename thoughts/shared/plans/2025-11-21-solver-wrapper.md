@@ -203,13 +203,13 @@ __all__ = [
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Module imports without error: `python -c "from half_america.optimization import solve_partition"`
-- [ ] Type check passes: `uv run mypy src/half_america/optimization/`
-- [ ] Lint passes: `uv run ruff check src/half_america/optimization/`
+- [x] Module imports without error: `python -c "from half_america.optimization import solve_partition"`
+- [x] Type check passes: `uv run mypy src/half_america/optimization/`
+- [x] Lint passes: `uv run ruff check src/half_america/optimization/`
 
 #### Manual Verification:
-- [ ] Code review confirms NamedTuple follows codebase patterns
-- [ ] Code review confirms verbose output matches existing conventions
+- [x] Code review confirms NamedTuple follows codebase patterns
+- [x] Code review confirms verbose output matches existing conventions
 
 **Implementation Note**: After completing this phase and all automated verification passes, proceed to Phase 2.
 
@@ -464,11 +464,11 @@ class TestSatisfiedTarget:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] All tests pass: `uv run pytest tests/test_optimization/ -v`
-- [ ] Tests follow existing patterns (class-based, descriptive names)
+- [x] All tests pass: `uv run pytest tests/test_optimization/ -v`
+- [x] Tests follow existing patterns (class-based, descriptive names)
 
 #### Manual Verification:
-- [ ] Test coverage includes return types, statistics, validation, and boundaries
+- [x] Test coverage includes return types, statistics, validation, and boundaries
 
 **Implementation Note**: After completing this phase and all automated verification passes, proceed to Phase 3.
 
@@ -496,11 +496,11 @@ To:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File saves without error
-- [ ] Git diff shows only the checkbox change
+- [x] File saves without error
+- [x] Git diff shows only the checkbox change
 
 #### Manual Verification:
-- [ ] ROADMAP.md accurately reflects project status
+- [x] ROADMAP.md accurately reflects project status
 
 ---
 
