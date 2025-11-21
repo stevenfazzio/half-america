@@ -1,79 +1,89 @@
 # Technical Methodology
 
-## 1. Data Sources & Granularity
-To solve the resolution issues inherent in county-level maps, this project utilizes **US Census Tracts**.
-* **Tracts vs. Counties:** There are approximately 73,000 census tracts in the US, compared to ~3,100 counties. Tracts generally have a population between 1,200 and 8,000 people, providing a much higher fidelity representation of population distribution.
-* **Geometry:** TIGER/Line shapefiles will be used for spatial boundaries.
-* **Demographics:** ACS (American Community Survey) 5-Year estimates will provide population data.
+## 1. Data Sources & Preprocessing
+To address the resolution limits of county-level maps, this project utilizes **US Census Tracts**.
+
+### 1.1 Granularity
+* **Source:** US Census Bureau TIGER/Line Shapefiles and ACS 5-Year Estimates.
+* **Scale:** ~73,000 tracts (vs. ~3,100 counties). Tracts offer a population resolution of 1,200–8,000 people, providing high-fidelity density data.
+
+### 1.2 Topological Cleaning
+Raw census shapefiles often contain "slivers," overlaps, and self-intersections that break graph adjacency logic.
+* **Quantization:** Coordinates will be snapped to a high-precision integer grid (via TopoJSON) to eliminate micro-gaps between tracts.
+* **Validation:** All geometries will be passed through a `buffer(0)` operation in `shapely` to fix self-intersections and ensure valid polygon topology before graph construction.
 
 ## 2. Mathematical Formulation
 
-The core problem is a constrained optimization problem.
+The problem is modeled as a **Constrained Optimization** problem on a discrete spatial graph.
 
-Let $T$ be the set of all Census Tracts.
-For each tract $t_i$, we have:
+Let $T$ be the set of all Census Tracts. For each tract $t_i$, we define:
 * $p_i$: Population
 * $a_i$: Land Area
-* $l_i$: Perimeter Length
+* $l_{ij}$: Length of the shared boundary between tracts $i$ and $j$.
 
-We seek a subset $S \subseteq T$ (the "Selected" tracts).
-
-### The Constraint
-The selected subset must contain at least half the total population:
-$$\sum_{i \in S} p_i \ge 0.5 \times P_{total}$$
-
-### The Objective Function
-We aim to minimize a cost function $C(S)$ defined by a tunable parameter $\lambda \in [0, 1]$:
-
-$$C(S) = (1-\lambda) \cdot \text{Area}(S) + \lambda \cdot \text{Perimeter}(S)$$
-
-Where:
-* $\text{Area}(S) = \sum_{i \in S} a_i$
-* $\text{Perimeter}(S)$ is the length of the boundary between the set $S$ and the set of unselected tracts $T \setminus S$. Note that internal boundaries between two selected tracts do *not* count toward the perimeter.
-
-### Dimensional Analysis & Normalization
-A naive combination of Area ($km^2$) and Perimeter ($km$) is mathematically invalid due to unit mismatch. To resolve this, we introduce a characteristic length scale $\rho$:
+### 2.1 Dimensional Analysis
+To minimize a weighted sum of Area ($km^2$) and Perimeter ($km$), we must normalize units. We introduce a characteristic length scale $\rho$:
 
 $$\rho = \text{median}(\sqrt{a_i})$$
 
-The normalized objective function becomes:
-$$\text{Minimize } \quad (1-\lambda) \sum_{i \in S} a_i + \lambda \sum_{(i,j) \in \delta S} \frac{L_{ij}}{\rho}$$
+This ensures both terms in the objective function are dimensionless.
 
-Where $L_{ij}$ is the length of the shared border between a selected tract $i$ and an unselected tract $j$.
+### 2.2 The Objective Function (Lagrangian Relaxation)
+We seek a binary partition of the graph where $x_i \in \{0, 1\}$ indicates whether tract $i$ is selected ($1$) or unselected ($0$).
+
+We aim to minimize the energy $E(X)$ composed of three terms: **Compactness**, **Area**, and a **Population Reward**.
+
+$$E(X) = \underbrace{\lambda \sum_{(i,j) \in N} \frac{l_{ij}}{\rho} \cdot |x_i - x_j|}_{\text{Boundary Cost}} + \underbrace{(1-\lambda) \sum_{i} a_i x_i}_{\text{Area Cost}} - \underbrace{\mu \sum_{i} p_i x_i}_{\text{Population Reward}}$$
+
+Where:
+* $\lambda \in [0, 1]$: User-controlled "Surface Tension" parameter.
+* $\mu$: The Lagrange multiplier enforcing the population constraint.
 
 ## 3. Algorithmic Approach: Max-Flow Min-Cut
 
-This problem can be modeled as a **Graph Cut** problem, solvable via the Max-Flow Min-Cut theorem. This ensures a global optimum for a given $\lambda$, avoiding the local optima traps of greedy region-growing algorithms.
+We solve for the global optimum using the **Max-Flow Min-Cut** theorem. This avoids local optima common in greedy region-growing algorithms.
 
-### Graph Construction
-We construct a graph $G = (V, E)$ where $V$ contains a node for each tract, plus a Source node ($s$) and a Sink node ($t$).
+### 3.1 Graph Construction ($s-t$ Cut)
+We construct a flow network $G = (V, E)$ with a Source ($S$, selected) and Sink ($T$, unselected).
 
-1.  **Nodes:** Every Census Tract is a node.
-2.  **Edges (Neighborhoods):** Adjacent tracts $i$ and $j$ are connected by an edge with capacity proportional to the "smoothness" cost (shared boundary length).
-    * $Capacity(i, j) \propto \lambda \cdot \text{SharedBoundaryLength}_{ij}$
-3.  **Terminal Edges (Data Term):**
-    * Edges connecting to the Source/Sink represent the "cost" of including or excluding a tract based on its Area and Population density.
-    * Since the population constraint is global (Hard constraint), it is typically incorporated via Lagrangian Relaxation (converting the constraint into a price $\mu$ included in the edge weights).
+1.  **Neighborhood Edges (n-links):**
+    * Connect adjacent tracts $i$ and $j$.
+    * **Capacity:** $w_{ij} = \lambda \cdot \frac{l_{ij}}{\rho}$
+    * *Logic:* Cutting this edge creates a boundary; high capacity edges (long borders) are harder to cut, encouraging smoothness.
+2.  **Terminal Edges (t-links):**
+    * **Source Edge $(s, i)$:** Represents the "reward" for selecting tract $i$.
+        * Capacity: $\mu \cdot p_i$
+    * **Sink Edge $(i, t)$:** Represents the "cost" of including tract $i$'s area.
+        * Capacity: $(1-\lambda) \cdot a_i$
 
-### Optimization Process
-1.  **Adjacency Graph:** Build a spatial index of all tracts using libraries like `PySAL` or `NetworkX` derived from `GeoPandas` adjacencies.
-2.  **Iterative Solver:** For a discrete set of $\lambda$ values (e.g., 0.0, 0.05, ... 1.0):
-    * Construct the Flow Network.
-    * Solve for the Minimum Cut using `PyMaxFlow` or `scikit-image` graph cut implementations.
-    * The cut separates the graph into $S$ (Selected) and $T \setminus S$ (Unselected).
+### 3.2 Nested Optimization Strategy
+Since the population constraint ($\sum p_i \approx 0.5 P_{total}$) is hard, but graph cuts are soft, we employ a nested solver:
 
-## 4. Post-Processing & Visualization Pipeline
+1.  **Outer Loop (The User Slider):** Iterate through target $\lambda$ values (e.g., $0.0, 0.1, \dots 1.0$).
+2.  **Inner Loop (The Constraint Tuner):**
+    * We define a target population $P_{target} = 0.5 \times P_{total}$.
+    * Since the selected population is monotonic with respect to $\mu$, we use **Binary Search** to find the optimal $\mu$.
+    * **Step 1:** Set bounds $[\mu_{min}, \mu_{max}]$.
+    * **Step 2:** Construct graph with current $\mu$.
+    * **Step 3:** Solve Max-Flow.
+    * **Step 4:** Check resulting population sum.
+        * If $P_{selected} < P_{target}$, increase $\mu$ (Selection reward is too low).
+        * If $P_{selected} > P_{target}$, decrease $\mu$ (Selection reward is too high).
+    * **Step 5:** Repeat until $|P_{selected} - P_{target}| < \epsilon$ (tolerance).
 
-Raw output from the optimization is a list of 30,000+ disconnected tract IDs. To make this performant for the web:
+## 4. Post-Processing & Visualization
 
-1.  **Dissolve:** For each $\lambda$ solution, merge selected tracts into unified geometries (Polygons/MultiPolygons) using `shapely.ops.unary_union`. This eliminates internal boundaries and drastically reduces vertex count.
-2.  **Simplification:** Apply Visvalingam-Whyatt or Douglas-Peucker simplification to reduce file size further.
-3.  **Format:** Export as TopoJSON or GeoBuf for optimal web delivery.
-4.  **Frontend:** A React application using Mapbox GL JS or Leaflet will load the appropriate geometry file based on the user's slider input.
+The raw output is a list of 30,000+ disconnected tract IDs. To render this efficiently on the web:
 
-## 5. Implementation Stack (Planned)
-* **Data Ingestion:** `pandas`, `geopandas`, `cenpy` (Census API).
-* **Graph Logic:** `networkx`, `scipy.sparse`.
-* **Optimization:** `PyMaxFlow` (or `maxflow` wrapper).
+1.  **Dissolve:** Merge selected tracts into unified `MultiPolygon` geometries using `shapely.ops.unary_union`.
+2.  **Artifact Removal:** Filter out small, disconnected "islands" below a certain area threshold that may appear as noise.
+3.  **Simplification:** Apply Visvalingam-Whyatt simplification to reduce vertex count while preserving shape topology.
+4.  **Export:** Save geometry as **TopoJSON**. This format is crucial as it encodes shared topology, preventing gaps from appearing between shapes during rendering.
+
+## 5. Implementation Stack
+
+* **Data Ingestion:** `pandas`, `cenpy` (Census API).
+* **Spatial Logic:** `geopandas`, `libpysal` (for robust adjacency weights/graph building).
+* **Optimization:** `PyMaxFlow` (fast C++ wrapper for graph cuts).
 * **Geometry Ops:** `shapely`, `topojson`.
 * **Web:** React, Mapbox GL JS.
