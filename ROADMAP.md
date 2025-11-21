@@ -1,0 +1,104 @@
+# Roadmap
+
+This document outlines the implementation plan for Half of America.
+
+## Current Status
+
+The project is in its **initial skeleton phase**. Documentation (METHODOLOGY.md, PROJECT_SUMMARY.md) is complete, but functional code has not yet been implemented.
+
+---
+
+## Phase 1: Data Pipeline
+
+Build the data acquisition and preprocessing pipeline.
+
+### Milestones
+
+- [ ] Add production dependencies to `pyproject.toml` (geopandas, shapely, cenpy, pandas)
+- [ ] Download TIGER/Line Shapefiles for Census Tract geometries (contiguous US)
+- [ ] Fetch ACS 5-Year population estimates via Census API
+- [ ] Implement geometry cleaning:
+  - Quantize coordinates to integer grid (TopoJSON)
+  - Fix self-intersections via `shapely.buffer(0)`
+  - Eliminate micro-gaps/slivers between tracts
+- [ ] Create data caching layer to avoid repeated API calls
+- [ ] Unit tests for data pipeline
+
+---
+
+## Phase 2: Graph Construction
+
+Build the spatial adjacency graph from Census Tract data.
+
+### Milestones
+
+- [ ] Compute tract-level attributes:
+  - Population (p_i)
+  - Land Area (a_i)
+  - Shared boundary lengths with neighbors (l_ij)
+- [ ] Build adjacency graph using libpysal (Queen contiguity)
+- [ ] Calculate characteristic length scale ρ = median(√a_i)
+- [ ] Construct s-t flow network structure:
+  - n-links (neighborhood edges): capacity = λ × l_ij / ρ
+  - t-links (terminal edges to source/sink)
+- [ ] Unit tests for graph construction
+
+---
+
+## Phase 3: Optimization Engine
+
+Implement the Max-Flow Min-Cut solver with constraint tuning.
+
+### Milestones
+
+- [ ] Add PyMaxFlow dependency
+- [ ] Implement graph-cut solver wrapper
+- [ ] Implement binary search for Lagrange multiplier (μ) to hit 50% population target
+- [ ] Build outer loop for λ parameter sweep (0.0 → 1.0)
+- [ ] Pre-compute results for discrete λ values (e.g., 0.0, 0.1, 0.2, ..., 1.0)
+- [ ] Performance benchmarking and optimization
+- [ ] Unit tests for optimization correctness
+
+---
+
+## Phase 4: Post-Processing
+
+Transform optimization output into web-ready geometries.
+
+### Milestones
+
+- [ ] Dissolve selected tracts into MultiPolygon geometries (shapely.ops.unary_union)
+- [ ] Filter out small disconnected islands (artifact removal)
+- [ ] Apply Visvalingam-Whyatt simplification for web performance
+- [ ] Export as TopoJSON
+- [ ] Generate pre-computed geometry files for all λ values
+- [ ] Validate output geometries
+
+---
+
+## Phase 5: Web Frontend
+
+Build the interactive visualization.
+
+### Milestones
+
+- [ ] Set up React application
+- [ ] Integrate Mapbox GL JS for map rendering
+- [ ] Implement λ slider control for surface tension parameter
+- [ ] Load and display pre-computed TopoJSON geometries
+- [ ] Add smooth transitions between λ values
+- [ ] Style and polish UI
+- [ ] Deploy static site
+
+---
+
+## Future Enhancements
+
+Ideas for future development:
+
+- **Historical comparisons**: Show how the 50% boundary has shifted over census periods
+- **Custom thresholds**: Allow users to select different population percentages (25%, 75%, etc.)
+- **State-level views**: Run optimization within individual states
+- **Alternative metrics**: Optimize for other variables (income, housing, etc.)
+- **Real-time computation**: WebAssembly port for client-side optimization
+- **Animation**: Animate the λ sweep from dusty (λ=0) to smooth (λ=1)
