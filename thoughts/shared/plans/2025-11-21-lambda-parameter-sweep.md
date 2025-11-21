@@ -217,9 +217,9 @@ def sweep_lambda(
 ### Success Criteria
 
 #### Automated Verification:
-- [ ] File exists: `src/half_america/optimization/sweep.py`
-- [ ] Type checking passes: `uv run mypy src/half_america/optimization/sweep.py`
-- [ ] Linting passes: `uv run ruff check src/half_america/optimization/sweep.py`
+- [x] File exists: `src/half_america/optimization/sweep.py`
+- [x] Type checking passes: `uv run mypy src/half_america/optimization/sweep.py`
+- [x] Linting passes: `uv run ruff check src/half_america/optimization/sweep.py`
 
 #### Manual Verification:
 - [ ] None required for this phase
@@ -280,9 +280,9 @@ __all__ = [
 ### Success Criteria
 
 #### Automated Verification:
-- [ ] Type checking passes: `uv run mypy src/half_america/optimization/`
-- [ ] Linting passes: `uv run ruff check src/half_america/optimization/`
-- [ ] Import works: `uv run python -c "from half_america.optimization import sweep_lambda, SweepResult, LambdaResult, DEFAULT_LAMBDA_VALUES"`
+- [x] Type checking passes: `uv run mypy src/half_america/optimization/`
+- [x] Linting passes: `uv run ruff check src/half_america/optimization/`
+- [x] Import works: `uv run python -c "from half_america.optimization import sweep_lambda, SweepResult, LambdaResult, DEFAULT_LAMBDA_VALUES"`
 
 #### Manual Verification:
 - [ ] None required for this phase
@@ -466,9 +466,9 @@ class TestDefaultsExported:
 ### Success Criteria
 
 #### Automated Verification:
-- [ ] All tests pass: `uv run pytest tests/test_optimization/test_sweep.py -v`
-- [ ] All existing tests still pass: `uv run pytest tests/test_optimization/ -v`
-- [ ] Full test suite passes: `uv run pytest`
+- [x] All tests pass: `uv run pytest tests/test_optimization/test_sweep.py -v`
+- [x] All existing tests still pass: `uv run pytest tests/test_optimization/ -v`
+- [x] Full test suite passes: `uv run pytest`
 
 #### Manual Verification:
 - [ ] None required for this phase
@@ -505,11 +505,11 @@ Add to Future Enhancements section (after line 104):
 ### Success Criteria
 
 #### Automated Verification:
-- [ ] Linting passes: `uv run ruff check ROADMAP.md` (if applicable)
+- [x] Linting passes: `uv run ruff check ROADMAP.md` (if applicable) - N/A, ruff doesn't check markdown
 
 #### Manual Verification:
-- [ ] ROADMAP.md shows milestone as complete
-- [ ] Future Enhancements includes fine granularity item
+- [x] ROADMAP.md shows milestone as complete
+- [x] Future Enhancements includes fine granularity item
 
 ---
 

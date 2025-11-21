@@ -54,7 +54,7 @@ Implement the Max-Flow Min-Cut solver with constraint tuning.
 - [x] Add PyMaxFlow dependency (done in Phase 2)
 - [x] Implement graph-cut solver wrapper
 - [x] Implement binary search for Lagrange multiplier (μ) to hit 50% population target
-- [ ] Build outer loop for λ parameter sweep (0.0 → 1.0)
+- [x] Build outer loop for λ parameter sweep (0.0 → 1.0)
 - [ ] Pre-compute results for discrete λ values (e.g., 0.0, 0.1, 0.2, ..., 1.0)
 - [ ] Performance benchmarking and optimization
 - [ ] Unit tests for optimization correctness
@@ -102,3 +102,4 @@ Ideas for future development:
 - **Alternative metrics**: Optimize for other variables (income, housing, etc.)
 - **Real-time computation**: WebAssembly port for client-side optimization
 - **Animation**: Animate the λ sweep from dusty (λ=0) to smooth (λ=1)
+- **Fine λ granularity**: Support 0.01 increments (101 values) for smooth animations

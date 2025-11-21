@@ -11,6 +11,12 @@ from half_america.optimization.solver import (
     OptimizationResult,
     solve_partition,
 )
+from half_america.optimization.sweep import (
+    DEFAULT_LAMBDA_VALUES,
+    LambdaResult,
+    SweepResult,
+    sweep_lambda,
+)
 
 __all__ = [
     # Solver
@@ -22,4 +28,9 @@ __all__ = [
     "DEFAULT_MU_MIN",
     "SearchResult",
     "find_optimal_mu",
+    # Sweep
+    "DEFAULT_LAMBDA_VALUES",
+    "LambdaResult",
+    "SweepResult",
+    "sweep_lambda",
 ]
