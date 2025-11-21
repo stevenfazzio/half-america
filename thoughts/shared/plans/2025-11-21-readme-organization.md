@@ -99,13 +99,13 @@ uv run half-america                  # Run CLI
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File renders correctly: preview CLAUDE.md in markdown viewer
-- [ ] All commands are present and syntactically correct
-- [ ] Link `README.md#usage` resolves correctly in GitHub
+- [x] File renders correctly: preview CLAUDE.md in markdown viewer
+- [x] All commands are present and syntactically correct
+- [x] Link `README.md#usage` resolves correctly in GitHub
 
 #### Manual Verification:
-- [ ] Commands section is visually scannable
-- [ ] Reference to README is clear
+- [x] Commands section is visually scannable
+- [x] Reference to README is clear
 
 **Implementation Note**: After completing this phase, proceed to Phase 2.
 
@@ -163,13 +163,13 @@ The data pipeline downloads Census Tract geometries and population data for the 
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File renders correctly: preview README.md in markdown viewer
-- [ ] Table of contents (if auto-generated) shows correct hierarchy
-- [ ] All internal links still work
+- [x] File renders correctly: preview README.md in markdown viewer
+- [x] Table of contents (if auto-generated) shows correct hierarchy
+- [x] All internal links still work
 
 #### Manual Verification:
-- [ ] API sections are visually grouped under single header
-- [ ] README is easier to scan
+- [x] API sections are visually grouped under single header
+- [x] README is easier to scan
 
 **Implementation Note**: After completing this phase, all changes are complete.
 

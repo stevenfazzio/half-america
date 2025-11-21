@@ -8,27 +8,16 @@ Half of America is a topology optimization experiment that creates an interactiv
 
 ## Commands
 
+Common commands (see [README.md#usage](README.md#usage) for full list):
+
 ```bash
-# Install dependencies (uses uv)
-uv sync
-
-# Run tests
-uv run pytest
-
-# Run single test
-uv run pytest tests/test_sanity.py::test_sanity -v
-
-# Format code
-uv run black src/ tests/
-
-# Lint
-uv run ruff check src/ tests/
-
-# Type check
-uv run mypy src/
-
-# Run the CLI
-uv run half-america
+uv sync                              # Install dependencies
+uv run pytest                        # Run tests
+uv run pytest path/to/test.py -v     # Run single test
+uv run black src/ tests/             # Format code
+uv run ruff check src/ tests/        # Lint
+uv run mypy src/                     # Type check
+uv run half-america                  # Run CLI
 ```
 
 ## Architecture

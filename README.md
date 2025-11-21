@@ -60,11 +60,15 @@ uv run ruff check src/ tests/
 uv run mypy src/
 ```
 
-## Data Pipeline
+## API Reference
+
+The following sections document the Python API for programmatic use.
+
+### Data Pipeline
 
 The data pipeline downloads Census Tract geometries and population data for the contiguous United States.
 
-### Setup
+#### Setup
 
 1. Get a Census API key from https://api.census.gov/data/key_signup.html
 2. Copy `.env.example` to `.env` and add your key:
@@ -73,7 +77,7 @@ The data pipeline downloads Census Tract geometries and population data for the 
    # Edit .env and add your CENSUS_API_KEY
    ```
 
-### Quick Start
+#### Quick Start
 
 ```python
 from half_america.data import load_state_tracts, get_pipeline_summary
@@ -84,7 +88,7 @@ print(get_pipeline_summary(gdf))
 # Output: {'tract_count': 9129, 'total_population': 39538223, ...}
 ```
 
-### Load All US Data
+#### Load All US Data
 
 ```python
 from half_america.data import load_all_tracts
@@ -93,7 +97,7 @@ from half_america.data import load_all_tracts
 gdf = load_all_tracts()
 ```
 
-### Available Functions
+#### Available Functions
 
 | Function | Description |
 |----------|-------------|
@@ -105,11 +109,11 @@ gdf = load_all_tracts()
 
 Data is cached in `data/cache/` after first download.
 
-## Graph Construction
+### Graph Construction
 
 The graph module builds spatial adjacency graphs from Census Tract data for Max-Flow Min-Cut optimization.
 
-### Quick Start
+#### Quick Start
 
 ```python
 from half_america.data import load_all_tracts
@@ -124,7 +128,7 @@ print(get_graph_summary(graph_data))
 # {'num_nodes': 73000, 'num_edges': 450000, 'rho_km': 2.5, ...}
 ```
 
-### Building Flow Networks
+#### Building Flow Networks
 
 ```python
 from half_america.graph import build_flow_network, get_partition
@@ -138,7 +142,7 @@ selected = get_partition(g, graph_data.num_nodes)
 print(f"Selected {selected.sum()} tracts")
 ```
 
-### Available Functions
+#### Available Functions
 
 | Function | Description |
 |----------|-------------|
@@ -147,7 +151,7 @@ print(f"Selected {selected.sum()} tracts")
 | `build_flow_network(attrs, edges, λ, μ)` | Construct PyMaxFlow graph for optimization |
 | `get_partition(g, num_nodes)` | Extract selected tracts after maxflow |
 
-### Data Types
+#### Data Types
 
 | Type | Description |
 |------|-------------|
