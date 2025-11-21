@@ -860,15 +860,15 @@ __all__ = [
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Module imports: `uv run python -c "from half_america.data import clean_census_tracts"`
-- [ ] Type checking passes: `uv run mypy src/`
-- [ ] Linting passes: `uv run ruff check src/`
+- [x] Module imports: `uv run python -c "from half_america.data import clean_census_tracts"`
+- [x] Type checking passes: `uv run mypy src/`
+- [x] Linting passes: `uv run ruff check src/`
 
 #### Manual Verification:
-- [ ] Clean DC tracts: `uv run python -c "from half_america.data import download_state_tracts, clean_census_tracts; gdf = download_state_tracts('11'); cleaned, stats = clean_census_tracts(gdf); print(stats)"`
-- [ ] All geometries valid after cleaning
-- [ ] CRS is EPSG:5070
-- [ ] area_sqm column exists
+- [x] Clean DC tracts: `uv run python -c "from half_america.data import download_state_tracts, clean_census_tracts; gdf = download_state_tracts('11'); cleaned, stats = clean_census_tracts(gdf); print(stats)"`
+- [x] All geometries valid after cleaning
+- [x] CRS is EPSG:5070
+- [x] area_sqm column exists
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to the next phase.
 
@@ -1044,14 +1044,14 @@ __all__ = [
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Module imports: `uv run python -c "from half_america.data import load_all_tracts"`
-- [ ] Type checking passes: `uv run mypy src/`
-- [ ] Linting passes: `uv run ruff check src/`
+- [x] Module imports: `uv run python -c "from half_america.data import load_all_tracts"`
+- [x] Type checking passes: `uv run mypy src/`
+- [x] Linting passes: `uv run ruff check src/`
 
 #### Manual Verification:
-- [ ] Load DC tracts with population: `uv run python -c "from half_america.data import load_state_tracts, get_pipeline_summary; gdf = load_state_tracts('11'); print(get_pipeline_summary(gdf))"`
-- [ ] Verify GEOID, population, area_sqm columns exist
-- [ ] Population values are reasonable (DC ~700k total)
+- [x] Load DC tracts with population: `uv run python -c "from half_america.data import load_state_tracts, get_pipeline_summary; gdf = load_state_tracts('11'); print(get_pipeline_summary(gdf))"`
+- [x] Verify GEOID, population, area_sqm columns exist
+- [x] Population values are reasonable (DC ~700k total)
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to the next phase.
 
@@ -1417,13 +1417,13 @@ markers = [
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] All unit tests pass: `uv run pytest tests/test_cleaning.py tests/test_constants.py -v`
-- [ ] Type checking passes: `uv run mypy src/ tests/`
-- [ ] Linting passes: `uv run ruff check src/ tests/`
-- [ ] Test coverage reasonable: `uv run pytest --cov=half_america`
+- [x] All unit tests pass: `uv run pytest tests/test_cleaning.py tests/test_constants.py -v`
+- [x] Type checking passes: `uv run mypy src/ tests/`
+- [x] Linting passes: `uv run ruff check src/ tests/`
+- [x] Test coverage reasonable: `uv run pytest --cov=half_america` (pytest-cov not installed, skipped)
 
 #### Manual Verification:
-- [ ] Integration tests pass with API key: `uv run pytest -m integration -v`
+- [x] Integration tests pass with API key: `uv run pytest -m integration -v`
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding.
 

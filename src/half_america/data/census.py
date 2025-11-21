@@ -5,7 +5,7 @@ import cenpy
 import requests_cache
 from datetime import timedelta
 
-from half_america.config import CENSUS_API_KEY, ACS_YEAR, CACHE_DIR
+from half_america.config import ACS_YEAR, CACHE_DIR
 from half_america.data.cache import ensure_cache_dirs, get_census_cache_path
 from half_america.data.constants import CONTIGUOUS_US_FIPS, FIPS_TO_STATE
 
