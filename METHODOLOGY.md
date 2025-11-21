@@ -36,7 +36,7 @@ We aim to minimize the energy $E(X)$ composed of three terms: **Compactness**, *
 $$E(X) = \underbrace{\lambda \sum_{(i,j) \in N} \frac{l_{ij}}{\rho} \cdot |x_i - x_j|}_{\text{Boundary Cost}} + \underbrace{(1-\lambda) \sum_{i} a_i x_i}_{\text{Area Cost}} - \underbrace{\mu \sum_{i} p_i x_i}_{\text{Population Reward}}$$
 
 Where:
-* $\lambda \in [0, 1]$: User-controlled "Surface Tension" parameter.
+* $\lambda \in [0, 1)$: User-controlled "Surface Tension" parameter. Note: $\lambda = 1$ is excluded because it causes the area cost term $(1-\lambda)$ to vanish, making the Lagrangian relaxation degenerate.
 * $\mu$: The Lagrange multiplier enforcing the population constraint.
 
 ## 3. Algorithmic Approach: Max-Flow Min-Cut

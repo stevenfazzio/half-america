@@ -123,13 +123,13 @@ Note: With `lambda_step=0.1`, this generates [0.0, 0.1, ..., 0.9] (10 values ins
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Type checking passes: `uv run mypy src/`
-- [ ] Linting passes: `uv run ruff check src/`
-- [ ] Existing tests still pass (except lambda=1.0 tests): `uv run pytest -v`
+- [x] Type checking passes: `uv run mypy src/`
+- [x] Linting passes: `uv run ruff check src/`
+- [x] Existing tests still pass (except lambda=1.0 tests): `uv run pytest -v`
 
 #### Manual Verification:
-- [ ] Confirm `solve_partition(..., lambda_param=1.0, ...)` raises ValueError
-- [ ] Confirm `DEFAULT_LAMBDA_VALUES` has 10 elements ending at 0.9
+- [x] Confirm `solve_partition(..., lambda_param=1.0, ...)` raises ValueError
+- [x] Confirm `DEFAULT_LAMBDA_VALUES` has 10 elements ending at 0.9
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to Phase 2.
 
@@ -271,12 +271,12 @@ def test_lambda_near_one_valid(self, simple_graph_data):
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] All tests pass: `uv run pytest -v`
-- [ ] Test count is correct (no missing tests)
+- [x] All tests pass: `uv run pytest -v`
+- [x] Test count is correct (no missing tests)
 
 #### Manual Verification:
-- [ ] Review test output to confirm lambda=1.0 rejection tests pass
-- [ ] Confirm no tests are accidentally skipped
+- [x] Review test output to confirm lambda=1.0 rejection tests pass
+- [x] Confirm no tests are accidentally skipped
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to Phase 3.
 
@@ -342,13 +342,13 @@ Update lambda description:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] No broken markdown links
-- [ ] Documentation builds without errors (if applicable)
+- [x] No broken markdown links
+- [x] Documentation builds without errors (if applicable)
 
 #### Manual Verification:
-- [ ] Review METHODOLOGY.md renders correctly with LaTeX
-- [ ] README.md is clear and accurate
-- [ ] CLAUDE.md accurately reflects implementation
+- [x] Review METHODOLOGY.md renders correctly with LaTeX
+- [x] README.md is clear and accurate
+- [x] CLAUDE.md accurately reflects implementation
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to Phase 4.
 
@@ -376,11 +376,11 @@ Add deprecation notice at the top of the file (after frontmatter):
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File is valid markdown
+- [x] File is valid markdown
 
 #### Manual Verification:
-- [ ] Notice is prominently visible
-- [ ] Link to corrected research is correct
+- [x] Notice is prominently visible
+- [x] Link to corrected research is correct
 
 ---
 

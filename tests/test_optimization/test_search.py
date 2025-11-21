@@ -1,5 +1,6 @@
 """Tests for binary search optimization."""
 
+import pytest
 
 from half_america.optimization import (
     DEFAULT_MAX_ITERATIONS,
@@ -136,24 +137,19 @@ class TestEdgeCases:
         # Should still converge
         assert result.converged
 
-    def test_lambda_one(self, complex_graph_data):
-        """Test with λ=1 (max boundary cost).
+    def test_lambda_one_rejected(self, complex_graph_data):
+        """Test that lambda=1.0 is rejected before reaching search.
 
-        Note: λ=1 means only boundary cost matters, no area cost.
-        The algorithm may struggle to converge with discrete graphs
-        as there's no area penalty to balance. We test that it runs
-        and returns a valid result.
+        lambda=1.0 causes convergence failure because sink capacity
+        becomes zero, making 100% selection always optimal.
         """
-        result = find_optimal_mu(
-            complex_graph_data,
-            lambda_param=1.0,
-            tolerance=0.1,  # 10% tolerance for small discrete graph
-            verbose=False,
-        )
-        # May or may not converge - at λ=1, behavior is edge-dominated
-        # Just verify it returns a valid result
-        assert isinstance(result, SearchResult)
-        assert result.iterations > 0
+        with pytest.raises(ValueError, match="lambda_param must be in"):
+            find_optimal_mu(
+                complex_graph_data,
+                lambda_param=1.0,
+                tolerance=0.1,
+                verbose=False,
+            )
 
     def test_simple_graph_still_works(self, simple_graph_data):
         """Test that simple 3-node graph also works."""

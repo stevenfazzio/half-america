@@ -11,6 +11,11 @@ last_updated: 2025-11-21
 last_updated_by: Claude
 ---
 
+> **SUPERSEDED**: This research was partially incorrect regarding lambda=1.0.
+> See [2025-11-21-lambda-one-convergence-failure.md](2025-11-21-lambda-one-convergence-failure.md)
+> for the corrected analysis showing that lambda=1.0 causes convergence failure
+> due to zero sink capacity.
+
 # Research: Lambda Edge Cases - Special Handling for λ=0 and λ=1
 
 **Date**: 2025-11-21T18:30:00-08:00

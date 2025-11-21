@@ -38,7 +38,7 @@ def solve_partition(
 
     Args:
         graph_data: GraphData from load_graph_data()
-        lambda_param: Surface tension parameter [0, 1]
+        lambda_param: Surface tension parameter [0, 1)
         mu: Lagrange multiplier for population constraint (non-negative)
         verbose: Print diagnostic output
 
@@ -49,8 +49,11 @@ def solve_partition(
         ValueError: If lambda_param not in [0, 1] or mu < 0
     """
     # Validate parameters
-    if not 0 <= lambda_param <= 1:
-        raise ValueError(f"lambda_param must be in [0, 1], got {lambda_param}")
+    if not 0 <= lambda_param < 1:
+        raise ValueError(
+            f"lambda_param must be in [0, 1), got {lambda_param}. "
+            "lambda=1.0 causes convergence failure (zero area cost)."
+        )
     if mu < 0:
         raise ValueError(f"mu must be non-negative, got {mu}")
 

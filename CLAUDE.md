@@ -32,7 +32,7 @@ uv run half-america                  # Run CLI
 **Core Algorithm:** The optimization uses Lagrangian relaxation with binary search to find the Lagrange multiplier (μ) that satisfies the 50% population constraint. The graph construction uses s-t cut with neighborhood edges (n-links) for boundary costs and terminal edges (t-links) for area costs and population rewards.
 
 **Key Parameters:**
-- λ (lambda): User-controlled surface tension [0,1]. λ≈0 minimizes area (dusty map), λ≈1 minimizes perimeter (smooth blobs)
+- λ (lambda): User-controlled surface tension [0,1). λ≈0 minimizes area (dusty map), λ≈0.9 minimizes perimeter (smooth blobs). λ=1.0 is excluded (causes convergence failure).
 - μ (mu): Lagrange multiplier tuned via binary search to hit 50% population target
 
 ## Documentation

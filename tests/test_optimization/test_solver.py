@@ -136,15 +136,25 @@ class TestSolvePartitionValidation:
         )
         assert result.lambda_param == 0.0
 
-    def test_lambda_one_valid(self, simple_graph_data):
-        """Test that lambda=1 is valid (boundary)."""
+    def test_lambda_one_raises(self, simple_graph_data):
+        """Test that lambda=1.0 raises ValueError (convergence failure)."""
+        with pytest.raises(ValueError, match="lambda_param must be in"):
+            solve_partition(
+                simple_graph_data,
+                lambda_param=1.0,
+                mu=0.01,
+                verbose=False,
+            )
+
+    def test_lambda_near_one_valid(self, simple_graph_data):
+        """Test that lambda=0.99 is valid (near upper bound)."""
         result = solve_partition(
             simple_graph_data,
-            lambda_param=1.0,
+            lambda_param=0.99,
             mu=0.01,
             verbose=False,
         )
-        assert result.lambda_param == 1.0
+        assert result.lambda_param == 0.99
 
 
 class TestSatisfiedTarget:

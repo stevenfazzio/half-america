@@ -28,8 +28,8 @@ class SweepResult(NamedTuple):
     all_converged: bool  # True if all λ values converged
 
 
-# Default λ values: 0.0, 0.1, 0.2, ..., 1.0
-DEFAULT_LAMBDA_VALUES = [round(i * 0.1, 1) for i in range(11)]
+# Default λ values: 0.0, 0.1, 0.2, ..., 0.9 (excludes 1.0 which causes convergence failure)
+DEFAULT_LAMBDA_VALUES = [round(i * 0.1, 1) for i in range(10)]
 
 
 def _run_single_lambda(

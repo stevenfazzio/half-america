@@ -53,8 +53,8 @@ class TestSweepLambda:
             assert 0.35 <= pop_frac <= 0.65  # Within 15% of 50%
 
     def test_default_lambda_values(self):
-        """Default values cover 0.0 to 1.0 by 0.1."""
-        expected = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+        """Default values cover 0.0 to 0.9 by 0.1 (excludes 1.0)."""
+        expected = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
         assert DEFAULT_LAMBDA_VALUES == expected
 
     def test_tracks_total_iterations(self, complex_graph_data):
@@ -164,9 +164,9 @@ class TestDefaultsExported:
 
     def test_default_lambda_values_exported(self):
         """Test DEFAULT_LAMBDA_VALUES is exported."""
-        assert len(DEFAULT_LAMBDA_VALUES) == 11
+        assert len(DEFAULT_LAMBDA_VALUES) == 10
         assert DEFAULT_LAMBDA_VALUES[0] == 0.0
-        assert DEFAULT_LAMBDA_VALUES[-1] == 1.0
+        assert DEFAULT_LAMBDA_VALUES[-1] == 0.9
 
 
 class TestSweepPersistence:

@@ -20,10 +20,12 @@ This project solves both using **Max-Flow Min-Cut optimization** with a user-con
 
 ## How It Works
 
-A slider controls lambda:
+A slider controls lambda (0 to <1):
 
 - **lambda ~ 0**: Minimizes area, showing high-resolution "dusty" city centers
-- **lambda ~ 1**: Minimizes perimeter, creating smooth, compact blobs
+- **lambda ~ 0.9**: Minimizes perimeter, creating smooth, compact blobs
+
+Note: lambda=1.0 is mathematically degenerate and excluded from valid values.
 
 **Note**: Due to computational complexity, geometries for various lambda values are pre-calculated. The web app serves as a visualizer for these pre-computed states.
 

@@ -49,7 +49,9 @@ def precompute(force: bool, lambda_step: float, skip_failures: bool) -> None:
     click.echo("Building graph data...")
     graph_data = load_graph_data(gdf)
 
-    lambda_values = [round(i * lambda_step, 2) for i in range(int(1 / lambda_step) + 1)]
+    # Generate lambda values from 0.0 up to but not including 1.0
+    num_steps = int(1 / lambda_step)
+    lambda_values = [round(i * lambda_step, 2) for i in range(num_steps)]
     click.echo(f"Running sweep for {len(lambda_values)} lambda values...")
 
     result = sweep_lambda(
