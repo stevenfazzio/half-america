@@ -45,3 +45,9 @@ uv run half-america
 **Key Parameters:**
 - λ (lambda): User-controlled surface tension [0,1]. λ≈0 minimizes area (dusty map), λ≈1 minimizes perimeter (smooth blobs)
 - μ (mu): Lagrange multiplier tuned via binary search to hit 50% population target
+
+## Documentation
+
+- [README.md](README.md) - Project overview, installation, and usage
+- [METHODOLOGY.md](METHODOLOGY.md) - Mathematical formulation and algorithm details
+- [ROADMAP.md](ROADMAP.md) - Implementation phases and roadmap
