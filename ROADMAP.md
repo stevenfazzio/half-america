@@ -73,7 +73,6 @@ Transform optimization output into web-ready geometries.
 ### Milestones
 
 - [ ] Dissolve selected tracts into MultiPolygon geometries (shapely.ops.unary_union)
-- [ ] Filter out small disconnected islands (artifact removal)
 - [ ] Apply Visvalingam-Whyatt simplification for web performance
 - [ ] Export as TopoJSON
 - [ ] Generate pre-computed geometry files for all λ values
