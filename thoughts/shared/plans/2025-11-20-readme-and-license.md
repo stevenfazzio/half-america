@@ -86,7 +86,7 @@ SOFTWARE.
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File exists: `test -f LICENSE && echo "OK"`
+- [x] File exists: `test -f LICENSE && echo "OK"`
 
 ---
 
@@ -115,8 +115,8 @@ license = "MIT"
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Project still valid: `uv sync`
-- [ ] License field present: `grep 'license = "MIT"' pyproject.toml`
+- [x] Project still valid: `uv sync`
+- [x] License field present: `grep 'license = "MIT"' pyproject.toml`
 
 ---
 
@@ -212,14 +212,14 @@ This is a personal experimental project exploring topology optimization and cart
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File exists and is not empty: `test -s README.md && echo "OK"`
-- [ ] Contains expected sections: `grep -q "## The Problem" README.md`
-- [ ] Links to valid files: `for f in METHODOLOGY.md ROADMAP.md PROJECT_SUMMARY.md LICENSE; do test -f "$f" && echo "$f OK"; done`
+- [x] File exists and is not empty: `test -s README.md && echo "OK"`
+- [x] Contains expected sections: `grep -q "## The Problem" README.md`
+- [x] Links to valid files: `for f in METHODOLOGY.md ROADMAP.md PROJECT_SUMMARY.md LICENSE; do test -f "$f" && echo "$f OK"; done`
 
 #### Manual Verification:
-- [ ] README renders correctly on GitHub
-- [ ] Badges display properly
-- [ ] All documentation links work
+- [x] README renders correctly on GitHub
+- [x] Badges display properly
+- [x] All documentation links work
 
 ---
 
