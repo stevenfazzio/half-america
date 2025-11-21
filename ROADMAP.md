@@ -4,7 +4,7 @@ This document outlines the implementation plan for Half of America.
 
 ## Current Status
 
-The project is in its **initial skeleton phase**. Documentation (METHODOLOGY.md, README.md) is complete, but functional code has not yet been implemented.
+**Phase 1: Data Pipeline** is complete. The project can download ~73,000 Census Tract geometries, fetch population data via Census API, clean geometries, and cache all data locally.
 
 ---
 
@@ -14,15 +14,15 @@ Build the data acquisition and preprocessing pipeline.
 
 ### Milestones
 
-- [ ] Add production dependencies to `pyproject.toml` (geopandas, shapely, cenpy, pandas)
-- [ ] Download TIGER/Line Shapefiles for Census Tract geometries (contiguous US)
-- [ ] Fetch ACS 5-Year population estimates via Census API
-- [ ] Implement geometry cleaning:
-  - Quantize coordinates to integer grid (TopoJSON)
-  - Fix self-intersections via `shapely.buffer(0)`
+- [x] Add production dependencies to `pyproject.toml` (geopandas, shapely, cenpy, pandas)
+- [x] Download TIGER/Line Shapefiles for Census Tract geometries (contiguous US)
+- [x] Fetch ACS 5-Year population estimates via Census API
+- [x] Implement geometry cleaning:
+  - Quantize coordinates to integer grid (`shapely.set_precision`)
+  - Fix self-intersections via `shapely.make_valid()`
   - Eliminate micro-gaps/slivers between tracts
-- [ ] Create data caching layer to avoid repeated API calls
-- [ ] Unit tests for data pipeline
+- [x] Create data caching layer to avoid repeated API calls
+- [x] Unit tests for data pipeline
 
 ---
 

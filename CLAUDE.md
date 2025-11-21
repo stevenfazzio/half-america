@@ -33,12 +33,12 @@ uv run half-america
 
 ## Architecture
 
-**Planned Implementation Stack (from METHODOLOGY.md):**
-- **Data Ingestion:** pandas, cenpy (Census API)
-- **Spatial Logic:** geopandas, libpysal (adjacency graph building)
-- **Optimization:** PyMaxFlow (C++ graph cuts wrapper)
-- **Geometry Operations:** shapely, topojson
-- **Web Frontend:** React, Mapbox GL JS
+**Implementation Stack (from METHODOLOGY.md):**
+- **Data Ingestion:** pandas, cenpy (Census API) - *implemented*
+- **Spatial Logic:** geopandas, libpysal (adjacency graph building) - *Phase 2*
+- **Optimization:** PyMaxFlow (C++ graph cuts wrapper) - *Phase 3*
+- **Geometry Operations:** shapely, topojson - *implemented*
+- **Web Frontend:** React, Mapbox GL JS - *Phase 5*
 
 **Core Algorithm:** The optimization uses Lagrangian relaxation with binary search to find the Lagrange multiplier (μ) that satisfies the 50% population constraint. The graph construction uses s-t cut with neighborhood edges (n-links) for boundary costs and terminal edges (t-links) for area costs and population rewards.
 

@@ -115,13 +115,13 @@ The project is in its **initial skeleton phase**. Documentation (METHODOLOGY.md,
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] No "skeleton" references: `grep -r "skeleton" ROADMAP.md README.md` returns nothing
-- [ ] No "Phase 0" references: `grep -r "Phase 0" README.md` returns nothing
-- [ ] All Phase 1 checkboxes checked: `grep -c "\[x\]" ROADMAP.md` returns 6
+- [x] No "skeleton" references: `grep -r "skeleton" ROADMAP.md README.md` returns nothing
+- [x] No "Phase 0" references: `grep -r "Phase 0" README.md` returns nothing
+- [x] All Phase 1 checkboxes checked: `grep -c "\[x\]" ROADMAP.md` returns 6
 
 #### Manual Verification:
-- [ ] ROADMAP.md reads clearly and accurately describes current state
-- [ ] README.md status matches ROADMAP.md
+- [x] ROADMAP.md reads clearly and accurately describes current state
+- [x] README.md status matches ROADMAP.md
 
 ---
 
@@ -173,12 +173,12 @@ Update CLAUDE.md and METHODOLOGY.md to reflect actual implementation details.
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] No "Planned" in stack description: `grep "Planned Implementation" CLAUDE.md` returns nothing
-- [ ] No `buffer(0)` reference: `grep "buffer(0)" METHODOLOGY.md` returns nothing
+- [x] No "Planned" in stack description: `grep "Planned Implementation" CLAUDE.md` returns nothing
+- [x] No `buffer(0)` reference: `grep "buffer(0)" METHODOLOGY.md` returns nothing
 
 #### Manual Verification:
-- [ ] CLAUDE.md stack section clearly indicates what's implemented vs pending
-- [ ] METHODOLOGY.md accurately describes the cleaning approach
+- [x] CLAUDE.md stack section clearly indicates what's implemented vs pending
+- [x] METHODOLOGY.md accurately describes the cleaning approach
 
 ---
 
@@ -244,12 +244,12 @@ Data is cached in `data/cache/` after first download.
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] README contains "Data Pipeline" section: `grep "## Data Pipeline" README.md`
-- [ ] README contains setup instructions: `grep "CENSUS_API_KEY" README.md`
+- [x] README contains "Data Pipeline" section: `grep "## Data Pipeline" README.md`
+- [x] README contains setup instructions: `grep "CENSUS_API_KEY" README.md`
 
 #### Manual Verification:
-- [ ] Usage examples are clear and accurate
-- [ ] Code examples run successfully when tested
+- [x] Usage examples are clear and accurate
+- [x] Code examples run successfully when tested
 
 ---
 

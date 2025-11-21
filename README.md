@@ -60,9 +60,54 @@ uv run ruff check src/ tests/
 uv run mypy src/
 ```
 
+## Data Pipeline
+
+The data pipeline downloads Census Tract geometries and population data for the contiguous United States.
+
+### Setup
+
+1. Get a Census API key from https://api.census.gov/data/key_signup.html
+2. Copy `.env.example` to `.env` and add your key:
+   ```bash
+   cp .env.example .env
+   # Edit .env and add your CENSUS_API_KEY
+   ```
+
+### Quick Start
+
+```python
+from half_america.data import load_state_tracts, get_pipeline_summary
+
+# Load a single state (e.g., California)
+gdf = load_state_tracts("06")
+print(get_pipeline_summary(gdf))
+# Output: {'tract_count': 9129, 'total_population': 39538223, ...}
+```
+
+### Load All US Data
+
+```python
+from half_america.data import load_all_tracts
+
+# Load all ~73,000 tracts (downloads ~400MB on first run, cached thereafter)
+gdf = load_all_tracts()
+```
+
+### Available Functions
+
+| Function | Description |
+|----------|-------------|
+| `load_all_tracts()` | Load all US tracts with population (main entry point) |
+| `load_state_tracts(fips)` | Load single state by FIPS code |
+| `get_pipeline_summary(gdf)` | Get statistics for loaded data |
+| `CONTIGUOUS_US_FIPS` | List of 49 state FIPS codes |
+| `FIPS_TO_STATE` | FIPS code to state name mapping |
+
+Data is cached in `data/cache/` after first download.
+
 ## Project Status
 
-**Current Phase**: Initial skeleton (Phase 0)
+**Current Phase**: Data Pipeline Complete (Phase 1)
 
 See [ROADMAP.md](ROADMAP.md) for the full implementation plan.
 

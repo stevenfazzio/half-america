@@ -10,7 +10,7 @@ To address the resolution limits of county-level maps, this project utilizes **U
 ### 1.2 Topological Cleaning
 Raw census shapefiles often contain "slivers," overlaps, and self-intersections that break graph adjacency logic.
 * **Quantization:** Coordinates will be snapped to a high-precision integer grid (via TopoJSON) to eliminate micro-gaps between tracts.
-* **Validation:** All geometries will be passed through a `buffer(0)` operation in `shapely` to fix self-intersections and ensure valid polygon topology before graph construction.
+* **Validation:** All geometries are passed through `shapely.make_valid()` to fix self-intersections and ensure valid polygon topology before graph construction.
 
 ## 2. Mathematical Formulation
 
