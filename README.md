@@ -62,7 +62,7 @@ uv run half-america
 uv run pytest
 
 # Format code
-uv run black src/ tests/
+uv run ruff format src/ tests/
 
 # Lint
 uv run ruff check src/ tests/

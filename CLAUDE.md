@@ -19,7 +19,7 @@ Common commands (see [README.md#usage](README.md#usage) for full list):
 uv sync                              # Install dependencies
 uv run pytest                        # Run tests
 uv run pytest path/to/test.py -v     # Run single test
-uv run black src/ tests/             # Format code
+uv run ruff format src/ tests/       # Format code
 uv run ruff check src/ tests/        # Lint
 uv run mypy src/                     # Type check
 uv run half-america                  # Run CLI

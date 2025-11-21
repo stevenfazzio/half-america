@@ -216,8 +216,8 @@ jobs:
 - [x] YAML syntax is valid: `uv run pre-commit run check-yaml --files .github/workflows/ci.yml`
 
 #### Manual Verification:
-- [ ] Push to a branch and verify workflow runs in GitHub Actions
-- [ ] All CI steps pass
+- [x] Push to a branch and verify workflow runs in GitHub Actions
+- [x] All CI steps pass
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to Phase 4.
 
@@ -257,12 +257,12 @@ uv run ruff format src/ tests/
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] `grep -r "black" CLAUDE.md README.md` returns no results
-- [ ] `grep "ruff format" CLAUDE.md README.md` shows both files updated
+- [x] `grep -r "black" CLAUDE.md README.md` returns no results
+- [x] `grep "ruff format" CLAUDE.md README.md` shows both files updated
 
 #### Manual Verification:
-- [ ] Review CLAUDE.md commands section looks correct
-- [ ] Review README.md usage section looks correct
+- [x] Review CLAUDE.md commands section looks correct
+- [x] Review README.md usage section looks correct
 
 ---
 
