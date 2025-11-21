@@ -3,7 +3,7 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A topology optimization experiment visualizing US population distribution with smooth, organic shapes instead of dusty dots or blocky counties.
+A topology optimization experiment that treats the 'Half of America' map as a fluid, replacing dusty dots with smooth, organic population blobs.
 
 > Where does half of America *really* live?
 
