@@ -247,9 +247,9 @@ class TestOptimality:
             )
 
             # Original should be at least as good
-            assert (
-                solver_energy <= swapped_energy + 1e-9
-            ), f"Swap at node {i} improves energy: {solver_energy} > {swapped_energy}"
+            assert solver_energy <= swapped_energy + 1e-9, (
+                f"Swap at node {i} improves energy: {solver_energy} > {swapped_energy}"
+            )
 
 
 class TestDeterminism:

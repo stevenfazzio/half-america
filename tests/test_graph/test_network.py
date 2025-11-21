@@ -1,7 +1,8 @@
 """Tests for flow network construction."""
 
-import pytest
 import numpy as np
+import pytest
+
 from half_america.graph.boundary import GraphAttributes
 from half_america.graph.network import build_flow_network, get_partition
 

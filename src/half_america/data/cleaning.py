@@ -1,10 +1,11 @@
 """Geometry cleaning and validation utilities."""
 
-import geopandas as gpd
-import shapely
 from typing import NamedTuple
 
-from half_america.data.constants import TARGET_CRS, QUANTIZATION_GRID_SIZE
+import geopandas as gpd
+import shapely
+
+from half_america.data.constants import QUANTIZATION_GRID_SIZE, TARGET_CRS
 
 
 class CleaningStats(NamedTuple):

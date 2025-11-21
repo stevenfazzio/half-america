@@ -1,7 +1,7 @@
 """TIGER/Line shapefile download and caching."""
 
-import pandas as pd
 import geopandas as gpd
+import pandas as pd
 
 from half_america.config import TIGER_YEAR
 from half_america.data.cache import ensure_cache_dirs, get_tiger_cache_path

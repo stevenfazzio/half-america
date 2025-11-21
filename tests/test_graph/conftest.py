@@ -1,8 +1,8 @@
 """Pytest fixtures for graph tests."""
 
-import pytest
-import pandas as pd
 import geopandas as gpd
+import pandas as pd
+import pytest
 from shapely.geometry import box
 
 # Create a 3x3 grid of adjacent squares for testing

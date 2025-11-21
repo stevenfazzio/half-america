@@ -1,10 +1,11 @@
 """Tests for solver wrapper."""
 
 import pytest
+
 from half_america.optimization import (
-    solve_partition,
-    OptimizationResult,
     TARGET_TOLERANCE,
+    OptimizationResult,
+    solve_partition,
 )
 
 

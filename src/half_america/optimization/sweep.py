@@ -28,7 +28,8 @@ class SweepResult(NamedTuple):
     all_converged: bool  # True if all λ values converged
 
 
-# Default λ values: 0.0, 0.1, 0.2, ..., 0.9 (excludes 1.0 which causes convergence failure)
+# Default λ values: 0.0, 0.1, ..., 0.9
+# Excludes 1.0 which causes convergence failure
 DEFAULT_LAMBDA_VALUES = [round(i * 0.1, 1) for i in range(10)]
 
 
@@ -91,7 +92,9 @@ def sweep_lambda(
     if verbose:
         print(f"Starting λ sweep: {len(lambda_values)} values")
         print(f"  λ range: {lambda_values[0]} → {lambda_values[-1]}")
-        print(f"  Target: {target_fraction*100:.0f}% population ± {tolerance*100:.0f}%")
+        tgt_pct = target_fraction * 100
+        tol_pct = tolerance * 100
+        print(f"  Target: {tgt_pct:.0f}% population ± {tol_pct:.0f}%")
         print(f"  Parallel workers: {max_workers or 'auto'}")
 
     results: dict[float, LambdaResult] = {}
@@ -120,7 +123,7 @@ def sweep_lambda(
                 if verbose:
                     opt = result.search_result.result
                     print(
-                        f"  λ={lam:.1f}: {opt.population_fraction*100:.2f}% pop, "
+                        f"  λ={lam:.1f}: {opt.population_fraction * 100:.2f}% pop, "
                         f"μ={opt.mu:.6f}, {result.search_result.iterations} iters, "
                         f"{result.elapsed_seconds:.2f}s"
                     )
@@ -149,7 +152,7 @@ def sweep_lambda(
     all_converged = all(r.search_result.converged for r in results.values())
 
     if verbose:
-        print(f"\n{'='*50}")
+        print(f"\n{'=' * 50}")
         print(f"Sweep complete: {total_iterations} total iterations")
         print(f"Total time: {total_elapsed:.2f}s")
         print(f"All converged: {all_converged}")

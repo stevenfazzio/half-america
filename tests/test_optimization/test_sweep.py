@@ -6,9 +6,9 @@ from half_america.optimization import (
     DEFAULT_LAMBDA_VALUES,
     LambdaResult,
     SweepResult,
-    sweep_lambda,
-    save_sweep_result,
     load_sweep_result,
+    save_sweep_result,
+    sweep_lambda,
 )
 
 
@@ -214,8 +214,8 @@ class TestSweepCachePath:
 
     def test_cache_path_includes_years(self):
         """Cache path includes TIGER and ACS years."""
+        from half_america.config import ACS_YEAR, TIGER_YEAR
         from half_america.data.cache import get_sweep_cache_path
-        from half_america.config import TIGER_YEAR, ACS_YEAR
 
         path = get_sweep_cache_path(0.1)
         assert str(TIGER_YEAR) in path.name

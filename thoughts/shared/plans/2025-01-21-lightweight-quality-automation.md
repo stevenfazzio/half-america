@@ -86,14 +86,14 @@ select = [
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] `uv sync` completes without errors
-- [ ] `uv run ruff check src/ tests/` passes
-- [ ] `uv run ruff format --check src/ tests/` passes (or run `ruff format` first to fix)
-- [ ] `uv run mypy src/` passes
-- [ ] `uv run pytest` passes
+- [x] `uv sync` completes without errors
+- [x] `uv run ruff check src/ tests/` passes
+- [x] `uv run ruff format --check src/ tests/` passes (or run `ruff format` first to fix)
+- [x] `uv run mypy src/` passes
+- [x] `uv run pytest` passes
 
 #### Manual Verification:
-- [ ] Confirm black is no longer in `uv.lock`
+- [x] Confirm black is no longer in `uv.lock`
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to Phase 2.
 
@@ -147,9 +147,9 @@ repos:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] `uv sync` completes without errors
-- [ ] `uv run pre-commit install` succeeds
-- [ ] `uv run pre-commit run --all-files` passes
+- [x] `uv sync` completes without errors
+- [x] `uv run pre-commit install` succeeds
+- [x] `uv run pre-commit run --all-files` passes
 
 #### Manual Verification:
 - [ ] Create a test commit to verify hooks run

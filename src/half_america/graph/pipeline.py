@@ -1,16 +1,16 @@
 """Graph data pipeline with caching."""
 
-from typing import NamedTuple
-from pathlib import Path
 import pickle
+from pathlib import Path
+from typing import NamedTuple
 
-import numpy as np
 import geopandas as gpd
+import numpy as np
 
+from half_america.config import ACS_YEAR, TIGER_YEAR
 from half_america.data.cache import ensure_cache_dirs, get_processed_cache_path
-from half_america.config import TIGER_YEAR, ACS_YEAR
 from half_america.graph.adjacency import build_adjacency
-from half_america.graph.boundary import compute_graph_attributes, GraphAttributes
+from half_america.graph.boundary import GraphAttributes, compute_graph_attributes
 
 
 class GraphData(NamedTuple):

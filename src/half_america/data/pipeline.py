@@ -3,12 +3,12 @@
 import geopandas as gpd
 import pandas as pd
 
-from half_america.data.tiger import download_state_tracts
+from half_america.config import ACS_YEAR, TIGER_YEAR
+from half_america.data.cache import ensure_cache_dirs, get_processed_cache_path
 from half_america.data.census import fetch_state_population
 from half_america.data.cleaning import clean_census_tracts
-from half_america.data.cache import ensure_cache_dirs, get_processed_cache_path
 from half_america.data.constants import CONTIGUOUS_US_FIPS
-from half_america.config import TIGER_YEAR, ACS_YEAR
+from half_america.data.tiger import download_state_tracts
 
 
 def load_state_tracts(

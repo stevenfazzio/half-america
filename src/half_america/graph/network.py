@@ -1,7 +1,7 @@
 """s-t flow network construction for graph cut optimization."""
 
-import numpy as np
 import maxflow
+import numpy as np
 
 from half_america.graph.boundary import GraphAttributes
 

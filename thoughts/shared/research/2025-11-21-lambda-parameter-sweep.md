@@ -391,4 +391,4 @@ RESPONSE: Sounds good to me.
 3. **Early termination**: Should sweep stop early if a λ value fails to converge?
 4. **Result format**: Should results include timing information per λ?
 5. **Finer granularity**: Should we support 0.01 increments (101 values) for animations?
-RESPONSE: Let's start with 0.1 increments. We can add support for 0.01 increments in "## Future Enhancements" in ROADMAP.md. 
+RESPONSE: Let's start with 0.1 increments. We can add support for 0.01 increments in "## Future Enhancements" in ROADMAP.md.

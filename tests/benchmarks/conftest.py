@@ -6,10 +6,9 @@ to produce meaningful performance measurements.
 
 import gc
 
+import geopandas as gpd
 import pytest
 from shapely import box
-
-import geopandas as gpd
 
 from half_america.graph.adjacency import build_adjacency
 from half_america.graph.boundary import compute_graph_attributes

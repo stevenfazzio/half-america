@@ -4,7 +4,7 @@ from typing import NamedTuple
 
 import numpy as np
 
-from half_america.graph.network import build_flow_network, get_partition, compute_energy
+from half_america.graph.network import build_flow_network, compute_energy, get_partition
 from half_america.graph.pipeline import GraphData
 
 
@@ -91,9 +91,8 @@ def solve_partition(
         if satisfied_target:
             print("  Target satisfied: Yes")
         else:
-            print(
-                f"  Target satisfied: No (need 49-51%, got {100 * population_fraction:.2f}%)"
-            )
+            pct = 100 * population_fraction
+            print(f"  Target satisfied: No (need 49-51%, got {pct:.2f}%)")
 
     # Compute energy function value
     energy = compute_energy(

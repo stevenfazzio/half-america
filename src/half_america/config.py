@@ -1,7 +1,8 @@
 """Central configuration for Half of America."""
 
-from pathlib import Path
 import os
+from pathlib import Path
+
 from dotenv import load_dotenv
 
 # Load environment variables from .env file

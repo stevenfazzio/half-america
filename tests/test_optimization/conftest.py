@@ -1,7 +1,8 @@
 """Fixtures for optimization tests."""
 
-import pytest
 import numpy as np
+import pytest
+
 from half_america.graph.boundary import GraphAttributes
 from half_america.graph.pipeline import GraphData
 

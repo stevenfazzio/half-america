@@ -1,9 +1,10 @@
 """Pytest fixtures for data pipeline tests."""
 
-import pytest
-import geopandas as gpd
-from shapely.geometry import Polygon, box
 from pathlib import Path
+
+import geopandas as gpd
+import pytest
+from shapely.geometry import Polygon, box
 
 # Use realistic US coordinates (around DC area) for EPSG:4326 -> EPSG:5070 reprojection
 # DC is approximately at (-77.0, 38.9)

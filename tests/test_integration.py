@@ -65,7 +65,7 @@ class TestCensusFetch:
 class TestFullPipeline:
     def test_load_dc_tracts(self, skip_without_api_key):
         """Test loading DC tracts with full pipeline."""
-        from half_america.data import load_state_tracts, get_pipeline_summary
+        from half_america.data import get_pipeline_summary, load_state_tracts
 
         gdf = load_state_tracts("11")
         summary = get_pipeline_summary(gdf)

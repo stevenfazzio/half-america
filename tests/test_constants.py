@@ -3,8 +3,8 @@
 from half_america.data.constants import (
     CONTIGUOUS_US_FIPS,
     FIPS_TO_STATE,
-    TARGET_CRS,
     QUANTIZATION_GRID_SIZE,
+    TARGET_CRS,
 )
 
 

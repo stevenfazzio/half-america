@@ -2,8 +2,8 @@
 
 from typing import NamedTuple
 
-import numpy as np
 import geopandas as gpd
+import numpy as np
 from shapely import intersection, length
 
 
@@ -73,9 +73,8 @@ def compute_boundary_lengths(
 
     if verbose:
         nonzero_count = sum(1 for edge_len in lengths if edge_len > 0)
-        print(
-            f"  Non-zero boundary lengths: {nonzero_count:,} ({100*nonzero_count/len(edges):.1f}%)"
-        )
+        pct = 100 * nonzero_count / len(edges)
+        print(f"  Non-zero boundary lengths: {nonzero_count:,} ({pct:.1f}%)")
         print(f"  Mean boundary length: {np.mean(lengths):.1f} m")
         print(f"  Max boundary length: {np.max(lengths):.1f} m")
 
@@ -104,9 +103,9 @@ def compute_graph_attributes(
     edge_lengths = compute_boundary_lengths(gdf, edges, verbose=verbose)
 
     if verbose:
-        print(f"  Characteristic length scale (ρ): {rho:.1f} m ({rho/1000:.2f} km)")
+        print(f"  Characteristic length scale (ρ): {rho:.1f} m ({rho / 1000:.2f} km)")
         print(f"  Total population: {population.sum():,}")
-        print(f"  Total area: {area.sum()/1e6:.0f} km²")
+        print(f"  Total area: {area.sum() / 1e6:.0f} km²")
 
     return GraphAttributes(
         population=population,

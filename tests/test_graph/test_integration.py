@@ -1,11 +1,12 @@
 """Integration tests for graph construction pipeline."""
 
 import pytest
+
 from half_america.data import load_state_tracts
 from half_america.graph import (
     build_adjacency,
-    compute_graph_attributes,
     build_flow_network,
+    compute_graph_attributes,
     get_partition,
 )
 
@@ -38,11 +39,9 @@ class TestGraphIntegration:
         print("\nDC test results:")
         print(f"  Tracts: {adj_result.num_nodes}")
         print(f"  Edges: {adj_result.num_edges}")
-        print(f"  Rho: {attrs.rho:.1f} m ({attrs.rho/1000:.2f} km)")
-        print(
-            f"  Selected: {partition.sum()} tracts ({100*partition.sum()/len(partition):.1f}%)"
-        )
-        print(
-            f"  Population: {selected_pop:,} / {total_pop:,} ({100*selected_pop/total_pop:.1f}%)"
-        )
+        print(f"  Rho: {attrs.rho:.1f} m ({attrs.rho / 1000:.2f} km)")
+        sel_pct = 100 * partition.sum() / len(partition)
+        print(f"  Selected: {partition.sum()} tracts ({sel_pct:.1f}%)")
+        pop_pct = 100 * selected_pop / total_pop
+        print(f"  Population: {selected_pop:,} / {total_pop:,} ({pop_pct:.1f}%)")
         print(f"  Max flow: {flow:.2f}")

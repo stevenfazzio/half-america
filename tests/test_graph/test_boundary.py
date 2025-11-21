@@ -1,10 +1,11 @@
 """Tests for boundary length calculations."""
 
 import pytest
+
 from half_america.graph.boundary import (
-    compute_rho,
     compute_boundary_lengths,
     compute_graph_attributes,
+    compute_rho,
 )
 
 

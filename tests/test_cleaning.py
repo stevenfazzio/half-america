@@ -3,11 +3,11 @@
 import pytest
 
 from half_america.data.cleaning import (
-    remove_null_geometries,
-    fix_invalid_geometries,
-    reproject_to_equal_area,
-    quantize_coordinates,
     clean_census_tracts,
+    fix_invalid_geometries,
+    quantize_coordinates,
+    remove_null_geometries,
+    reproject_to_equal_area,
 )
 from half_america.data.constants import TARGET_CRS
 

@@ -1,9 +1,10 @@
 """Census API population data fetching."""
 
-import pandas as pd
-import cenpy
-import requests_cache
 from datetime import timedelta
+
+import cenpy
+import pandas as pd
+import requests_cache
 
 from half_america.config import ACS_YEAR, CACHE_DIR
 from half_america.data.cache import ensure_cache_dirs, get_census_cache_path

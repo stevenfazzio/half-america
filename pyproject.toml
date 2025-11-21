@@ -46,9 +46,9 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
-    "black>=25.11.0",
     "mypy>=1.18.2",
     "pandas-stubs>=2.0",
+    "pre-commit>=4.2.0",
     "pytest>=9.0.1",
     "pytest-benchmark>=4.0",
     "pytest-cov>=4.0",
@@ -61,4 +61,16 @@ ignore_missing_imports = true
 [tool.pytest.ini_options]
 markers = [
     "integration: marks tests as integration tests (deselect with '-m not integration')",
+]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # Pyflakes
+    "I",   # isort (import sorting)
+    "UP",  # pyupgrade
+    "W",   # pycodestyle warnings
 ]

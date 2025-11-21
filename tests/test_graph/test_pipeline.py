@@ -1,7 +1,8 @@
 """Tests for graph data pipeline."""
 
 import pytest
-from half_america.graph.pipeline import load_graph_data, get_graph_summary
+
+from half_america.graph.pipeline import get_graph_summary, load_graph_data
 
 
 class TestLoadGraphData:
