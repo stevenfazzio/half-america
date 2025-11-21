@@ -24,3 +24,17 @@ def get_census_cache_path(state_fips: str, year: int) -> Path:
 def get_processed_cache_path(name: str) -> Path:
     """Get cache path for processed data."""
     return PROCESSED_DIR / f"{name}.parquet"
+
+
+def get_sweep_cache_path(lambda_step: float = 0.1) -> Path:
+    """Get cache path for sweep results.
+
+    Args:
+        lambda_step: Lambda increment used in sweep (default 0.1)
+
+    Returns:
+        Path like data/cache/processed/sweep_2024_2022_0.1.pkl
+    """
+    from half_america.config import TIGER_YEAR, ACS_YEAR
+
+    return PROCESSED_DIR / f"sweep_{TIGER_YEAR}_{ACS_YEAR}_{lambda_step}.pkl"

@@ -1,7 +1,9 @@
 """Lambda parameter sweep for pre-computing optimization results."""
 
+import pickle
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
 from typing import NamedTuple
 
 from half_america.graph.pipeline import GraphData
@@ -154,3 +156,31 @@ def sweep_lambda(
         total_elapsed_seconds=total_elapsed,
         all_converged=all_converged,
     )
+
+
+def save_sweep_result(result: SweepResult, path: Path) -> None:
+    """Save sweep result to disk.
+
+    Args:
+        result: SweepResult from sweep_lambda()
+        path: Output path (should end in .pkl)
+    """
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "wb") as f:
+        pickle.dump(result, f)
+
+
+def load_sweep_result(path: Path) -> SweepResult:
+    """Load sweep result from disk.
+
+    Args:
+        path: Path to saved .pkl file
+
+    Returns:
+        SweepResult that was previously saved
+
+    Raises:
+        FileNotFoundError: If path does not exist
+    """
+    with open(path, "rb") as f:
+        return pickle.load(f)

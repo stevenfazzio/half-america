@@ -16,6 +16,8 @@ from half_america.optimization.sweep import (
     LambdaResult,
     SweepResult,
     sweep_lambda,
+    save_sweep_result,
+    load_sweep_result,
 )
 
 __all__ = [
@@ -33,4 +35,6 @@ __all__ = [
     "LambdaResult",
     "SweepResult",
     "sweep_lambda",
+    "save_sweep_result",
+    "load_sweep_result",
 ]

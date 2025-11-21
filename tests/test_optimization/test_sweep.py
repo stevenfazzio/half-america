@@ -7,6 +7,8 @@ from half_america.optimization import (
     LambdaResult,
     SweepResult,
     sweep_lambda,
+    save_sweep_result,
+    load_sweep_result,
 )
 
 
@@ -165,3 +167,70 @@ class TestDefaultsExported:
         assert len(DEFAULT_LAMBDA_VALUES) == 11
         assert DEFAULT_LAMBDA_VALUES[0] == 0.0
         assert DEFAULT_LAMBDA_VALUES[-1] == 1.0
+
+
+class TestSweepPersistence:
+    """Tests for sweep result persistence."""
+
+    def test_save_and_load_roundtrip(self, complex_graph_data, tmp_path):
+        """Saved result can be loaded back identically."""
+        result = sweep_lambda(
+            complex_graph_data,
+            lambda_values=[0.0, 0.5],
+            tolerance=0.15,
+            verbose=False,
+        )
+
+        path = tmp_path / "test_sweep.pkl"
+        save_sweep_result(result, path)
+        loaded = load_sweep_result(path)
+
+        assert loaded.lambda_values == result.lambda_values
+        assert loaded.total_iterations == result.total_iterations
+        assert loaded.all_converged == result.all_converged
+        assert set(loaded.results.keys()) == set(result.results.keys())
+
+    def test_save_creates_parent_dirs(self, complex_graph_data, tmp_path):
+        """Save creates parent directories if needed."""
+        result = sweep_lambda(
+            complex_graph_data,
+            lambda_values=[0.5],
+            tolerance=0.15,
+            verbose=False,
+        )
+
+        path = tmp_path / "nested" / "dirs" / "test.pkl"
+        save_sweep_result(result, path)
+        assert path.exists()
+
+    def test_load_nonexistent_raises(self, tmp_path):
+        """Load raises FileNotFoundError for missing file."""
+        with pytest.raises(FileNotFoundError):
+            load_sweep_result(tmp_path / "nonexistent.pkl")
+
+
+class TestSweepCachePath:
+    """Tests for sweep cache path generation."""
+
+    def test_cache_path_includes_years(self):
+        """Cache path includes TIGER and ACS years."""
+        from half_america.data.cache import get_sweep_cache_path
+        from half_america.config import TIGER_YEAR, ACS_YEAR
+
+        path = get_sweep_cache_path(0.1)
+        assert str(TIGER_YEAR) in path.name
+        assert str(ACS_YEAR) in path.name
+
+    def test_cache_path_includes_lambda_step(self):
+        """Cache path includes lambda step."""
+        from half_america.data.cache import get_sweep_cache_path
+
+        path = get_sweep_cache_path(0.05)
+        assert "0.05" in path.name
+
+    def test_cache_path_is_pkl(self):
+        """Cache path has .pkl extension."""
+        from half_america.data.cache import get_sweep_cache_path
+
+        path = get_sweep_cache_path()
+        assert path.suffix == ".pkl"

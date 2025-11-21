@@ -55,7 +55,7 @@ Implement the Max-Flow Min-Cut solver with constraint tuning.
 - [x] Implement graph-cut solver wrapper
 - [x] Implement binary search for Lagrange multiplier (μ) to hit 50% population target
 - [x] Build outer loop for λ parameter sweep (0.0 → 1.0)
-- [ ] Pre-compute results for discrete λ values (e.g., 0.0, 0.1, 0.2, ..., 1.0)
+- [x] Pre-compute results for discrete λ values (e.g., 0.0, 0.1, 0.2, ..., 1.0)
 - [ ] Performance benchmarking and optimization
 - [ ] Unit tests for optimization correctness
 
