@@ -204,9 +204,9 @@ def _estimate_mu_max(graph_data: GraphData) -> float:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File exists: `ls src/half_america/optimization/search.py`
-- [ ] Type checking passes: `uv run mypy src/half_america/optimization/search.py`
-- [ ] Linting passes: `uv run ruff check src/half_america/optimization/search.py`
+- [x] File exists: `ls src/half_america/optimization/search.py`
+- [x] Type checking passes: `uv run mypy src/half_america/optimization/search.py`
+- [x] Linting passes: `uv run ruff check src/half_america/optimization/search.py`
 
 ---
 
@@ -250,8 +250,8 @@ __all__ = [
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Import works: `uv run python -c "from half_america.optimization import find_optimal_mu, SearchResult; print('OK')"`
-- [ ] Type checking passes: `uv run mypy src/half_america/optimization/__init__.py`
+- [x] Import works: `uv run python -c "from half_america.optimization import find_optimal_mu, SearchResult; print('OK')"`
+- [x] Type checking passes: `uv run mypy src/half_america/optimization/__init__.py`
 
 ---
 
@@ -462,8 +462,8 @@ class TestDefaultsExported:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Tests pass: `uv run pytest tests/test_optimization/test_search.py -v`
-- [ ] All optimization tests pass: `uv run pytest tests/test_optimization/ -v`
+- [x] Tests pass: `uv run pytest tests/test_optimization/test_search.py -v`
+- [x] All optimization tests pass: `uv run pytest tests/test_optimization/ -v`
 
 ---
 
@@ -489,10 +489,10 @@ To:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Full test suite passes: `uv run pytest`
-- [ ] Type checking passes: `uv run mypy src/`
-- [ ] Linting passes: `uv run ruff check src/ tests/`
-- [ ] ROADMAP shows milestone checked
+- [x] Full test suite passes: `uv run pytest`
+- [x] Type checking passes: `uv run mypy src/`
+- [x] Linting passes: `uv run ruff check src/ tests/`
+- [x] ROADMAP shows milestone checked
 
 ---
 

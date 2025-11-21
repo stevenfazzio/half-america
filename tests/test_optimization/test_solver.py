@@ -1,7 +1,6 @@
 """Tests for solver wrapper."""
 
 import pytest
-import numpy as np
 from half_america.optimization import (
     solve_partition,
     OptimizationResult,

@@ -35,7 +35,7 @@ class TestGraphIntegration:
         selected_pop = attrs.population[partition].sum()
         total_pop = attrs.population.sum()
 
-        print(f"\nDC test results:")
+        print("\nDC test results:")
         print(f"  Tracts: {adj_result.num_nodes}")
         print(f"  Edges: {adj_result.num_edges}")
         print(f"  Rho: {attrs.rho:.1f} m ({attrs.rho/1000:.2f} km)")

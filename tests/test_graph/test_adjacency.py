@@ -1,6 +1,5 @@
 """Tests for adjacency graph construction."""
 
-import pytest
 from half_america.graph.adjacency import build_adjacency
 
 
