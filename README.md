@@ -7,13 +7,11 @@ A topology optimization experiment visualizing US population distribution with s
 
 > Where does half of America *really* live?
 
-## Background
+## The Problem
 
 There is a genre of viral maps that frequently circulates on the internet, typically titled "Half of the United States Lives In These Counties" ([example](https://www.businessinsider.com/half-of-the-united-states-lives-in-these-counties-2013-9)). These maps illustrate the extreme geographic concentration of the US population using a simple algorithm: rank counties by population and select the top N until exceeding 50% of the total.
 
-## The Problem
-
-Traditional "half of America lives here" maps have two issues:
+Traditional approaches have two issues:
 
 1. **The San Bernardino Problem**: County boundaries include vast empty areas (San Bernardino County is larger than nine US states but mostly desert)
 2. **The Dust Problem**: Using smaller units creates thousands of disconnected specks that fail as visualization
@@ -41,6 +39,17 @@ cd half_america
 uv sync
 ```
 
+### Census API Key
+
+The data pipeline requires a Census API key:
+
+1. Get a free key from https://api.census.gov/data/key_signup.html
+2. Create your environment file:
+   ```bash
+   cp .env.example .env
+   # Add your CENSUS_API_KEY to .env
+   ```
+
 ## Usage
 
 ```bash
@@ -62,20 +71,11 @@ uv run mypy src/
 
 ## API Reference
 
-The following sections document the Python API for programmatic use.
+The following sections document the Python API for programmatic use. Each module includes a Quick Start example and full function reference.
 
 ### Data Pipeline
 
 The data pipeline downloads Census Tract geometries and population data for the contiguous United States.
-
-#### Setup
-
-1. Get a Census API key from https://api.census.gov/data/key_signup.html
-2. Copy `.env.example` to `.env` and add your key:
-   ```bash
-   cp .env.example .env
-   # Edit .env and add your CENSUS_API_KEY
-   ```
 
 #### Quick Start
 
@@ -97,7 +97,7 @@ from half_america.data import load_all_tracts
 gdf = load_all_tracts()
 ```
 
-#### Available Functions
+#### Function Reference
 
 | Function | Description |
 |----------|-------------|
@@ -142,7 +142,7 @@ selected = get_partition(g, graph_data.num_nodes)
 print(f"Selected {selected.sum()} tracts")
 ```
 
-#### Available Functions
+#### Function Reference
 
 | Function | Description |
 |----------|-------------|
@@ -165,11 +165,6 @@ Graph data is cached in `data/cache/` after first computation.
 **Current Phase**: Graph Construction Complete (Phase 2)
 
 See [ROADMAP.md](ROADMAP.md) for the full implementation plan.
-
-## Documentation
-
-- [METHODOLOGY.md](METHODOLOGY.md) - Mathematical formulation and algorithm
-- [ROADMAP.md](ROADMAP.md) - Implementation roadmap
 
 ## License
 

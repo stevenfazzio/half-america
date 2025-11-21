@@ -93,13 +93,13 @@ This project solves both using **Max-Flow Min-Cut optimization** with a user-con
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] No "## Background" heading exists: `grep -c "^## Background" README.md` returns 0
-- [ ] "## The Problem" section exists and contains Business Insider link
-- [ ] Markdown renders correctly: no lint errors
+- [x] No "## Background" heading exists: `grep -c "^## Background" README.md` returns 0
+- [x] "## The Problem" section exists and contains Business Insider link
+- [x] Markdown renders correctly: no lint errors
 
 #### Manual Verification:
-- [ ] Section reads naturally as cohesive narrative
-- [ ] No content was lost from original Background section
+- [x] Section reads naturally as cohesive narrative
+- [x] No content was lost from original Background section
 
 **Implementation Note**: After completing this phase, proceed to Phase 2.
 
@@ -172,13 +172,13 @@ The data pipeline requires a Census API key:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] "### Census API Key" exists under Installation: `grep -A1 "^## Installation" README.md` followed by subsection check
-- [ ] No "#### Setup" under Data Pipeline: `grep -c "^#### Setup" README.md` returns 0
-- [ ] Census API URL appears only once in document
+- [x] "### Census API Key" exists under Installation: `grep -A1 "^## Installation" README.md` followed by subsection check
+- [x] No "#### Setup" under Data Pipeline: `grep -c "^#### Setup" README.md` returns 0
+- [x] Census API URL appears only once in document
 
 #### Manual Verification:
-- [ ] Installation section flows logically: requirements → clone → sync → API key
-- [ ] Data Pipeline section starts with description, then Quick Start
+- [x] Installation section flows logically: requirements → clone → sync → API key
+- [x] Data Pipeline section starts with description, then Quick Start
 
 **Implementation Note**: After completing this phase, proceed to Phase 3.
 
@@ -228,13 +228,13 @@ The following sections document the Python API for programmatic use. Each module
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] No "Available Functions" headings: `grep -c "Available Functions" README.md` returns 0
-- [ ] Two "Function Reference" headings: `grep -c "Function Reference" README.md` returns 2
-- [ ] API Reference intro mentions "Quick Start" and "function reference"
+- [x] No "Available Functions" headings: `grep -c "Available Functions" README.md` returns 0
+- [x] Two "Function Reference" headings: `grep -c "Function Reference" README.md` returns 2
+- [x] API Reference intro mentions "Quick Start" and "function reference"
 
 #### Manual Verification:
-- [ ] Subsection names are now unique when searching document
-- [ ] Navigation note helps reader understand API Reference structure
+- [x] Subsection names are now unique when searching document
+- [x] Navigation note helps reader understand API Reference structure
 
 **Implementation Note**: After completing this phase, proceed to Phase 4.
 
@@ -264,13 +264,13 @@ Remove the "## Documentation" section since both links already appear elsewhere:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] No "## Documentation" heading: `grep -c "^## Documentation" README.md` returns 0
-- [ ] METHODOLOGY.md still linked in How It Works section
-- [ ] ROADMAP.md still linked in Project Status section
+- [x] No "## Documentation" heading: `grep -c "^## Documentation" README.md` returns 0
+- [x] METHODOLOGY.md still linked in How It Works section
+- [x] ROADMAP.md still linked in Project Status section
 
 #### Manual Verification:
-- [ ] Footer sections flow naturally: Project Status → License → Disclaimer
-- [ ] No information was lost (links exist elsewhere)
+- [x] Footer sections flow naturally: Project Status → License → Disclaimer
+- [x] No information was lost (links exist elsewhere)
 
 **Implementation Note**: After completing this phase, all changes are complete.
 
