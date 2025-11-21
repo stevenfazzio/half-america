@@ -2,7 +2,7 @@
 
 ## Overview
 
-Add save/load functions for `SweepResult` to enable persistence of optimization results. This completes the Phase 3 milestone "Pre-compute results for discrete λ values" and unblocks Phase 4 (which needs to load results) and Phase 5 (which will add CLI to trigger pre-computation).
+Add save/load functions for `SweepResult` to enable persistence of optimization results, plus a CLI command to trigger pre-computation. This completes the Phase 3 milestone "Pre-compute results for discrete λ values" and unblocks Phase 4 (which needs to load results).
 
 ## Current State Analysis
 
@@ -22,7 +22,8 @@ After this implementation:
 2. `load_sweep_result(path)` deserializes a `SweepResult` from disk
 3. `get_sweep_cache_path(lambda_step)` returns canonical cache path
 4. Unit tests verify round-trip serialization preserves all data
-5. ROADMAP.md milestone is marked complete
+5. CLI command `uv run half-america precompute` triggers pre-computation and caching
+6. ROADMAP.md milestone is marked complete
 
 ### Verification:
 ```python
@@ -39,7 +40,6 @@ assert loaded == result  # Round-trip preserves data
 
 ## What We're NOT Doing
 
-- **CLI commands** - Deferred to Phase 5 (ROADMAP.md updated)
 - **Structured export format** - Simple pickle is sufficient; Parquet-per-λ adds complexity without benefit
 - **Incremental cache updates** - Regenerating all values is fast (~seconds with parallel execution)
 - **Cache invalidation logic** - Users can use `force_rebuild` pattern or delete cache manually
@@ -83,8 +83,8 @@ def get_sweep_cache_path(lambda_step: float = 0.1) -> Path:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Type checking passes: `uv run mypy src/half_america/data/cache.py`
-- [ ] Linting passes: `uv run ruff check src/half_america/data/cache.py`
+- [x] Type checking passes: `uv run mypy src/half_america/data/cache.py`
+- [x] Linting passes: `uv run ruff check src/half_america/data/cache.py`
 
 ---
 
@@ -145,8 +145,8 @@ def load_sweep_result(path: Path) -> SweepResult:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Type checking passes: `uv run mypy src/half_america/optimization/sweep.py`
-- [ ] Linting passes: `uv run ruff check src/half_america/optimization/sweep.py`
+- [x] Type checking passes: `uv run mypy src/half_america/optimization/sweep.py`
+- [x] Linting passes: `uv run ruff check src/half_america/optimization/sweep.py`
 
 ---
 
@@ -187,8 +187,8 @@ Update `__all__` sweep section:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Import works: `python -c "from half_america.optimization import save_sweep_result, load_sweep_result"`
-- [ ] Type checking passes: `uv run mypy src/half_america/optimization/__init__.py`
+- [x] Import works: `python -c "from half_america.optimization import save_sweep_result, load_sweep_result"`
+- [x] Type checking passes: `uv run mypy src/half_america/optimization/__init__.py`
 
 ---
 
@@ -286,9 +286,9 @@ class TestSweepCachePath:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] All new tests pass: `uv run pytest tests/test_optimization/test_sweep.py -v`
-- [ ] Existing tests still pass: `uv run pytest tests/test_optimization/ -v`
-- [ ] Full test suite passes: `uv run pytest`
+- [x] All new tests pass: `uv run pytest tests/test_optimization/test_sweep.py -v`
+- [x] Existing tests still pass: `uv run pytest tests/test_optimization/ -v`
+- [x] Full test suite passes: `uv run pytest`
 
 ---
 
@@ -310,10 +310,152 @@ Mark the "Pre-compute results" milestone as complete.
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File contains `[x] Pre-compute results`
+- [x] File contains `[x] Pre-compute results`
 
 #### Manual Verification:
 - [ ] ROADMAP.md accurately reflects project state
+
+---
+
+## Phase 6: Add CLI Command
+
+### Overview
+Add a `precompute` CLI command using Click to trigger the lambda sweep and cache results.
+
+### Changes Required:
+
+#### 1. Add Click dependency
+**File**: `pyproject.toml`
+**Changes**: Add click to dependencies
+
+```toml
+"click>=8.0",
+```
+
+#### 2. Create CLI module
+**File**: `src/half_america/cli.py`
+**Changes**: Create new file with Click commands
+
+```python
+"""Command-line interface for half-america."""
+
+import click
+
+from half_america.data.cache import get_sweep_cache_path
+from half_america.graph.pipeline import build_graph_data
+from half_america.optimization import (
+    DEFAULT_LAMBDA_VALUES,
+    save_sweep_result,
+    load_sweep_result,
+    sweep_lambda,
+)
+
+
+@click.group()
+def cli() -> None:
+    """Half of America - topology optimization for population distribution."""
+    pass
+
+
+@cli.command()
+@click.option(
+    "--force",
+    is_flag=True,
+    help="Rebuild cache even if it exists",
+)
+@click.option(
+    "--lambda-step",
+    type=float,
+    default=0.1,
+    help="Lambda increment (default: 0.1)",
+)
+def precompute(force: bool, lambda_step: float) -> None:
+    """Pre-compute optimization results for all lambda values."""
+    cache_path = get_sweep_cache_path(lambda_step)
+
+    if cache_path.exists() and not force:
+        click.echo(f"Cache exists: {cache_path}")
+        click.echo("Use --force to rebuild")
+        return
+
+    click.echo("Building graph data...")
+    graph_data = build_graph_data()
+
+    lambda_values = [round(i * lambda_step, 2) for i in range(int(1 / lambda_step) + 1)]
+    click.echo(f"Running sweep for {len(lambda_values)} lambda values...")
+
+    result = sweep_lambda(graph_data, lambda_values=lambda_values)
+
+    save_sweep_result(result, cache_path)
+    click.echo(f"Saved to: {cache_path}")
+```
+
+#### 3. Update package entry point
+**File**: `src/half_america/__init__.py`
+**Changes**: Replace placeholder main with CLI import
+
+```python
+"""Half of America - topology optimization for population distribution."""
+
+
+def main() -> None:
+    """CLI entry point."""
+    from half_america.cli import cli
+
+    cli()
+```
+
+#### 4. Run uv sync to install Click
+**Command**: `uv sync`
+
+### Success Criteria:
+
+#### Automated Verification:
+- [ ] Type checking passes: `uv run mypy src/half_america/cli.py`
+- [ ] Linting passes: `uv run ruff check src/half_america/cli.py`
+- [ ] CLI help works: `uv run half-america --help`
+- [ ] Precompute help works: `uv run half-america precompute --help`
+
+#### Manual Verification:
+- [ ] `uv run half-america precompute` runs optimization and saves cache
+- [ ] `uv run half-america precompute` (second run) reports cache exists
+- [ ] `uv run half-america precompute --force` rebuilds cache
+- [ ] Cache file appears in `data/cache/processed/`
+
+---
+
+## Phase 7: Update ROADMAP.md for CLI
+
+### Overview
+Move CLI from Phase 5 to Phase 3 in ROADMAP.md since we're implementing it now.
+
+### Changes Required:
+
+#### 1. Update ROADMAP.md
+**File**: `ROADMAP.md`
+**Changes**: Add CLI milestone to Phase 3, remove from Phase 5
+
+In Phase 3, add after "Pre-compute results":
+```markdown
+- [ ] Add CLI `precompute` command
+```
+
+In Phase 5, change:
+```markdown
+- [ ] Add CLI framework (Click) with `precompute` and `export` subcommands
+```
+to:
+```markdown
+- [ ] Add CLI `export` subcommand for TopoJSON output
+```
+
+### Success Criteria:
+
+#### Automated Verification:
+- [ ] ROADMAP.md contains `Add CLI \`precompute\` command` in Phase 3
+
+#### Manual Verification:
+- [ ] ROADMAP.md structure is clear and accurate
 
 ---
 
@@ -326,12 +468,15 @@ Mark the "Pre-compute results" milestone as complete.
 - Cache path includes correct years and lambda step
 
 ### Integration Tests:
-- None required - this is purely about persistence
+- CLI `--help` displays usage information
+- CLI `precompute --help` shows command options
 
 ### Manual Testing Steps:
-1. Run optimization on real data and save results
-2. Load saved results and verify they match
-3. Verify cache file appears in expected location
+1. Run `uv run half-america precompute` on real data
+2. Verify cache file appears in `data/cache/processed/`
+3. Run again without `--force` - should report cache exists
+4. Run with `--force` - should rebuild cache
+5. Load saved results programmatically and verify they're valid
 
 ## Performance Considerations
 
@@ -344,3 +489,4 @@ Mark the "Pre-compute results" milestone as complete.
 - Original research: `thoughts/shared/research/2025-11-21-precompute-lambda-values.md`
 - Existing cache pattern: `src/half_america/graph/pipeline.py:51-78`
 - Sweep implementation: `src/half_america/optimization/sweep.py`
+- Click documentation: https://click.palletsprojects.com/
