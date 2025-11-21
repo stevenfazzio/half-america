@@ -62,12 +62,12 @@ def sweep_lambda(
     tolerance: float = 0.01,
     max_workers: int | None = None,
     verbose: bool = True,
+    raise_on_failure: bool = True,
 ) -> SweepResult:
     """
     Run optimization across a range of λ (surface tension) values.
 
     Uses parallel execution since each λ optimization is independent.
-    Stops early if any λ value fails to converge.
 
     Args:
         graph_data: Input graph with edges and attributes
@@ -76,12 +76,14 @@ def sweep_lambda(
         tolerance: Population tolerance (default: 0.01 = 1%)
         max_workers: Maximum parallel workers (default: None = CPU count)
         verbose: Print progress information
+        raise_on_failure: If True (default), raise RuntimeError on non-convergence.
+            If False, continue and include non-converged results.
 
     Returns:
         SweepResult with optimization results for each λ value
 
     Raises:
-        RuntimeError: If any λ value fails to converge (early termination)
+        RuntimeError: If any λ value fails to converge and raise_on_failure=True
     """
     if lambda_values is None:
         lambda_values = DEFAULT_LAMBDA_VALUES.copy()
@@ -125,13 +127,16 @@ def sweep_lambda(
 
                 # Early termination check
                 if not result.search_result.converged:
-                    # Cancel remaining futures
-                    for f in future_to_lambda:
-                        f.cancel()
-                    raise RuntimeError(
-                        f"λ={lam} failed to converge after "
-                        f"{result.search_result.iterations} iterations"
-                    )
+                    if raise_on_failure:
+                        # Cancel remaining futures
+                        for f in future_to_lambda:
+                            f.cancel()
+                        raise RuntimeError(
+                            f"λ={lam} failed to converge after "
+                            f"{result.search_result.iterations} iterations"
+                        )
+                    elif verbose:
+                        print(f"  WARNING: λ={lam} did not converge")
 
             except Exception:
                 # Cancel remaining futures on any error

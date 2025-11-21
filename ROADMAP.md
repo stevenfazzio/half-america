@@ -56,6 +56,7 @@ Implement the Max-Flow Min-Cut solver with constraint tuning.
 - [x] Implement binary search for Lagrange multiplier (μ) to hit 50% population target
 - [x] Build outer loop for λ parameter sweep (0.0 → 1.0)
 - [x] Pre-compute results for discrete λ values (e.g., 0.0, 0.1, 0.2, ..., 1.0)
+- [x] Add CLI `precompute` command
 - [ ] Performance benchmarking and optimization
 - [ ] Unit tests for optimization correctness
 
@@ -82,7 +83,7 @@ Build the interactive visualization.
 
 ### Milestones
 
-- [ ] Add CLI framework (Click) with `precompute` and `export` subcommands
+- [ ] Add CLI `export` subcommand for TopoJSON output
 - [ ] Set up React application
 - [ ] Integrate Mapbox GL JS for map rendering
 - [ ] Implement λ slider control for surface tension parameter

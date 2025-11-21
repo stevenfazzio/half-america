@@ -32,6 +32,9 @@ dependencies = [
 
     # Environment variables
     "python-dotenv>=1.0",
+
+    # CLI
+    "click>=8.0",
 ]
 
 [project.scripts]

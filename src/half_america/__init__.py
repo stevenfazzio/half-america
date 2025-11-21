@@ -1,2 +1,8 @@
+"""Half of America - topology optimization for population distribution."""
+
+
 def main() -> None:
-    print("Hello from half-america!")
+    """CLI entry point."""
+    from half_america.cli import cli
+
+    cli()

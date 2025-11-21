@@ -313,7 +313,7 @@ Mark the "Pre-compute results" milestone as complete.
 - [x] File contains `[x] Pre-compute results`
 
 #### Manual Verification:
-- [ ] ROADMAP.md accurately reflects project state
+- [x] ROADMAP.md accurately reflects project state
 
 ---
 
@@ -411,16 +411,16 @@ def main() -> None:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Type checking passes: `uv run mypy src/half_america/cli.py`
-- [ ] Linting passes: `uv run ruff check src/half_america/cli.py`
-- [ ] CLI help works: `uv run half-america --help`
-- [ ] Precompute help works: `uv run half-america precompute --help`
+- [x] Type checking passes: `uv run mypy src/half_america/cli.py`
+- [x] Linting passes: `uv run ruff check src/half_america/cli.py`
+- [x] CLI help works: `uv run half-america --help`
+- [x] Precompute help works: `uv run half-america precompute --help`
 
 #### Manual Verification:
-- [ ] `uv run half-america precompute` runs optimization and saves cache
-- [ ] `uv run half-america precompute` (second run) reports cache exists
-- [ ] `uv run half-america precompute --force` rebuilds cache
-- [ ] Cache file appears in `data/cache/processed/`
+- [x] `uv run half-america precompute` runs optimization and saves cache
+- [x] `uv run half-america precompute` (second run) reports cache exists
+- [x] `uv run half-america precompute --force` rebuilds cache
+- [x] Cache file appears in `data/cache/processed/`
 
 ---
 
@@ -452,10 +452,10 @@ to:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] ROADMAP.md contains `Add CLI \`precompute\` command` in Phase 3
+- [x] ROADMAP.md contains `Add CLI \`precompute\` command` in Phase 3
 
 #### Manual Verification:
-- [ ] ROADMAP.md structure is clear and accurate
+- [x] ROADMAP.md structure is clear and accurate
 
 ---
 
