@@ -80,8 +80,8 @@ dev = [
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] `uv sync` completes successfully
-- [ ] `uv run python -c "import pytest_benchmark"` succeeds
+- [x] `uv sync` completes successfully
+- [x] `uv run python -c "import pytest_benchmark"` succeeds
 
 #### Manual Verification:
 - [ ] None required
@@ -219,8 +219,8 @@ def large_graph_data(grid_50x50_gdf) -> GraphData:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] `uv run pytest tests/benchmarks/conftest.py --collect-only` succeeds
-- [ ] Fixtures are discoverable
+- [x] `uv run pytest tests/benchmarks/conftest.py --collect-only` succeeds
+- [x] Fixtures are discoverable
 
 #### Manual Verification:
 - [ ] None required
@@ -422,9 +422,9 @@ class TestSweepLambdaBench:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] `uv run pytest tests/benchmarks/ --benchmark-only` runs all benchmarks
-- [ ] All benchmarks pass (assertions hold)
-- [ ] Benchmark output shows timing statistics
+- [x] `uv run pytest tests/benchmarks/ --benchmark-only` runs all benchmarks
+- [x] All benchmarks pass (assertions hold)
+- [x] Benchmark output shows timing statistics
 
 #### Manual Verification:
 - [ ] Review benchmark output for reasonable timing values
@@ -520,13 +520,13 @@ Based on these baselines:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Benchmark command completes without errors
-- [ ] All benchmarks pass
+- [x] Benchmark command completes without errors
+- [x] All benchmarks pass
 
 #### Manual Verification:
-- [ ] Baseline document created with actual benchmark values
-- [ ] Scaling behavior is reasonable (50×50 takes longer than 20×20)
-- [ ] Results match expected order of magnitude from research document
+- [x] Baseline document created with actual benchmark values
+- [x] Scaling behavior is reasonable (50×50 takes longer than 20×20)
+- [x] Results match expected order of magnitude from research document
 
 ---
 
@@ -555,10 +555,10 @@ With:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] `cat ROADMAP.md | grep -A2 "Performance"` shows updated milestones
+- [x] `cat ROADMAP.md | grep -A2 "Performance"` shows updated milestones
 
 #### Manual Verification:
-- [ ] ROADMAP accurately reflects current state
+- [x] ROADMAP accurately reflects current state
 
 ---
 

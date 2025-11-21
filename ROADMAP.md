@@ -57,7 +57,8 @@ Implement the Max-Flow Min-Cut solver with constraint tuning.
 - [x] Build outer loop for λ parameter sweep (0.0 → 1.0)
 - [x] Pre-compute results for discrete λ values (e.g., 0.0, 0.1, 0.2, ..., 1.0)
 - [x] Add CLI `precompute` command
-- [ ] Performance benchmarking and optimization
+- [x] Performance benchmarking infrastructure (pytest-benchmark suite)
+- [ ] Performance optimization (based on benchmark analysis)
 - [ ] Unit tests for optimization correctness
 
 ---
