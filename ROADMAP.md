@@ -82,6 +82,7 @@ Build the interactive visualization.
 
 ### Milestones
 
+- [ ] Add CLI framework (Click) with `precompute` and `export` subcommands
 - [ ] Set up React application
 - [ ] Integrate Mapbox GL JS for map rendering
 - [ ] Implement λ slider control for surface tension parameter
