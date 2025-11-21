@@ -7,6 +7,10 @@ A topology optimization experiment visualizing US population distribution with s
 
 > Where does half of America *really* live?
 
+## Background
+
+There is a genre of viral maps that frequently circulates on the internet, typically titled "Half of the United States Lives In These Counties" ([example](https://www.businessinsider.com/half-of-the-united-states-lives-in-these-counties-2013-9)). These maps illustrate the extreme geographic concentration of the US population using a simple algorithm: rank counties by population and select the top N until exceeding 50% of the total.
+
 ## The Problem
 
 Traditional "half of America lives here" maps have two issues:
@@ -22,6 +26,8 @@ A slider controls lambda:
 
 - **lambda ~ 0**: Minimizes area, showing high-resolution "dusty" city centers
 - **lambda ~ 1**: Minimizes perimeter, creating smooth, compact blobs
+
+**Note**: Due to computational complexity, geometries for various lambda values are pre-calculated. The web app serves as a visualizer for these pre-computed states.
 
 See [METHODOLOGY.md](METHODOLOGY.md) for the mathematical formulation.
 
@@ -62,7 +68,6 @@ See [ROADMAP.md](ROADMAP.md) for the full implementation plan.
 
 ## Documentation
 
-- [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md) - Full project vision and scope
 - [METHODOLOGY.md](METHODOLOGY.md) - Mathematical formulation and algorithm
 - [ROADMAP.md](ROADMAP.md) - Implementation roadmap
 

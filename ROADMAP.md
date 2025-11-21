@@ -4,7 +4,7 @@ This document outlines the implementation plan for Half of America.
 
 ## Current Status
 
-The project is in its **initial skeleton phase**. Documentation (METHODOLOGY.md, PROJECT_SUMMARY.md) is complete, but functional code has not yet been implemented.
+The project is in its **initial skeleton phase**. Documentation (METHODOLOGY.md, README.md) is complete, but functional code has not yet been implemented.
 
 ---
 

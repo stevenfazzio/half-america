@@ -1,3 +1,11 @@
+> **ARCHIVED**: This document has been archived as of 2025-01-20. It is a static historical
+> record and should not be updated. Current project documentation can be found in:
+> - [README.md](../../README.md) - Project overview and quick start
+> - [METHODOLOGY.md](../../METHODOLOGY.md) - Technical methodology
+> - [ROADMAP.md](../../ROADMAP.md) - Implementation roadmap
+
+---
+
 # Half of America: A Topology Optimization Experiment
 
 ## Background & Inspiration
