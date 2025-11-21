@@ -35,7 +35,7 @@ uv run half-america
 
 **Implementation Stack (from METHODOLOGY.md):**
 - **Data Ingestion:** pandas, cenpy (Census API) - *implemented*
-- **Spatial Logic:** geopandas, libpysal (adjacency graph building) - *Phase 2*
+- **Spatial Logic:** geopandas, libpysal (adjacency graph building) - *implemented*
 - **Optimization:** PyMaxFlow (C++ graph cuts wrapper) - *Phase 3*
 - **Geometry Operations:** shapely, topojson - *implemented*
 - **Web Frontend:** React, Mapbox GL JS - *Phase 5*

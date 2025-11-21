@@ -105,9 +105,60 @@ gdf = load_all_tracts()
 
 Data is cached in `data/cache/` after first download.
 
+## Graph Construction
+
+The graph module builds spatial adjacency graphs from Census Tract data for Max-Flow Min-Cut optimization.
+
+### Quick Start
+
+```python
+from half_america.data import load_all_tracts
+from half_america.graph import load_graph_data, get_graph_summary
+
+# Load tract data (from Phase 1)
+gdf = load_all_tracts()
+
+# Build or load graph (cached after first run)
+graph_data = load_graph_data(gdf)
+print(get_graph_summary(graph_data))
+# {'num_nodes': 73000, 'num_edges': 450000, 'rho_km': 2.5, ...}
+```
+
+### Building Flow Networks
+
+```python
+from half_america.graph import build_flow_network, get_partition
+
+# Build flow network for specific λ and μ
+g = build_flow_network(graph_data.attributes, graph_data.edges, lambda_param=0.5, mu=0.001)
+g.maxflow()
+
+# Extract selected tracts
+selected = get_partition(g, graph_data.num_nodes)
+print(f"Selected {selected.sum()} tracts")
+```
+
+### Available Functions
+
+| Function | Description |
+|----------|-------------|
+| `load_graph_data(gdf)` | Main entry point - builds or loads cached graph data |
+| `get_graph_summary(graph_data)` | Get statistics for loaded graph |
+| `build_flow_network(attrs, edges, λ, μ)` | Construct PyMaxFlow graph for optimization |
+| `get_partition(g, num_nodes)` | Extract selected tracts after maxflow |
+
+### Data Types
+
+| Type | Description |
+|------|-------------|
+| `GraphData` | Complete graph data (edges, attributes, statistics) |
+| `GraphAttributes` | Node/edge attributes (population, area, rho, edge_lengths) |
+
+Graph data is cached in `data/cache/` after first computation.
+
 ## Project Status
 
-**Current Phase**: Data Pipeline Complete (Phase 1)
+**Current Phase**: Graph Construction Complete (Phase 2)
 
 See [ROADMAP.md](ROADMAP.md) for the full implementation plan.
 

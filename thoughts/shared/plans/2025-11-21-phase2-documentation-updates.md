@@ -87,13 +87,13 @@ Update status indicators in README.md and CLAUDE.md to reflect Phase 2 completio
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] `grep "Graph Construction Complete (Phase 2)" README.md` returns a match
-- [ ] `grep "libpysal.*implemented" CLAUDE.md` returns a match
-- [ ] `uv run pytest` passes (no regressions)
+- [x] `grep "Graph Construction Complete (Phase 2)" README.md` returns a match
+- [x] `grep "libpysal.*implemented" CLAUDE.md` returns a match
+- [x] `uv run pytest` passes (no regressions)
 
 #### Manual Verification:
-- [ ] README.md project status section reads correctly
-- [ ] CLAUDE.md implementation stack shows correct annotations
+- [x] README.md project status section reads correctly
+- [x] CLAUDE.md implementation stack shows correct annotations
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that the manual testing was successful before proceeding to the next phase.
 
@@ -171,16 +171,16 @@ Graph data is cached in `data/cache/` after first computation.
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] `grep -c "## Graph Construction" README.md` returns at least 1
-- [ ] `grep "load_graph_data" README.md` returns matches (API documented)
-- [ ] `grep "build_flow_network" README.md` returns matches
-- [ ] Markdown renders correctly (no syntax errors)
+- [x] `grep -c "## Graph Construction" README.md` returns at least 1
+- [x] `grep "load_graph_data" README.md` returns matches (API documented)
+- [x] `grep "build_flow_network" README.md` returns matches
+- [x] Markdown renders correctly (no syntax errors)
 
 #### Manual Verification:
-- [ ] Graph Construction section appears in correct location (after Data Pipeline, before Project Status)
-- [ ] Code examples are accurate and follow project conventions
-- [ ] Table formatting renders correctly
-- [ ] Section provides useful information for users
+- [x] Graph Construction section appears in correct location (after Data Pipeline, before Project Status)
+- [x] Code examples are accurate and follow project conventions
+- [x] Table formatting renders correctly
+- [x] Section provides useful information for users
 
 **Implementation Note**: After completing this phase, run full verification to confirm all documentation is consistent.
 
