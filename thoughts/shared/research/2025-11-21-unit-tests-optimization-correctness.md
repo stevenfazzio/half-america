@@ -9,6 +9,7 @@ tags: [research, codebase, optimization, testing, phase3]
 status: complete
 last_updated: 2025-11-21
 last_updated_by: Claude
+last_updated_note: "Resolved open questions with design decisions"
 ---
 
 # Research: Unit Tests for Optimization Correctness
@@ -236,20 +237,73 @@ Related implementation documents:
 - Lower priority unless issues arise
 - Tests: extreme values, edge cases
 
-## Open Questions
+## Design Decisions
 
-1. **Test data coverage**: Should correctness tests use real Census data or synthetic fixtures?
-   - Pro synthetic: Deterministic, fast, known expected values
-   - Pro real data: Catches real-world edge cases
+### 1. Test Data: Synthetic Fixtures
 
-2. **Brute force scope**: For optimality tests, what's the maximum graph size for brute-force?
-   - 2^n grows fast: n=20 is ~1M partitions
-   - Recommend: n≤8 for brute-force tests (256 partitions)
+**Decision:** Use **synthetic fixtures** for correctness tests, keep real Census data for integration tests.
 
-3. **Energy function access**: Currently `solve_partition` doesn't return energy value
-   - May need to add `energy` field to `OptimizationResult`
-   - Or create separate `compute_energy()` function for testing
+**Rationale:**
+- Correctness tests need known ground truth - can't verify "correctness" without expected answers
+- Synthetic data is deterministic, fast, and has no API dependency
+- Real-world edge cases are already covered by `@pytest.mark.integration` tests
+- Easy to compute expected values by hand for debugging
 
-4. **Tolerance for "correctness"**: What numerical tolerance is acceptable?
-   - Current `TARGET_TOLERANCE = 0.01` (1% population deviation)
-   - For testing, might need tighter tolerance on synthetic data
+### 2. Brute-Force Graph Size: n=4 to n=8
+
+**Decision:** Use **n=4 to n=8 nodes** for brute-force optimality tests, parametrized.
+
+**Rationale:**
+| Size (n) | Partitions (2^n) | Feasibility |
+|----------|------------------|-------------|
+| 4 | 16 | Trivial, verifiable by hand |
+| 8 | 256 | Instant execution |
+| 12 | 4,096 | <1 second |
+| 16 | 65,536 | Seconds (too slow for unit tests) |
+
+Use parametrized tests:
+```python
+@pytest.mark.parametrize("n", [3, 4, 5, 6])
+def test_optimal_vs_brute_force(n, ...):
+```
+
+### 3. Energy Function: Add Field to OptimizationResult
+
+**Decision:** Add `energy` field to `OptimizationResult` NamedTuple.
+
+**Rationale:**
+- Clean API - energy is always available alongside other results
+- Useful beyond testing - users may want to see energy values
+- The `flow_value` is already returned; energy is a small extension
+- Keeps correctness verification tied to actual production code
+- Avoids duplicating logic in a separate `compute_energy()` function
+
+**Implementation note:** The min-cut value from PyMaxFlow corresponds to the energy. The relationship is:
+```python
+energy = flow_value  # For the cut itself
+# Plus constant terms for the partition assignment
+```
+
+### 4. Tolerances: Exact or Near-Exact for Synthetic Data
+
+**Decision:** Use **exact matches** for integers, **tight tolerances** (rel=1e-9) for floats.
+
+**Rationale:**
+- The 1% production tolerance (`TARGET_TOLERANCE=0.01`) exists because discrete nodes can't always hit exactly 50%
+- Synthetic fixtures can be designed to have exact solutions
+- Correctness tests should catch any deviation
+
+**Guidelines:**
+```python
+# Partition: exact boolean match
+assert np.array_equal(result.partition, expected_partition)
+
+# Energy: floating-point precision
+assert result.energy == pytest.approx(expected_energy, rel=1e-9)
+
+# Population sums: exact integers
+assert result.selected_population + unselected == result.total_population
+
+# Area sums: near-exact floats
+assert result.selected_area + unselected_area == pytest.approx(result.total_area)
+```
