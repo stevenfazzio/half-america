@@ -4,7 +4,7 @@ This document outlines the implementation plan for Half of America.
 
 ## Current Status
 
-**Phase 2: Graph Construction** is complete. The project can build spatial adjacency graphs using Queen contiguity, compute shared boundary lengths, and construct s-t flow networks ready for optimization.
+**Phase 3: Optimization Engine** is nearly complete. The Max-Flow Min-Cut solver, binary search for Lagrange multiplier, lambda parameter sweep, and pre-computation CLI are all implemented. Performance benchmarking confirmed acceptable performance (~10-15s for full sweep). Only unit tests for optimization correctness remain.
 
 ---
 
@@ -58,7 +58,10 @@ Implement the Max-Flow Min-Cut solver with constraint tuning.
 - [x] Pre-compute results for discrete λ values (e.g., 0.0, 0.1, 0.2, ..., 1.0)
 - [x] Add CLI `precompute` command
 - [x] Performance benchmarking infrastructure (pytest-benchmark suite)
-- [ ] Performance optimization (based on benchmark analysis)
+- [x] Performance optimization (based on benchmark analysis)
+  - Benchmarks show ~10-15s for full sweep (acceptable for pre-computation)
+  - Primary bottleneck is PyMaxFlow C++ solver (not optimizable from Python)
+  - Micro-optimizations deferred as unnecessary
 - [ ] Unit tests for optimization correctness
 
 ---
