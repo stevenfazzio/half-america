@@ -101,10 +101,10 @@ Build the interactive visualization.
 
 Ideas for future development:
 
-- **Historical comparisons**: Show how the 50% boundary has shifted over census periods
+- **Fine λ granularity**: Support 0.01 increments (101 values) for smooth animations
+- **Variable region granularity**: Support other region types (e.g. state, county)
+- **Alternative metrics**: Optimize for other variables (e.g. number of regions instead of perimeter)
 - **Custom thresholds**: Allow users to select different population percentages (25%, 75%, etc.)
 - **State-level views**: Run optimization within individual states
-- **Alternative metrics**: Optimize for other variables (income, housing, etc.)
 - **Real-time computation**: WebAssembly port for client-side optimization
 - **Animation**: Animate the λ sweep from dusty (λ=0) to smooth (λ=1)
-- **Fine λ granularity**: Support 0.01 increments (101 values) for smooth animations
