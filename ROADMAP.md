@@ -128,7 +128,7 @@ web/                        # Frontend application
 
 ## Phase 6: Final Touches
 
-Build the spatial adjacency graph from Census Tract data.
+Final improvements for v1
 
 ### Milestones
 
