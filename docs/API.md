@@ -196,7 +196,7 @@ Merge selected tracts into unified geometries.
 
 | Type | Description |
 |------|-------------|
-| `DissolveResult` | Dissolved geometry with num_parts, total_area_sqm, num_tracts |
+| `DissolveResult` | Dissolved geometry with num_parts, total_area_sqm, num_tracts, population_selected |
 
 ### Simplify Module
 

@@ -26,6 +26,7 @@ uv run ruff check src/ tests/        # Lint
 uv run mypy src/                     # Type check
 uv run half-america                  # Run CLI
 uv run half-america precompute       # Pre-compute optimization results
+uv run half-america export           # Export TopoJSON files
 ```
 
 ## Cache Management

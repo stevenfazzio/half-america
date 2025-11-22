@@ -69,6 +69,13 @@ uv run ruff check src/ tests/
 
 # Type check
 uv run mypy src/
+
+# Export TopoJSON files
+uv run half-america export
+
+# Export with options
+uv run half-america export --combined      # Include combined.json
+uv run half-america export --force         # Overwrite existing
 ```
 
 ## API Reference
@@ -95,13 +102,26 @@ result = sweep_lambda(graph_data)
 for lambda_val, lambda_result in result.results.items():
     opt = lambda_result.search_result.result
     print(f"lambda={lambda_val:.1f}: {opt.population_fraction:.2%} selected")
+
+# Post-process for web delivery
+from half_america.postprocess import (
+    dissolve_all_lambdas,
+    simplify_all_lambdas,
+    export_all_lambdas,
+)
+
+# Transform optimization results to web-ready TopoJSON
+dissolve_results = dissolve_all_lambdas(gdf, result)
+simplify_results = simplify_all_lambdas(dissolve_results)
+export_results = export_all_lambdas(simplify_results, dissolve_results)
+# Output: data/output/topojson/lambda_0.0.json, lambda_0.1.json, ...
 ```
 
 See [METHODOLOGY.md](METHODOLOGY.md) for algorithm details.
 
 ## Project Status
 
-**Current Phase**: Optimization Engine Complete (Phase 3)
+**Current Phase**: Post-Processing Complete (Phase 4)
 
 For more information:
 - [ROADMAP.md](ROADMAP.md) - Implementation plan

@@ -81,11 +81,11 @@ Update status indicators in ROADMAP.md and README.md to reflect Phase 4 completi
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] No "Phase 3" in status sections: `grep -n "Phase 3" README.md ROADMAP.md` returns no status-related matches
-- [ ] Grep finds "Phase 4": `grep -n "Phase 4.*complete" ROADMAP.md README.md`
+- [x] No "Phase 3" in status sections: `grep -n "Phase 3" README.md ROADMAP.md` returns no status-related matches
+- [x] Grep finds "Phase 4": `grep -n "Phase 4.*complete" ROADMAP.md README.md`
 
 #### Manual Verification:
-- [ ] Status sections read naturally and accurately
+- [x] Status sections read naturally and accurately
 
 **Implementation Note**: Simple find-and-replace edits. Proceed to next phase after verification.
 
@@ -125,11 +125,11 @@ uv run half-america export           # Export TopoJSON files
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Export command in README: `grep -n "half-america export" README.md`
-- [ ] Export command in CLAUDE.md: `grep -n "half-america export" CLAUDE.md`
+- [x] Export command in README: `grep -n "half-america export" README.md`
+- [x] Export command in CLAUDE.md: `grep -n "half-america export" CLAUDE.md`
 
 #### Manual Verification:
-- [ ] Command examples are consistent with actual CLI behavior
+- [x] Command examples are consistent with actual CLI behavior
 
 **Implementation Note**: Add export commands to existing command lists. Proceed to next phase after verification.
 
@@ -173,11 +173,11 @@ Correct "Visvalingam-Whyatt" to "Douglas-Peucker" in ROADMAP.md and METHODOLOGY.
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] No Visvalingam references: `grep -ri "visvalingam" *.md docs/` returns no matches
-- [ ] Douglas-Peucker present: `grep -n "Douglas-Peucker" ROADMAP.md METHODOLOGY.md`
+- [x] No Visvalingam references: `grep -ri "visvalingam" *.md docs/` returns no matches
+- [x] Douglas-Peucker present: `grep -n "Douglas-Peucker" ROADMAP.md METHODOLOGY.md`
 
 #### Manual Verification:
-- [ ] Algorithm name is consistent across all documentation
+- [x] Algorithm name is consistent across all documentation
 
 **Implementation Note**: Simple text replacement. Proceed to next phase after verification.
 
@@ -207,10 +207,10 @@ Add `population_selected` to the DissolveResult description in docs/API.md.
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Field documented: `grep -n "population_selected" docs/API.md`
+- [x] Field documented: `grep -n "population_selected" docs/API.md`
 
 #### Manual Verification:
-- [ ] DissolveResult description matches actual class fields
+- [x] DissolveResult description matches actual class fields
 
 **Implementation Note**: Single line edit. Proceed to next phase after verification.
 
@@ -248,12 +248,12 @@ export_results = export_all_lambdas(simplify_results, dissolve_results)
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Post-process imports present: `grep -n "dissolve_all_lambdas" README.md`
-- [ ] Export example present: `grep -n "export_all_lambdas" README.md`
+- [x] Post-process imports present: `grep -n "dissolve_all_lambdas" README.md`
+- [x] Export example present: `grep -n "export_all_lambdas" README.md`
 
 #### Manual Verification:
-- [ ] Example code is syntactically correct
-- [ ] Example flows naturally from existing Quick Start
+- [x] Example code is syntactically correct
+- [x] Example flows naturally from existing Quick Start
 
 **Implementation Note**: Extend existing code block. This completes the documentation updates.
 
@@ -280,11 +280,11 @@ The simplification step uses a tolerance of 500 meters (in the projected coordin
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] New content present: `grep -n "500 meters" METHODOLOGY.md`
+- [x] New content present: `grep -n "500 meters" METHODOLOGY.md`
 
 #### Manual Verification:
-- [ ] Content is appropriately theoretical (not implementation-focused)
-- [ ] Tone matches rest of document
+- [x] Content is appropriately theoretical (not implementation-focused)
+- [x] Tone matches rest of document
 
 **Implementation Note**: Optional enhancement. Can be skipped if time-constrained.
 

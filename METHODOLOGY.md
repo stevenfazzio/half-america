@@ -76,8 +76,10 @@ Since the population constraint ($\sum p_i \approx 0.5 P_{total}$) is hard, but 
 The raw output is a list of 30,000+ disconnected tract IDs. To render this efficiently on the web:
 
 1.  **Dissolve:** Merge selected tracts into unified `MultiPolygon` geometries using `shapely.ops.unary_union`.
-2.  **Simplification:** Apply Visvalingam-Whyatt simplification to reduce vertex count while preserving shape topology.
+2.  **Simplification:** Apply Douglas-Peucker simplification to reduce vertex count while preserving shape topology.
 3.  **Export:** Save geometry as **TopoJSON**. This format is crucial as it encodes shared topology, preventing gaps from appearing between shapes during rendering.
+
+The simplification step uses a tolerance of 500 meters (in the projected coordinate system), which achieves approximately 98% vertex reduction while preserving visual fidelity at typical web map zoom levels. The final TopoJSON export transforms coordinates from the equal-area projection (EPSG:5070) to WGS84 (EPSG:4326) for web map compatibility.
 
 ## 5. Implementation Stack
 

@@ -4,7 +4,7 @@ This document outlines the implementation plan for Half of America.
 
 ## Current Status
 
-**Phase 4: Post-Processing** is in progress. One remaining milestone: add population metadata to DissolveResult.
+**Phase 4: Post-Processing** is complete. Moving to Phase 5: Web Frontend.
 
 ---
 
@@ -73,7 +73,7 @@ Transform optimization output into web-ready geometries.
 ### Milestones
 
 - [x] Dissolve selected tracts into MultiPolygon geometries (shapely.ops.unary_union)
-- [x] Apply Visvalingam-Whyatt simplification for web performance
+- [x] Apply Douglas-Peucker simplification for web performance
 - [x] Export as TopoJSON
 - [x] Add CLI `export` command for TopoJSON output
 - [x] Generate pre-computed geometry files for all λ values
