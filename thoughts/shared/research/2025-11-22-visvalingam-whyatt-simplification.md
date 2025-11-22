@@ -1,7 +1,7 @@
 ---
 date: 2025-11-22T05:30:00-08:00
 researcher: Claude
-git_commit: 11428600a813d95910086af31d8605c363719184
+git_commit: 1adaa0b94b530417d355eff0b39580c6bdf50ca7
 branch: master
 repository: half-america
 topic: "Visvalingam-Whyatt Simplification for Web Performance"
@@ -9,6 +9,7 @@ tags: [research, simplification, visvalingam-whyatt, topojson, web-performance, 
 status: complete
 last_updated: 2025-11-22
 last_updated_by: Claude
+last_updated_note: "Added follow-up research for open questions (tolerance tuning, per-lambda tolerance, coordinate precision, output structure)"
 ---
 
 # Research: Visvalingam-Whyatt Simplification for Web Performance
@@ -323,16 +324,145 @@ def simplify_geometry(
 - `thoughts/shared/research/2025-11-21-phase4-post-processing.md` - Initial Phase 4 research
 - `thoughts/shared/research/2025-11-21-dissolve-tracts-implementation.md` - Dissolve milestone research
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Tolerance tuning:** What tolerance produces acceptable visual quality? Needs visual testing.
-2. **Per-lambda tolerance:** Should high-λ (smooth) geometries use different tolerance than low-λ (dusty)?
-3. **Coordinate precision:** Should we truncate coordinates during export (e.g., 5 decimal places)?
-4. **Output structure:** Single TopoJSON with all lambdas, or separate files per lambda?
+### Q1: Tolerance Tuning - What tolerance produces acceptable visual quality?
+
+**Answer: 500-1000m tolerance for EPSG:5070**
+
+Empirical testing on ~42,000 tract sample (50% random selection):
+
+| Tolerance | Vertices | Reduction | Est. GeoJSON Size |
+|-----------|----------|-----------|-------------------|
+| 100m | 489,121 | 95.3% | ~24.5 MB |
+| 250m | 274,434 | 97.4% | ~13.7 MB |
+| **500m** | **174,720** | **98.3%** | **~8.7 MB** |
+| **1000m** | **109,948** | **98.9%** | **~5.5 MB** |
+| 2500m | 62,802 | 99.4% | ~3.1 MB |
+| 5000m | 45,832 | 99.6% | ~2.3 MB |
+
+**Recommendation:** Start with **500m** for standard web display. This provides:
+- 98.3% vertex reduction (10.4M → 175K vertices)
+- ~8.7 MB GeoJSON (before TopoJSON conversion)
+- All 3,358 polygon parts preserved (no feature loss)
+- Good detail at zoom levels 5-10
+
+**Zoom-level guidance:**
+- Zoom 0-4 (continental): 2500-5000m
+- Zoom 5-7 (regional): 1000m
+- Zoom 8-10 (state/metro): 500m
+- Zoom 11+ (city): 100-250m
+
+### Q2: Per-Lambda Tolerance - Different tolerance for dusty vs. smooth?
+
+**Answer: No - use consistent tolerance across all lambda values**
+
+Research findings:
+1. **No industry consensus** on per-geometry-type tolerances
+2. **Visvalingam-Whyatt naturally adapts** - removes "least-perceptible" changes first
+3. **Small feature preservation is the key concern** - use `preserve_topology=True`
+
+The "dusty" appearance at low λ is *intentional* - those single-tract islands represent real population patterns. Using more aggressive simplification would defeat the purpose.
+
+**Recommendation:** Use **500m tolerance for all lambda values** with `preserve_topology=True`. If needed, add post-simplification minimum area filtering for high-λ only.
+
+### Q3: Coordinate Precision - Truncate to 5-6 decimal places?
+
+**Answer: Yes - 5 decimal places (~1m precision)**
+
+Per RFC 7946 (GeoJSON specification):
+- 6 decimal places = ~10cm precision (overkill for census tracts)
+- 5 decimal places = ~1m precision (sufficient for visualization)
+- File size reduction: ~50% from truncating 15 → 5 decimals
+
+**Recommendation:**
+```python
+COORDINATE_PRECISION = 5  # ~1 meter accuracy
+```
+
+**TopoJSON quantization:** Use `1e5` (100,000) for good balance of precision and size.
+
+### Q4: Output Structure - Single TopoJSON or separate files?
+
+**Answer: Single TopoJSON with multiple named objects**
+
+Reasons:
+1. **Arc sharing**: Different λ values share boundary segments; single file deduplicates arcs (60-80% reduction)
+2. **Network efficiency**: 1 request vs. 20 separate HTTP requests
+3. **Instant interaction**: Preloaded data means slider response without fetch delays
+
+**Structure:**
+```json
+{
+  "type": "Topology",
+  "objects": {
+    "lambda_000": { /* λ=0.00 geometry */ },
+    "lambda_005": { /* λ=0.05 geometry */ },
+    // ... up to lambda_090
+  },
+  "arcs": [...],  // Shared across all lambda values
+  "bbox": [...]
+}
+```
+
+**Target file size:** < 500KB after simplification + quantization + gzip
+
+## Decision: Option A (Simplify Dissolved Parts)
+
+We are proceeding with **Option A: Simplify Dissolved Parts** using `shapely.simplify()`:
+
+```python
+simplified = shapely.simplify(
+    dissolved_geometry,
+    tolerance=500.0,  # meters (EPSG:5070)
+    preserve_topology=True
+)
+```
+
+**Rationale:**
+- After dissolve, polygon parts are disconnected islands (not adjacent)
+- `coverage_simplify()` provides no benefit over `simplify()` for disconnected geometries
+- Simpler implementation, faster execution
+- Operates on ~2,780 parts, not 73k tracts
 
 ## Recommended Next Steps
 
 1. Implement `simplify.py` module with `simplify_geometry()` function
 2. Add unit tests for simplification
-3. Add visual comparison script to tune tolerance values
-4. Proceed to TopoJSON export milestone
+3. Implement TopoJSON export with multi-object structure
+4. Validate file sizes against < 500KB target
+
+---
+
+## Follow-up Research (2025-11-22)
+
+### Empirical Testing Results
+
+Tested on random 50% tract sample (41,800 tracts → 3,358 dissolved parts):
+
+**Original geometry:** 10,388,378 vertices
+
+**Simplification preserves all parts:** At 500m tolerance, all 3,358 parts retained (no feature loss).
+
+**Small polygon distribution after 500m simplification:**
+- Parts < 1 km²: 422 (12.6%)
+- Parts < 10 km²: 1,705 (50.8%)
+- Median part area: 9.59 km²
+- Largest part: 1,790,983 km² (continental US mainland)
+
+### Web Sources Consulted
+
+**Tolerance & Simplification:**
+- [OpenStreetMap Wiki - Zoom Levels](https://wiki.openstreetmap.org/wiki/Zoom_levels)
+- [Mapbox Zoom Level Documentation](https://docs.mapbox.com/help/glossary/zoom-level/)
+- [Tippecanoe GitHub README](https://github.com/mapbox/tippecanoe)
+- [Line Simplification - Mike Bostock](https://bost.ocks.org/mike/simplify/)
+
+**Coordinate Precision:**
+- [RFC 7946 - The GeoJSON Format](https://datatracker.ietf.org/doc/html/rfc7946)
+- [Mapbox - GeoJSON Coordinate Precision](https://docs.mapbox.com/help/dive-deeper/geojson-coordinate-precision/)
+
+**TopoJSON Structure:**
+- [TopoJSON GitHub](https://github.com/topojson/topojson)
+- [TopoJSON Cheat Sheet - Observable](https://observablehq.com/@neocartocnrs/cheat-sheet-topojson)
+- [Mapbox - Working with Large GeoJSON](https://docs.mapbox.com/help/troubleshooting/working-with-large-geojson-data/)
