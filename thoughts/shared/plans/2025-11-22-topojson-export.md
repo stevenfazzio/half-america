@@ -239,13 +239,13 @@ __all__ = [
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Type checking passes: `uv run mypy src/half_america/postprocess/export.py`
-- [ ] Linting passes: `uv run ruff check src/half_america/postprocess/`
-- [ ] Module imports successfully: `uv run python -c "from half_america.postprocess import export_to_topojson"`
+- [x] Type checking passes: `uv run mypy src/half_america/postprocess/export.py`
+- [x] Linting passes: `uv run ruff check src/half_america/postprocess/`
+- [x] Module imports successfully: `uv run python -c "from half_america.postprocess import export_to_topojson"`
 
 #### Manual Verification:
-- [ ] Test export with sample geometry produces valid TopoJSON file
-- [ ] Output file is valid JSON and contains expected structure
+- [x] Test export with sample geometry produces valid TopoJSON file
+- [x] Output file is valid JSON and contains expected structure
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to Phase 2.
 
@@ -418,13 +418,13 @@ from half_america.postprocess.export import (
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Type checking passes: `uv run mypy src/half_america/postprocess/export.py`
-- [ ] Linting passes: `uv run ruff check src/half_america/postprocess/`
-- [ ] All exports available: `uv run python -c "from half_america.postprocess import export_all_lambdas, export_combined_topojson"`
+- [x] Type checking passes: `uv run mypy src/half_america/postprocess/export.py`
+- [x] Linting passes: `uv run ruff check src/half_america/postprocess/`
+- [x] All exports available: `uv run python -c "from half_america.postprocess import export_all_lambdas, export_combined_topojson"`
 
 #### Manual Verification:
-- [ ] Batch export produces correct number of files
-- [ ] Combined export creates single file with multiple objects
+- [x] Batch export produces correct number of files
+- [x] Combined export creates single file with multiple objects
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to Phase 3.
 
@@ -542,16 +542,16 @@ def export(
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Type checking passes: `uv run mypy src/half_america/cli.py`
-- [ ] Linting passes: `uv run ruff check src/half_america/cli.py`
-- [ ] CLI help shows export command: `uv run half-america --help`
-- [ ] Export command help works: `uv run half-america export --help`
+- [x] Type checking passes: `uv run mypy src/half_america/cli.py`
+- [x] Linting passes: `uv run ruff check src/half_america/cli.py`
+- [x] CLI help shows export command: `uv run half-america --help`
+- [x] Export command help works: `uv run half-america export --help`
 
 #### Manual Verification:
-- [ ] `uv run half-america export` creates TopoJSON files in `data/output/topojson/`
-- [ ] `uv run half-america export --combined` also creates `combined.json`
-- [ ] `--force` flag properly overwrites existing files
-- [ ] Error handling works when sweep cache doesn't exist
+- [x] `uv run half-america export` creates TopoJSON files in `data/output/topojson/`
+- [x] `uv run half-america export --combined` also creates `combined.json`
+- [x] `--force` flag properly overwrites existing files
+- [x] Error handling works when sweep cache doesn't exist
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to Phase 4.
 
@@ -843,7 +843,7 @@ def sample_dissolve_results() -> dict[float, DissolveResult]:
 **File**: `docs/API.md`
 **Changes**: Add export module documentation (in Post-Processing section)
 
-```markdown
+````markdown
 ### Export Module
 
 Export simplified geometries to TopoJSON format for web delivery.
@@ -911,7 +911,7 @@ class ExportMetadata(NamedTuple):
 #### Constants
 
 - `DEFAULT_QUANTIZATION = 1e5` - Default TopoJSON quantization factor
-```
+````
 
 #### 3. Update ROADMAP.md
 **File**: `ROADMAP.md`
@@ -922,15 +922,15 @@ Find the Phase 4 section and update the TopoJSON export checkbox from `[ ]` to `
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] All tests pass: `uv run pytest tests/test_postprocess/test_export.py -v`
-- [ ] Full test suite passes: `uv run pytest`
-- [ ] Type checking passes: `uv run mypy src/`
-- [ ] Linting passes: `uv run ruff check src/ tests/`
+- [x] All tests pass: `uv run pytest tests/test_postprocess/test_export.py -v`
+- [x] Full test suite passes: `uv run pytest`
+- [x] Type checking passes: `uv run mypy src/`
+- [x] Linting passes: `uv run ruff check src/ tests/`
 
 #### Manual Verification:
-- [ ] API.md documentation is accurate and complete
-- [ ] ROADMAP.md shows TopoJSON export as complete
-- [ ] Test coverage is comprehensive (edge cases, error handling)
+- [x] API.md documentation is accurate and complete
+- [x] ROADMAP.md shows TopoJSON export as complete
+- [x] Test coverage is comprehensive (edge cases, error handling)
 
 **Implementation Note**: After completing this phase and all automated verification passes, the TopoJSON export feature is complete.
 

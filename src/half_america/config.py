@@ -18,6 +18,8 @@ RAW_DIR = CACHE_DIR / "raw"
 TIGER_DIR = RAW_DIR / "tiger"
 CENSUS_DIR = RAW_DIR / "census"
 PROCESSED_DIR = CACHE_DIR / "processed"
+OUTPUT_DIR = DATA_DIR / "output"
+TOPOJSON_DIR = OUTPUT_DIR / "topojson"
 
 # Census API configuration
 CENSUS_API_KEY = os.getenv("CENSUS_API_KEY")

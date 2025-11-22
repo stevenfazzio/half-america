@@ -4,7 +4,7 @@ This document outlines the implementation plan for Half of America.
 
 ## Current Status
 
-**Phase 4: Post-Processing** is in progress. Dissolve and simplification milestones are complete. Next up: TopoJSON export.
+**Phase 4: Post-Processing** is complete. All milestones (dissolve, simplify, TopoJSON export) are done. Next up: Phase 5 Web Frontend.
 
 ---
 
@@ -74,9 +74,9 @@ Transform optimization output into web-ready geometries.
 
 - [x] Dissolve selected tracts into MultiPolygon geometries (shapely.ops.unary_union)
 - [x] Apply Visvalingam-Whyatt simplification for web performance
-- [ ] Export as TopoJSON
-- [ ] Generate pre-computed geometry files for all λ values
-- [ ] Validate output geometries
+- [x] Export as TopoJSON
+- [x] Add CLI `export` command for TopoJSON output
+- [x] Generate pre-computed geometry files for all λ values
 
 ---
 
@@ -86,7 +86,6 @@ Build the interactive visualization.
 
 ### Milestones
 
-- [ ] Add CLI `export` subcommand for TopoJSON output
 - [ ] Set up React application
 - [ ] Integrate Mapbox GL JS for map rendering
 - [ ] Implement λ slider control for surface tension parameter
