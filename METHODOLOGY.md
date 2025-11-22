@@ -1,5 +1,17 @@
 # Technical Methodology
 
+## Motivation
+
+Traditional "half of America" visualizations face several technical limitations:
+
+1. **County Resolution**: County boundaries encompass vast unpopulated areas. San Bernardino County, for example, exceeds the land area of nine US states while containing primarily desert terrain.
+
+2. **Dust Artifacts**: Using finer-grained units (e.g., Census Tracts) produces thousands of disconnected micro-regions. While mathematically accurate, this exceeds human perceptual limits for visual reasoning.
+
+3. **Bridge Artifacts**: Minimizing region *count* to consolidate dust produces degenerate geometries with narrow "bridge" connections between dense population centers.
+
+This methodology addresses these issues by minimizing *perimeter* rather than region count, producing smooth, topologically coherent shapes that remain accurate representations of population concentration.
+
 ## 1. Data Sources & Preprocessing
 To address the resolution limits of county-level maps, this project utilizes **US Census Tracts**.
 

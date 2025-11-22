@@ -150,15 +150,15 @@ See [METHODOLOGY.md](METHODOLOGY.md) for the mathematical formulation.
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File exists and is valid markdown: `cat README.md | head -50`
-- [ ] No broken links: Check that METHODOLOGY.md link resolves
-- [ ] Tagline no longer contains "topology optimization experiment"
-- [ ] Blockquote no longer contains "Where does half of America"
+- [x] File exists and is valid markdown: `cat README.md | head -50`
+- [x] No broken links: Check that METHODOLOGY.md link resolves
+- [x] Tagline no longer contains "topology optimization experiment"
+- [x] Blockquote no longer contains "Where does half of America"
 
 #### Manual Verification:
-- [ ] Evolution story reads naturally and tells the iterative journey
-- [ ] No mention of "portfolio" in the file
-- [ ] Tone is approachable for general audience
+- [x] Evolution story reads naturally and tells the iterative journey
+- [x] No mention of "portfolio" in the file
+- [x] Tone is approachable for general audience
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that the changes look good before proceeding to the next phase.
 
@@ -215,14 +215,14 @@ The approach evolved through iteration:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File exists and is valid markdown: `cat CLAUDE.md | head -30`
-- [ ] Contains "portfolio piece": `grep -c "portfolio" CLAUDE.md` returns 1
-- [ ] Contains "Project Goals": `grep -c "Project Goals" CLAUDE.md` returns 1
-- [ ] Contains "Project Evolution": `grep -c "Project Evolution" CLAUDE.md` returns 1
+- [x] File exists and is valid markdown: `cat CLAUDE.md | head -30`
+- [x] Contains "portfolio piece": `grep -c "portfolio" CLAUDE.md` returns 1
+- [x] Contains "Project Goals": `grep -c "Project Goals" CLAUDE.md` returns 1
+- [x] Contains "Project Evolution": `grep -c "Project Evolution" CLAUDE.md` returns 1
 
 #### Manual Verification:
-- [ ] Project Overview accurately describes the project's purpose
-- [ ] Evolution section provides useful context for developers/AI
+- [x] Project Overview accurately describes the project's purpose
+- [x] Evolution section provides useful context for developers/AI
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that the changes look good before proceeding to the next phase.
 
@@ -260,13 +260,13 @@ This methodology addresses these issues by minimizing *perimeter* rather than re
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File exists and is valid markdown: `cat METHODOLOGY.md | head -20`
-- [ ] Contains "## Motivation": `grep -c "## Motivation" METHODOLOGY.md` returns 1
-- [ ] Section appears before "## 1. Data Sources": Line number of Motivation < line number of Data Sources
+- [x] File exists and is valid markdown: `cat METHODOLOGY.md | head -20`
+- [x] Contains "## Motivation": `grep -c "## Motivation" METHODOLOGY.md` returns 1
+- [x] Section appears before "## 1. Data Sources": Line number of Motivation < line number of Data Sources
 
 #### Manual Verification:
-- [ ] Motivation section matches technical tone of rest of file
-- [ ] Provides useful context for readers approaching the technical content
+- [x] Motivation section matches technical tone of rest of file
+- [x] Provides useful context for readers approaching the technical content
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that all documentation changes are complete and accurate.
 

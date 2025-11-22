@@ -3,31 +3,36 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A topology optimization experiment that treats the 'Half of America' map as a fluid, replacing dusty dots with smooth, organic population blobs.
+An experimental data visualization exploring US population concentration. Interactive map highlighting where 50% of Americans live, with a slider to balance area minimization vs. perimeter smoothness.
 
-> Where does half of America *really* live?
+> Half of America lives in a *very* small area. See for yourself.
 
-## The Problem
+## Background
 
-There is a genre of viral maps that frequently circulates on the internet, typically titled "Half of the United States Lives In These Counties" ([example](https://www.businessinsider.com/half-of-the-united-states-lives-in-these-counties-2013-9)). These maps illustrate the extreme geographic concentration of the US population using a simple algorithm: rank counties by population and select the top N until exceeding 50% of the total.
+There is a genre of viral maps that frequently circulates on the internet, typically titled "Half of the United States Lives In These Counties" ([example](https://www.businessinsider.com/half-of-the-united-states-lives-in-these-counties-2013-9)). These maps show how concentrated the US population is by selecting the most populous counties until reaching 50% of the total population.
 
-Traditional approaches have two issues:
+This project evolved through several iterations:
 
-1. **The San Bernardino Problem**: County boundaries include vast empty areas (San Bernardino County is larger than nine US states but mostly desert)
-2. **The Dust Problem**: Using smaller units creates thousands of disconnected specks that fail as visualization
+1. **The San Bernardino Problem**: County-level maps include vast empty areas (San Bernardino County is larger than nine US states but mostly desert). Solution: use Census Tracts (~73,000 units) instead of counties (~3,100).
 
-This project solves both using **Max-Flow Min-Cut optimization** with a user-controlled "surface tension" parameter.
+2. **The Dust Problem**: Census tracts created thousands of tiny disconnected regions. While technically accurate, humans struggle to visually reason about thousands of tiny specks. The map was accurate but not *compelling*.
+
+3. **The Bridge Problem**: Minimizing region *count* (to reduce dust) created oddly-shaped regions with narrow "bridges" connecting dense areas.
+
+4. **The Solution**: Minimize *perimeter* instead. This produces smooth, organic shapes that are easier to visually interpret while remaining accurate. Implemented via **Max-Flow Min-Cut optimization** with a user-controlled "surface tension" parameter.
 
 ## How It Works
 
+The visualization shows how concentrated the US population is—50% of Americans live in a surprisingly small area. The challenge is presenting this in a visually compelling way.
+
 A slider controls lambda (0 to <1):
 
-- **lambda ~ 0**: Minimizes area, showing high-resolution "dusty" city centers
-- **lambda ~ 0.9**: Minimizes perimeter, creating smooth, compact blobs
+- **lambda ~ 0**: Minimizes total area. Shows high-resolution "dusty" city centers—accurate but hard to visually process.
+- **lambda ~ 0.9**: Minimizes perimeter. Creates smooth, compact blobs that are easier to reason about while still being accurate.
 
-Note: lambda=1.0 is mathematically degenerate and excluded from valid values.
+The slider lets you explore the tradeoff between precision and visual clarity.
 
-**Note**: Due to computational complexity, geometries for various lambda values are pre-calculated. The web app serves as a visualizer for these pre-computed states.
+Note: lambda=1.0 is mathematically degenerate and excluded from valid values. Due to computational complexity, geometries for various lambda values are pre-calculated. The web app serves as a visualizer for these pre-computed states.
 
 See [METHODOLOGY.md](METHODOLOGY.md) for the mathematical formulation.
 

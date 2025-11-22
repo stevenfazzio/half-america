@@ -4,7 +4,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Half of America is a topology optimization experiment that creates an interactive visualization of US population distribution. Instead of simple county-level "half of America lives here" maps, this project uses Census Tract data (~73,000 tracts) with Max-Flow Min-Cut optimization to generate smooth, organic shapes controlled by a "surface tension" parameter (λ).
+Half of America is an experimental data visualization project exploring US population concentration. It produces an interactive map highlighting the areas where 50% of Americans live, with a user-controlled slider to balance area minimization vs. perimeter smoothness.
+
+**Project Goals:**
+- Show how geographically concentrated the US population is
+- Make the visualization compelling (not just accurate)
+- Serve as a portfolio piece for data science work
+
+The implementation uses Census Tract data (~73,000 tracts) with Max-Flow Min-Cut optimization to generate smooth, organic shapes controlled by a "surface tension" parameter (λ).
+
+**Project Evolution:**
+The approach evolved through iteration:
+1. County maps had the "San Bernardino Problem" (empty areas included)
+2. Census tracts created "dust" (too many tiny regions to reason about)
+3. Minimizing region count created "bridges" (narrow connections)
+4. Minimizing perimeter produces smooth, compelling shapes
 
 **Naming Convention:**
 - Repository/PyPI: `half-america` (hyphenated)
