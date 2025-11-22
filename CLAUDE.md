@@ -86,7 +86,7 @@ Year constants in `src/half_america/config.py`: `TIGER_YEAR=2024`, `ACS_YEAR=202
 - **Spatial Logic:** geopandas, libpysal (adjacency graph building) - *implemented*
 - **Optimization:** PyMaxFlow (C++ graph cuts wrapper) - *implemented*
 - **Geometry Operations:** shapely, topojson - *implemented*
-- **Web Frontend:** React, Mapbox GL JS - *Phase 5*
+- **Web Frontend:** React, Mapbox GL JS (basemap), deck.gl (data visualization) - *Phase 5*
 
 **Core Algorithm:** The optimization uses Lagrangian relaxation with binary search to find the Lagrange multiplier (μ) that satisfies the 50% population constraint. The graph construction uses s-t cut with neighborhood edges (n-links) for boundary costs and terminal edges (t-links) for area costs and population rewards.
 

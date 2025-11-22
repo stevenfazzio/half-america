@@ -99,4 +99,4 @@ The simplification step uses a tolerance of 500 meters (in the projected coordin
 * **Spatial Logic:** `geopandas`, `libpysal` (for robust adjacency weights/graph building).
 * **Optimization:** `PyMaxFlow` (fast C++ wrapper for graph cuts).
 * **Geometry Ops:** `shapely`, `topojson`.
-* **Web:** React, Mapbox GL JS.
+* **Web:** React, Mapbox GL JS (basemap), deck.gl (data visualization).

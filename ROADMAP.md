@@ -88,9 +88,13 @@ Build the interactive visualization and deploy to GitHub Pages.
 ### Technology Stack
 
 - **Framework**: React + Vite
-- **Map**: Mapbox GL JS
+- **Basemap**: Mapbox GL JS (via react-map-gl)
+- **Data Visualization**: deck.gl (@deck.gl/react, @deck.gl/mapbox, @deck.gl/layers)
+- **TopoJSON Parsing**: topojson-client
 - **Hosting**: GitHub Pages (static site)
 - **CI/CD**: GitHub Actions
+
+deck.gl renders the census tract polygons as a visualization layer on top of Mapbox's basemap. This separation provides better performance for large polygon datasets and built-in transition support. See [thoughts/shared/research/2025-11-22-deck-gl-feasibility.md](thoughts/shared/research/2025-11-22-deck-gl-feasibility.md) for detailed research.
 
 ### Project Structure
 
@@ -111,10 +115,12 @@ web/                        # Frontend application
 
 - [ ] Set up React + Vite application in `web/` directory
 - [ ] Configure Vite with `base: '/half-america/'` for GitHub Pages
-- [ ] Integrate Mapbox GL JS for map rendering
+- [ ] Integrate Mapbox GL JS basemap via react-map-gl
+- [ ] Add deck.gl with MapboxOverlay in interleaved mode
+- [ ] Implement TopoJSON → GeoJSON conversion via topojson-client
+- [ ] Create GeoJsonLayer for census tract polygons
 - [ ] Implement λ slider control for surface tension parameter
-- [ ] Load and display pre-computed TopoJSON geometries
-- [ ] Add smooth transitions between λ values (research pre-loading strategy)
+- [ ] Pre-load layers for each λ value with visibility toggling (instant slider response)
 - [ ] Style and polish UI
 - [ ] Set up GitHub Actions workflow for deployment
 - [ ] Deploy to GitHub Pages (`stevenfazzio.github.io/half-america`)
