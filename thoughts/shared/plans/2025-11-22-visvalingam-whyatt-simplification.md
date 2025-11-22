@@ -141,10 +141,10 @@ def simplify_geometry(
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File exists: `ls src/half_america/postprocess/simplify.py`
-- [ ] Module imports without error: `uv run python -c "from half_america.postprocess.simplify import SimplifyResult, simplify_geometry"`
-- [ ] Type checking passes: `uv run mypy src/half_america/postprocess/simplify.py`
-- [ ] Linting passes: `uv run ruff check src/half_america/postprocess/simplify.py`
+- [x] File exists: `ls src/half_america/postprocess/simplify.py`
+- [x] Module imports without error: `uv run python -c "from half_america.postprocess.simplify import SimplifyResult, simplify_geometry"`
+- [x] Type checking passes: `uv run mypy src/half_america/postprocess/simplify.py`
+- [x] Linting passes: `uv run ruff check src/half_america/postprocess/simplify.py`
 
 #### Manual Verification:
 - [ ] Code matches the pattern established in `dissolve.py`
@@ -219,9 +219,9 @@ def simplify_all_lambdas(
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Module imports without error: `uv run python -c "from half_america.postprocess.simplify import simplify_all_lambdas"`
-- [ ] Type checking passes: `uv run mypy src/half_america/postprocess/simplify.py`
-- [ ] Linting passes: `uv run ruff check src/half_america/postprocess/simplify.py`
+- [x] Module imports without error: `uv run python -c "from half_america.postprocess.simplify import simplify_all_lambdas"`
+- [x] Type checking passes: `uv run mypy src/half_america/postprocess/simplify.py`
+- [x] Linting passes: `uv run ruff check src/half_america/postprocess/simplify.py`
 
 #### Manual Verification:
 - [ ] Function signature mirrors `dissolve_all_lambdas()` pattern
@@ -272,9 +272,9 @@ __all__ = [
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] All exports work: `uv run python -c "from half_america.postprocess import SimplifyResult, simplify_geometry, simplify_all_lambdas, DEFAULT_TOLERANCE"`
-- [ ] Type checking passes: `uv run mypy src/half_america/postprocess/__init__.py`
-- [ ] Linting passes: `uv run ruff check src/half_america/postprocess/__init__.py`
+- [x] All exports work: `uv run python -c "from half_america.postprocess import SimplifyResult, simplify_geometry, simplify_all_lambdas, DEFAULT_TOLERANCE"`
+- [x] Type checking passes: `uv run mypy src/half_america/postprocess/__init__.py`
+- [x] Linting passes: `uv run ruff check src/half_america/postprocess/__init__.py`
 
 #### Manual Verification:
 - [ ] Exports follow established pattern (dissolve grouped, simplify grouped)
@@ -497,10 +497,10 @@ def sample_dissolve_results() -> dict[float, DissolveResult]:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] All tests pass: `uv run pytest tests/test_postprocess/test_simplify.py -v`
-- [ ] Type checking passes: `uv run mypy tests/test_postprocess/test_simplify.py`
-- [ ] Linting passes: `uv run ruff check tests/test_postprocess/test_simplify.py`
-- [ ] Full test suite passes: `uv run pytest`
+- [x] All tests pass: `uv run pytest tests/test_postprocess/test_simplify.py -v`
+- [x] Type checking passes: `uv run mypy tests/test_postprocess/test_simplify.py`
+- [x] Linting passes: `uv run ruff check tests/test_postprocess/test_simplify.py`
+- [x] Full test suite passes: `uv run pytest`
 
 #### Manual Verification:
 - [ ] Test coverage mirrors `test_dissolve.py` patterns
@@ -537,8 +537,8 @@ Transform optimization output into web-ready geometries.
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File is valid markdown (no syntax errors)
-- [ ] Full test suite still passes: `uv run pytest`
+- [x] File is valid markdown (no syntax errors)
+- [x] Full test suite still passes: `uv run pytest`
 
 #### Manual Verification:
 - [ ] Roadmap accurately reflects project state

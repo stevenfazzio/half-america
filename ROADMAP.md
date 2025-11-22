@@ -4,7 +4,7 @@ This document outlines the implementation plan for Half of America.
 
 ## Current Status
 
-**Phase 4: Post-Processing** is in progress. The dissolve tracts milestone is complete. Next up: Visvalingam-Whyatt simplification.
+**Phase 4: Post-Processing** is in progress. Dissolve and simplification milestones are complete. Next up: TopoJSON export.
 
 ---
 
@@ -73,7 +73,7 @@ Transform optimization output into web-ready geometries.
 ### Milestones
 
 - [x] Dissolve selected tracts into MultiPolygon geometries (shapely.ops.unary_union)
-- [ ] Apply Visvalingam-Whyatt simplification for web performance
+- [x] Apply Visvalingam-Whyatt simplification for web performance
 - [ ] Export as TopoJSON
 - [ ] Generate pre-computed geometry files for all λ values
 - [ ] Validate output geometries
