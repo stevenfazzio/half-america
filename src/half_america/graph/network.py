@@ -16,7 +16,7 @@ def build_flow_network(
     Construct s-t flow network for graph cut optimization.
 
     The network encodes the energy function:
-    E(X) = λ Σ(l_ij/ρ)|x_i - x_j| + (1-λ) Σ a_i x_i - μ Σ p_i x_i
+    E(X) = λ Σ(l_ij/ρ)|x_i - x_j| + (1-λ) Σ (a_i/ρ²) x_i - μ Σ p_i x_i
 
     Args:
         attributes: GraphAttributes with population, area, rho, edge_lengths
@@ -39,7 +39,7 @@ def build_flow_network(
     # Sink capacity: (1-λ) × a_i (area cost for inclusion)
     for i in range(num_nodes):
         source_cap = mu * attributes.population[i]
-        sink_cap = (1 - lambda_param) * attributes.area[i]
+        sink_cap = (1 - lambda_param) * attributes.area[i] / (attributes.rho**2)
         g.add_tedge(i, source_cap, sink_cap)
 
     # Add neighborhood edges (n-links)
@@ -77,7 +77,7 @@ def compute_energy(
     """
     Compute energy function value for a given partition.
 
-    E(X) = λ Σ(l_ij/ρ)|x_i - x_j| + (1-λ) Σ a_i x_i - μ Σ p_i x_i
+    E(X) = λ Σ(l_ij/ρ)|x_i - x_j| + (1-λ) Σ (a_i/ρ²) x_i - μ Σ p_i x_i
 
     Args:
         attributes: GraphAttributes with population, area, rho, edge_lengths
@@ -98,8 +98,9 @@ def compute_energy(
             l_ij = attributes.edge_lengths[(i, j)]
             boundary_cost += lambda_param * l_ij / rho
 
-    # Area cost: (1-λ) Σ a_i x_i (for selected nodes only)
-    area_cost = (1 - lambda_param) * attributes.area[partition].sum()
+    # Area cost: (1-λ) Σ (a_i/ρ²) x_i (for selected nodes only)
+    rho_sq = attributes.rho**2
+    area_cost = (1 - lambda_param) * attributes.area[partition].sum() / rho_sq
 
     # Population reward: μ Σ p_i x_i (for selected nodes only)
     population_reward = mu * attributes.population[partition].sum()

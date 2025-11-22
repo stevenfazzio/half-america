@@ -8,23 +8,31 @@ from shapely.geometry import box
 
 @pytest.fixture
 def grid_4x4_gdf() -> gpd.GeoDataFrame:
-    """Create a 4x4 grid for testing dissolve with various partition patterns."""
+    """Create a 4x4 grid for testing dissolve with various partition patterns.
+
+    Areas vary to allow gradual selection when area cost is normalized by rho².
+    Center cells are smaller (denser), corner cells are larger (sparser).
+    """
     geometries = []
     populations = []
+    areas = []
 
-    cell_size = 1000  # meters
+    base_cell_size = 1000  # meters
     for row in range(4):
         for col in range(4):
-            x0 = col * cell_size
-            y0 = row * cell_size
-            geometries.append(box(x0, y0, x0 + cell_size, y0 + cell_size))
+            x0 = col * base_cell_size
+            y0 = row * base_cell_size
+            geometries.append(box(x0, y0, x0 + base_cell_size, y0 + base_cell_size))
             populations.append(1000 * (1 + row + col))
+            # Vary area: center cells are smaller (denser)
+            dist_from_center = abs(row - 1.5) + abs(col - 1.5)
+            size_factor = 1.0 + dist_from_center / 4  # 1.0 to ~1.75
+            areas.append((base_cell_size * size_factor) ** 2)
 
     gdf = gpd.GeoDataFrame(
-        {"population": populations, "geometry": geometries},
+        {"population": populations, "area_sqm": areas, "geometry": geometries},
         crs="EPSG:5070",
     )
-    gdf["area_sqm"] = gdf.geometry.area
     return gdf
 
 

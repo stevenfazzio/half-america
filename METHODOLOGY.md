@@ -33,7 +33,7 @@ We seek a binary partition of the graph where $x_i \in \{0, 1\}$ indicates wheth
 
 We aim to minimize the energy $E(X)$ composed of three terms: **Compactness**, **Area**, and a **Population Reward**.
 
-$$E(X) = \underbrace{\lambda \sum_{(i,j) \in N} \frac{l_{ij}}{\rho} \cdot |x_i - x_j|}_{\text{Boundary Cost}} + \underbrace{(1-\lambda) \sum_{i} a_i x_i}_{\text{Area Cost}} - \underbrace{\mu \sum_{i} p_i x_i}_{\text{Population Reward}}$$
+$$E(X) = \underbrace{\lambda \sum_{(i,j) \in N} \frac{l_{ij}}{\rho} \cdot |x_i - x_j|}_{\text{Boundary Cost}} + \underbrace{(1-\lambda) \sum_{i} \frac{a_i}{\rho^2} x_i}_{\text{Area Cost}} - \underbrace{\mu \sum_{i} p_i x_i}_{\text{Population Reward}}$$
 
 Where:
 * $\lambda \in [0, 1)$: User-controlled "Surface Tension" parameter. Note: $\lambda = 1$ is excluded because it causes the area cost term $(1-\lambda)$ to vanish, making the Lagrangian relaxation degenerate.
@@ -54,7 +54,7 @@ We construct a flow network $G = (V, E)$ with a Source ($S$, selected) and Sink 
     * **Source Edge $(s, i)$:** Represents the "reward" for selecting tract $i$.
         * Capacity: $\mu \cdot p_i$
     * **Sink Edge $(i, t)$:** Represents the "cost" of including tract $i$'s area.
-        * Capacity: $(1-\lambda) \cdot a_i$
+        * Capacity: $(1-\lambda) \cdot \frac{a_i}{\rho^2}$
 
 ### 3.2 Nested Optimization Strategy
 Since the population constraint ($\sum p_i \approx 0.5 P_{total}$) is hard, but graph cuts are soft, we employ a nested solver:

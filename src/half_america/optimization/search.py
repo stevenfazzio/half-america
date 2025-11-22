@@ -124,12 +124,14 @@ def _estimate_mu_max(graph_data: GraphData) -> float:
     Estimate upper bound for μ based on data characteristics.
 
     μ should be on scale of (area cost) / (population benefit).
-    We want μ × p_i to be comparable to (1-λ) × a_i.
+    We want μ × p_i to be comparable to (1-λ) × a_i / ρ².
     """
     attrs = graph_data.attributes
     total_area = attrs.area.sum()
     total_pop = attrs.population.sum()
+    rho_sq = attrs.rho**2
 
-    # Scale factor: area per person, with headroom
-    mu_scale = total_area / total_pop
+    # Scale factor: normalized area per person, with headroom
+    # Area cost is now a_i / ρ², so scale accordingly
+    mu_scale = (total_area / rho_sq) / total_pop
     return mu_scale * 10  # Allow 10x headroom

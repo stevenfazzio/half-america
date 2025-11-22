@@ -119,10 +119,10 @@ class TestEnergyFunction:
 
         # Manual calculation for full partition:
         # - boundary_cost = 0 (no cuts - all in same partition)
-        # - area_cost = (1-0.5) * (1000+1000+1000) = 0.5 * 3000 = 1500
+        # - area_cost = (1-0.5) * 3000 / (100**2) = 0.15
         # - population_reward = 1000 * (100+200+300) = 600000
-        # energy = 0 + 1500 - 600000 = -598500
-        expected_energy = 0.0 + 0.5 * 3000.0 - 1000.0 * 600.0
+        # energy = 0 + 0.15 - 600000 = -599999.85
+        expected_energy = 0.0 + 0.5 * 3000.0 / (100.0**2) - 1000.0 * 600.0
         assert result.energy == pytest.approx(expected_energy)
 
     def test_energy_boundary_term_only(self, simple_graph_data):
@@ -139,9 +139,9 @@ class TestEnergyFunction:
         assert result.partition.all()
 
         # boundary_cost = 0 (lambda=0)
-        # area_cost = 1.0 * 3000 = 3000
+        # area_cost = 1.0 * 3000 / (100**2) = 3000 / 10000 = 0.3
         # population_reward = 1000 * 600 = 600000
-        expected_energy = 0.0 + 1.0 * 3000.0 - 1000.0 * 600.0
+        expected_energy = 0.0 + 1.0 * 3000.0 / (100.0**2) - 1000.0 * 600.0
         assert result.energy == pytest.approx(expected_energy)
 
     def test_energy_manual_calculation_partial_selection(self, simple_graph_data):
@@ -176,8 +176,8 @@ class TestEnergyFunction:
                     l_ij = attrs.edge_lengths[(i, j)]
                     boundary_cost += 0.5 * l_ij / attrs.rho
 
-            # Area cost
-            area_cost = 0.5 * attrs.area[partition].sum()
+            # Area cost (normalized by rho²)
+            area_cost = 0.5 * attrs.area[partition].sum() / (attrs.rho**2)
 
             # Population reward
             pop_reward = mu * attrs.population[partition].sum()

@@ -33,10 +33,15 @@ def complex_graph_data():
     but not by any single node.
 
     Graph topology: 0 -- 1 -- 2 -- 3 -- 4 (linear chain)
+
+    Areas vary by population density to allow gradual selection with normalized costs.
+    Higher population nodes have smaller areas (denser), making them more attractive.
     """
+    # Areas inversely proportional to population to create varying density
+    # This allows partial selection when area cost is normalized by rho²
     attributes = GraphAttributes(
         population=np.array([80, 120, 150, 200, 250]),
-        area=np.array([1000.0, 1000.0, 1000.0, 1000.0, 1000.0]),
+        area=np.array([10000.0, 8000.0, 6000.0, 4000.0, 2000.0]),  # Dense to sparse
         rho=100.0,
         edge_lengths={
             (0, 1): 50.0,
