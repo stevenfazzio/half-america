@@ -76,9 +76,8 @@ Since the population constraint ($\sum p_i \approx 0.5 P_{total}$) is hard, but 
 The raw output is a list of 30,000+ disconnected tract IDs. To render this efficiently on the web:
 
 1.  **Dissolve:** Merge selected tracts into unified `MultiPolygon` geometries using `shapely.ops.unary_union`.
-2.  **Artifact Removal:** Filter out small, disconnected "islands" below a certain area threshold that may appear as noise.
-3.  **Simplification:** Apply Visvalingam-Whyatt simplification to reduce vertex count while preserving shape topology.
-4.  **Export:** Save geometry as **TopoJSON**. This format is crucial as it encodes shared topology, preventing gaps from appearing between shapes during rendering.
+2.  **Simplification:** Apply Visvalingam-Whyatt simplification to reduce vertex count while preserving shape topology.
+3.  **Export:** Save geometry as **TopoJSON**. This format is crucial as it encodes shared topology, preventing gaps from appearing between shapes during rendering.
 
 ## 5. Implementation Stack
 
