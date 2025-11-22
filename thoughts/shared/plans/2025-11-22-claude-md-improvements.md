@@ -238,15 +238,15 @@ Year constants in `src/half_america/config.py`: `TIGER_YEAR=2024`, `ACS_YEAR=202
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File exists and is valid markdown: `cat CLAUDE.md`
-- [ ] Line count in target range: `wc -l CLAUDE.md` shows 90-110 lines
-- [ ] No broken internal references (links to existing files)
+- [x] File exists and is valid markdown: `cat CLAUDE.md`
+- [x] Line count in target range: `wc -l CLAUDE.md` shows 90-110 lines (97 lines)
+- [x] No broken internal references (links to existing files)
 
 #### Manual Verification:
-- [ ] Cache table is readable and accurate
-- [ ] Directory tree renders correctly
-- [ ] Commands are copy-pasteable
-- [ ] Common Gotchas section is helpful
+- [x] Cache table is readable and accurate
+- [x] Directory tree renders correctly
+- [x] Commands are copy-pasteable
+- [x] Common Gotchas section is helpful
 
 **Implementation Note**: This is a single-phase documentation update. After completing the edit, verify line count and readability.
 
