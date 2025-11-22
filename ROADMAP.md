@@ -111,17 +111,27 @@ web/                        # Frontend application
 └── package.json
 ```
 
-### Milestones
+### Sub-Phase 5.1: Project Setup
 
 - [ ] Set up React + Vite application in `web/` directory
 - [ ] Configure Vite with `base: '/half-america/'` for GitHub Pages
+- [ ] Add environment configuration for `VITE_MAPBOX_ACCESS_TOKEN`
+- [ ] Configure GitHub Pages source to "GitHub Actions" in repository settings
+- [ ] Create `VITE_MAPBOX_TOKEN` repository secret
+
+### Sub-Phase 5.2: Core Visualization
+
 - [ ] Integrate Mapbox GL JS basemap via react-map-gl
 - [ ] Add deck.gl with MapboxOverlay in interleaved mode
 - [ ] Implement TopoJSON → GeoJSON conversion via topojson-client
 - [ ] Create GeoJsonLayer for census tract polygons
+- [ ] Add loading state/skeleton during initial data fetch
 - [ ] Implement λ slider control for surface tension parameter
 - [ ] Pre-load layers for each λ value with visibility toggling (instant slider response)
-- [ ] Set up GitHub Actions workflow for deployment
+
+### Sub-Phase 5.3: Deployment
+
+- [ ] Set up GitHub Actions workflow (`working-directory: ./web`, pass Mapbox token to build)
 - [ ] Deploy to GitHub Pages (`stevenfazzio.github.io/half-america`)
 
 ---
