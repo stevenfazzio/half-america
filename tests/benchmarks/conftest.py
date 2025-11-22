@@ -48,11 +48,15 @@ def grid_20x20_gdf() -> gpd.GeoDataFrame:
     which is ~0.5% of the real dataset size but sufficient for
     meaningful benchmarks without excessive test time.
 
+    Areas vary to create density gradients that allow gradual selection
+    with normalized area costs (area/rho²). Corner cells are larger (sparser),
+    center cells are smaller (denser).
+
     Returns:
         GeoDataFrame with 400 square polygons in EPSG:5070
     """
     rows, cols = 20, 20
-    cell_size = 1000  # 1km cells
+    base_cell_size = 1000  # 1km base cells
 
     geometries = []
     populations = []
@@ -60,13 +64,19 @@ def grid_20x20_gdf() -> gpd.GeoDataFrame:
 
     for row in range(rows):
         for col in range(cols):
-            x0 = col * cell_size
-            y0 = row * cell_size
-            geom = box(x0, y0, x0 + cell_size, y0 + cell_size)
+            # Vary cell size: center cells are smaller (denser)
+            dist_from_center = abs(row - 9.5) + abs(col - 9.5)
+            size_factor = 1.0 + dist_from_center / 20  # 1.0 to ~2.0
+            cell_size = base_cell_size * size_factor
+
+            x0 = col * base_cell_size
+            y0 = row * base_cell_size
+            geom = box(x0, y0, x0 + base_cell_size, y0 + base_cell_size)
             geometries.append(geom)
             # Vary population to create interesting optimization landscape
             populations.append(1000 * (1 + row) * (1 + col))
-            areas.append(cell_size * cell_size)
+            # Area varies with size_factor squared
+            areas.append((cell_size) ** 2)
 
     gdf = gpd.GeoDataFrame(
         {
@@ -97,11 +107,14 @@ def grid_50x50_gdf() -> gpd.GeoDataFrame:
     of the real dataset size. Use for benchmarks where you need
     to measure scaling behavior.
 
+    Areas vary to create density gradients that allow gradual selection
+    with normalized area costs.
+
     Returns:
         GeoDataFrame with 2,500 square polygons in EPSG:5070
     """
     rows, cols = 50, 50
-    cell_size = 1000
+    base_cell_size = 1000
 
     geometries = []
     populations = []
@@ -109,12 +122,17 @@ def grid_50x50_gdf() -> gpd.GeoDataFrame:
 
     for row in range(rows):
         for col in range(cols):
-            x0 = col * cell_size
-            y0 = row * cell_size
-            geom = box(x0, y0, x0 + cell_size, y0 + cell_size)
+            # Vary cell size: center cells are smaller (denser)
+            dist_from_center = abs(row - 24.5) + abs(col - 24.5)
+            size_factor = 1.0 + dist_from_center / 50  # 1.0 to ~2.0
+            cell_size = base_cell_size * size_factor
+
+            x0 = col * base_cell_size
+            y0 = row * base_cell_size
+            geom = box(x0, y0, x0 + base_cell_size, y0 + base_cell_size)
             geometries.append(geom)
             populations.append(1000 * (1 + row) * (1 + col))
-            areas.append(cell_size * cell_size)
+            areas.append((cell_size) ** 2)
 
     gdf = gpd.GeoDataFrame(
         {

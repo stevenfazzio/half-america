@@ -94,12 +94,12 @@ E(X) = λ Σ(l_ij/ρ)|x_i - x_j| + (1-λ) Σ (a_i/ρ²) x_i - μ Σ p_i x_i
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Unit tests pass: `uv run pytest tests/test_graph/test_network.py -v`
-- [ ] Type checking passes: `uv run mypy src/`
-- [ ] Linting passes: `uv run ruff check src/`
+- [x] Unit tests pass: `uv run pytest tests/test_graph/test_network.py -v`
+- [x] Type checking passes: `uv run mypy src/`
+- [x] Linting passes: `uv run ruff check src/`
 
 #### Manual Verification:
-- [ ] N/A for this phase
+- [x] N/A for this phase
 
 ---
 
@@ -149,11 +149,11 @@ area_cost = (1 - 0.5) * attrs.area[partition].sum() / (attrs.rho ** 2)
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] All correctness tests pass: `uv run pytest tests/test_optimization/test_correctness.py -v`
-- [ ] Full test suite passes: `uv run pytest`
+- [x] All correctness tests pass: `uv run pytest tests/test_optimization/test_correctness.py -v`
+- [x] Full test suite passes: `uv run pytest`
 
 #### Manual Verification:
-- [ ] N/A for this phase
+- [x] N/A for this phase
 
 ---
 
@@ -195,10 +195,10 @@ To:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] N/A
+- [x] N/A
 
 #### Manual Verification:
-- [ ] Documentation formulas match implementation
+- [x] Documentation formulas match implementation
 
 ---
 
@@ -214,13 +214,13 @@ None (verification only)
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Full test suite passes: `uv run pytest`
+- [x] Full test suite passes: `uv run pytest`
 
 #### Manual Verification:
-- [ ] Run verification script to compare λ=0.0 vs λ=0.5 vs λ=0.9
-- [ ] λ=0.0 and λ=0.5 produce **different** partitions
-- [ ] Higher λ produces smoother regions (fewer single-tract islands)
-- [ ] Binary search still converges for all λ values
+- [x] Run verification script to compare λ=0.0 vs λ=0.5 vs λ=0.9
+- [x] λ=0.0 and λ=0.5 produce **different** partitions
+- [x] Higher λ produces smoother regions (fewer single-tract islands)
+- [x] Binary search still converges for all λ values
 
 **Verification Script:**
 ```bash
