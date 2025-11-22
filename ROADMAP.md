@@ -128,7 +128,7 @@ web/                        # Frontend application
 
 ## Phase 6: Final Touches
 
-Final improvements for v1
+Polish for initial release
 
 ### Milestones
 
