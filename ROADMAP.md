@@ -83,17 +83,41 @@ Transform optimization output into web-ready geometries.
 
 ## Phase 5: Web Frontend
 
-Build the interactive visualization.
+Build the interactive visualization and deploy to GitHub Pages.
+
+### Technology Stack
+
+- **Framework**: React + Vite
+- **Map**: Mapbox GL JS
+- **Hosting**: GitHub Pages (static site)
+- **CI/CD**: GitHub Actions
+
+### Project Structure
+
+```
+web/                        # Frontend application
+├── public/
+│   └── data/               # Pre-computed TopoJSON files
+├── src/
+│   ├── components/
+│   │   ├── Map.tsx
+│   │   └── LambdaSlider.tsx
+│   └── App.tsx
+├── vite.config.ts          # base: '/half-america/'
+└── package.json
+```
 
 ### Milestones
 
-- [ ] Set up React application
+- [ ] Set up React + Vite application in `web/` directory
+- [ ] Configure Vite with `base: '/half-america/'` for GitHub Pages
 - [ ] Integrate Mapbox GL JS for map rendering
 - [ ] Implement λ slider control for surface tension parameter
 - [ ] Load and display pre-computed TopoJSON geometries
-- [ ] Add smooth transitions between λ values
+- [ ] Add smooth transitions between λ values (research pre-loading strategy)
 - [ ] Style and polish UI
-- [ ] Deploy static site
+- [ ] Set up GitHub Actions workflow for deployment
+- [ ] Deploy to GitHub Pages (`stevenfazzio.github.io/half-america`)
 
 ---
 
