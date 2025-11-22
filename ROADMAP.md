@@ -4,7 +4,7 @@ This document outlines the implementation plan for Half of America.
 
 ## Current Status
 
-**Phase 4: Post-Processing** is complete. All milestones (dissolve, simplify, TopoJSON export) are done. Next up: Phase 5 Web Frontend.
+**Phase 4: Post-Processing** is in progress. One remaining milestone: add population metadata to DissolveResult.
 
 ---
 
@@ -77,6 +77,7 @@ Transform optimization output into web-ready geometries.
 - [x] Export as TopoJSON
 - [x] Add CLI `export` command for TopoJSON output
 - [x] Generate pre-computed geometry files for all λ values
+- [ ] Add `population_selected` to DissolveResult and TopoJSON metadata
 
 ---
 
