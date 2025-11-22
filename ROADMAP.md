@@ -121,9 +121,20 @@ web/                        # Frontend application
 - [ ] Create GeoJsonLayer for census tract polygons
 - [ ] Implement λ slider control for surface tension parameter
 - [ ] Pre-load layers for each λ value with visibility toggling (instant slider response)
-- [ ] Style and polish UI
 - [ ] Set up GitHub Actions workflow for deployment
 - [ ] Deploy to GitHub Pages (`stevenfazzio.github.io/half-america`)
+
+---
+
+## Phase 6: Final Touches
+
+Build the spatial adjacency graph from Census Tract data.
+
+### Milestones
+
+- [ ] Fine λ granularity: Move to 0.01 increments (100 values) for smooth animations
+- [ ] Style and polish UI
+- [ ] Create tabs for the main visualization (default tab), project description (narrative), and technical methodology
 
 ---
 
@@ -131,7 +142,6 @@ web/                        # Frontend application
 
 Ideas for future development:
 
-- **Fine λ granularity**: Support 0.01 increments (101 values) for smooth animations
 - **Variable region granularity**: Support other region types (e.g. state, county)
 - **Alternative metrics**: Optimize for other variables (e.g. number of regions instead of perimeter)
 - **Custom thresholds**: Allow users to select different population percentages (25%, 75%, etc.)
