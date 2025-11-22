@@ -60,11 +60,32 @@ The data pipeline requires a Census API key:
 ## Usage
 
 ```bash
-# Run the CLI
-uv run half-america
+# Pre-compute optimization results for all lambda values
+uv run half-america precompute
 
+# Precompute options
+uv run half-america precompute --force          # Rebuild cache
+uv run half-america precompute --lambda-step 0.05  # Finer granularity
+
+# Export TopoJSON files
+uv run half-america export
+
+# Export options
+uv run half-america export --combined      # Include combined.json
+uv run half-america export --force         # Overwrite existing
+```
+
+## Development
+
+```bash
 # Run tests
 uv run pytest
+
+# Skip network-dependent tests
+uv run pytest -m "not integration"
+
+# Run tests matching pattern
+uv run pytest -k "dissolve"
 
 # Format code
 uv run ruff format src/ tests/
@@ -74,14 +95,11 @@ uv run ruff check src/ tests/
 
 # Type check
 uv run mypy src/
-
-# Export TopoJSON files
-uv run half-america export
-
-# Export with options
-uv run half-america export --combined      # Include combined.json
-uv run half-america export --force         # Overwrite existing
 ```
+
+### Cache Management
+
+Data is cached in `data/cache/`. Clear with `rm -rf data/cache/` if you encounter stale data or change year configurations in `src/half_america/config.py`.
 
 ## API Reference
 
@@ -107,22 +125,9 @@ result = sweep_lambda(graph_data)
 for lambda_val, lambda_result in result.results.items():
     opt = lambda_result.search_result.result
     print(f"lambda={lambda_val:.1f}: {opt.population_fraction:.2%} selected")
-
-# Post-process for web delivery
-from half_america.postprocess import (
-    dissolve_all_lambdas,
-    simplify_all_lambdas,
-    export_all_lambdas,
-)
-
-# Transform optimization results to web-ready TopoJSON
-dissolve_results = dissolve_all_lambdas(gdf, result)
-simplify_results = simplify_all_lambdas(dissolve_results)
-export_results = export_all_lambdas(simplify_results, dissolve_results)
-# Output: data/output/topojson/lambda_0.0.json, lambda_0.1.json, ...
 ```
 
-See [METHODOLOGY.md](METHODOLOGY.md) for algorithm details.
+See [docs/API.md](docs/API.md) for post-processing (dissolve, simplify, export) and the full API reference.
 
 ## Project Status
 

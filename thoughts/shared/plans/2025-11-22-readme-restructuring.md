@@ -169,17 +169,17 @@ See [docs/API.md](docs/API.md) for post-processing (dissolve, simplify, export) 
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] README.md exists and is valid markdown
-- [ ] Line count is between 140-150 lines: `wc -l README.md`
-- [ ] All internal links resolve: check that referenced files exist (METHODOLOGY.md, docs/API.md, ROADMAP.md, LICENSE)
-- [ ] No broken code blocks (matching triple backticks)
+- [x] README.md exists and is valid markdown
+- [x] Line count is between 140-150 lines: `wc -l README.md` (144 lines)
+- [x] All internal links resolve: check that referenced files exist (METHODOLOGY.md, docs/API.md, ROADMAP.md, LICENSE)
+- [x] No broken code blocks (matching triple backticks) (10 markers = 5 balanced blocks)
 
 #### Manual Verification:
-- [ ] Usage section clearly shows CLI workflow (precompute → export)
-- [ ] Development section is separate and clearly labeled
-- [ ] API example is concise and shows core workflow
-- [ ] Cache management note is present and helpful
-- [ ] Overall structure scans well for both users and developers
+- [x] Usage section clearly shows CLI workflow (precompute → export)
+- [x] Development section is separate and clearly labeled
+- [x] API example is concise and shows core workflow
+- [x] Cache management note is present and helpful
+- [x] Overall structure scans well for both users and developers
 
 **Implementation Note**: This is a single-phase plan. After completing the edits and automated verification passes, manual review confirms the restructuring improves readability.
 
