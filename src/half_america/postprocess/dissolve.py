@@ -17,11 +17,13 @@ class DissolveResult(NamedTuple):
     num_parts: int  # Number of disconnected regions
     total_area_sqm: float  # Total area in square meters
     num_tracts: int  # Number of tracts dissolved
+    population_selected: int  # Population in selected tracts
 
 
 def dissolve_partition(
     gdf: gpd.GeoDataFrame,
     partition: np.ndarray,
+    population_selected: int = 0,
 ) -> DissolveResult:
     """
     Dissolve selected tracts into a single geometry.
@@ -29,6 +31,7 @@ def dissolve_partition(
     Args:
         gdf: GeoDataFrame with tract geometries (from load_all_tracts)
         partition: Boolean array where True = selected tract
+        population_selected: Population in selected tracts (default 0)
 
     Returns:
         DissolveResult with merged geometry and metadata
@@ -77,6 +80,7 @@ def dissolve_partition(
         num_parts=num_parts,
         total_area_sqm=geom.area,
         num_tracts=int(num_selected),
+        population_selected=population_selected,
     )
 
 
@@ -102,8 +106,10 @@ def dissolve_all_lambdas(
         if verbose:
             print(f"Dissolving λ={lambda_val:.2f}...")
 
-        partition = sweep_result.results[lambda_val].search_result.result.partition
-        result = dissolve_partition(gdf, partition)
+        opt_result = sweep_result.results[lambda_val].search_result.result
+        partition = opt_result.partition
+        population_selected = opt_result.selected_population
+        result = dissolve_partition(gdf, partition, population_selected)
         results[lambda_val] = result
 
         if verbose:

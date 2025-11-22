@@ -134,7 +134,7 @@ def export_all_lambdas(
         # Build metadata from dissolve result
         metadata = ExportMetadata(
             lambda_value=lambda_val,
-            population_selected=0,  # TODO: Add when available in DissolveResult
+            population_selected=dissolve_result.population_selected,
             area_sqm=dissolve_result.total_area_sqm,
             num_parts=dissolve_result.num_parts,
         )
@@ -188,7 +188,7 @@ def export_combined_topojson(
         gdf = gpd.GeoDataFrame(
             {
                 "lambda_value": [lambda_val],
-                "population_selected": [0],  # TODO: Add when available
+                "population_selected": [dissolve_result.population_selected],
                 "area_sqm": [dissolve_result.total_area_sqm],
                 "num_parts": [dissolve_result.num_parts],
                 "geometry": [simplify_result.geometry],

@@ -77,7 +77,7 @@ Transform optimization output into web-ready geometries.
 - [x] Export as TopoJSON
 - [x] Add CLI `export` command for TopoJSON output
 - [x] Generate pre-computed geometry files for all λ values
-- [ ] Add `population_selected` to DissolveResult and TopoJSON metadata
+- [x] Add `population_selected` to DissolveResult and TopoJSON metadata
 
 ---
 

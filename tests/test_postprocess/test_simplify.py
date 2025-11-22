@@ -179,17 +179,20 @@ def sample_dissolve_results() -> dict[float, DissolveResult]:
             num_parts=1,
             total_area_sqm=geom.area,
             num_tracts=10,
+            population_selected=165_000_000,
         ),
         0.5: DissolveResult(
             geometry=geom,
             num_parts=1,
             total_area_sqm=geom.area,
             num_tracts=10,
+            population_selected=165_000_000,
         ),
         0.9: DissolveResult(
             geometry=geom,
             num_parts=1,
             total_area_sqm=geom.area,
             num_tracts=10,
+            population_selected=165_000_000,
         ),
     }

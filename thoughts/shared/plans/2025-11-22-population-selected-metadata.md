@@ -113,8 +113,8 @@ Update the return statement at lines 75-80:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Type checking passes: `uv run mypy src/half_america/postprocess/dissolve.py`
-- [ ] Linting passes: `uv run ruff check src/half_america/postprocess/dissolve.py`
+- [x] Type checking passes: `uv run mypy src/half_america/postprocess/dissolve.py`
+- [x] Linting passes: `uv run ruff check src/half_america/postprocess/dissolve.py`
 
 **Implementation Note**: After completing this phase, proceed to Phase 2 immediately (no manual verification needed).
 
@@ -151,8 +151,8 @@ Update the loop to extract and pass population:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Type checking passes: `uv run mypy src/half_america/postprocess/dissolve.py`
-- [ ] Linting passes: `uv run ruff check src/half_america/postprocess/dissolve.py`
+- [x] Type checking passes: `uv run mypy src/half_america/postprocess/dissolve.py`
+- [x] Linting passes: `uv run ruff check src/half_america/postprocess/dissolve.py`
 
 **Implementation Note**: After completing this phase, proceed to Phase 3 immediately.
 
@@ -203,8 +203,8 @@ Replace hardcoded `0` in the GeoDataFrame creation:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Type checking passes: `uv run mypy src/half_america/postprocess/export.py`
-- [ ] Linting passes: `uv run ruff check src/half_america/postprocess/export.py`
+- [x] Type checking passes: `uv run mypy src/half_america/postprocess/export.py`
+- [x] Linting passes: `uv run ruff check src/half_america/postprocess/export.py`
 
 **Implementation Note**: After completing this phase, proceed to Phase 4 immediately.
 
@@ -300,10 +300,10 @@ def sample_dissolve_results() -> dict[float, DissolveResult]:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] All postprocess tests pass: `uv run pytest tests/test_postprocess/ -v`
-- [ ] Full test suite passes: `uv run pytest`
-- [ ] Type checking passes: `uv run mypy src/`
-- [ ] Linting passes: `uv run ruff check src/ tests/`
+- [x] All postprocess tests pass: `uv run pytest tests/test_postprocess/ -v`
+- [x] Full test suite passes: `uv run pytest`
+- [x] Type checking passes: `uv run mypy src/`
+- [x] Linting passes: `uv run ruff check src/ tests/`
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation that the implementation is complete.
 
@@ -333,10 +333,10 @@ To:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Linting passes: `uv run ruff check ROADMAP.md` (if applicable)
+- [x] Linting passes: `uv run ruff check ROADMAP.md` (if applicable)
 
 #### Manual Verification:
-- [ ] ROADMAP.md reflects the completed milestone
+- [x] ROADMAP.md reflects the completed milestone
 
 ---
 
