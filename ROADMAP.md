@@ -4,7 +4,7 @@ This document outlines the implementation plan for Half of America.
 
 ## Current Status
 
-**Phase 3: Optimization Engine** is complete. The Max-Flow Min-Cut solver, binary search for Lagrange multiplier, lambda parameter sweep, pre-computation CLI, performance benchmarking, and mathematical correctness tests are all implemented. **Phase 4: Post-Processing** is next.
+**Phase 4: Post-Processing** is in progress. The dissolve tracts milestone is complete. Next up: Visvalingam-Whyatt simplification.
 
 ---
 
@@ -72,7 +72,7 @@ Transform optimization output into web-ready geometries.
 
 ### Milestones
 
-- [ ] Dissolve selected tracts into MultiPolygon geometries (shapely.ops.unary_union)
+- [x] Dissolve selected tracts into MultiPolygon geometries (shapely.ops.unary_union)
 - [ ] Apply Visvalingam-Whyatt simplification for web performance
 - [ ] Export as TopoJSON
 - [ ] Generate pre-computed geometry files for all λ values
