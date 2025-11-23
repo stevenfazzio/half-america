@@ -146,7 +146,11 @@ Polish for initial release
   - Hash-based routing (`#map`, `#story`, `#method`)
   - Responsive navigation (top pills desktop, bottom nav mobile)
   - WebGL state preserved across tab switches via KeepMounted pattern
-- [ ] Add content to Story tab (narrative explanation for general audience)
+- [x] Add content to Story tab (narrative explanation for general audience)
+  - Key statistics, evolution story, slider explanation
+  - Navigation links to Map and Method tabs
+  - Image placeholder for evolution diagram
+- [ ] Create evolution diagram images for Story tab (San Bernardino → Tracts → Bridges → Smooth)
 - [ ] Add content to Method tab (technical methodology)
 - [ ] Style and polish UI
 
