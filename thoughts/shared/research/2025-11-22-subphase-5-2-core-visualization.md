@@ -593,12 +593,19 @@ Per ROADMAP.md, a future milestone plans to increase lambda granularity to 0.01 
 | Compression benefit | ~2x worse than combined | ~5-10x worse than combined |
 | Lazy loading value | High (users try 2-3) | Lower (animation needs many) |
 
-**Recommendation for 100-file phase:** Switch to **combined file** with:
-1. Single `combined.json` containing all 100 lambda values
-2. Client-side extraction by lambda key
-3. Progressive rendering (show first available, animate as more parse)
+**Options for 100-file phase:**
 
-**Alternative hybrid approach:**
-- Chunked files: `lambda_0.00-0.09.json`, `lambda_0.10-0.19.json`, etc. (10 files of 10 values each)
-- Balances compression benefits with some lazy loading capability
-- Stays well under HTTP/2 threshold while enabling partial loading
+| Approach | Pros | Cons |
+|----------|------|------|
+| **Combined file** | Best compression; single request/parse; simpler implementation | Must load all data upfront; no lazy loading |
+| **Chunked files** (10 files × 10 values) | Stays under HTTP/2 threshold; enables progressive animation; partial exploration possible | More complex implementation; slightly worse compression than combined |
+
+**Option A: Combined file**
+- Single `combined.json` containing all 100 lambda values
+- Client-side extraction by lambda key
+- Best for: auto-playing animations that need instant access to all values
+
+**Option B: Chunked files**
+- Files like `lambda_0.00-0.09.json`, `lambda_0.10-0.19.json`, etc.
+- Load first chunk, start animating, preload subsequent chunks
+- Best for: progressive loading, manual slider exploration
