@@ -4,7 +4,7 @@ This document outlines the implementation plan for Half of America.
 
 ## Current Status
 
-**Phase 4: Post-Processing** is complete. Moving to Phase 5: Web Frontend.
+**Sub-Phase 5.1: Project Setup** is complete. Moving to Sub-Phase 5.2: Core Visualization.
 
 ---
 
@@ -113,9 +113,10 @@ web/                        # Frontend application
 
 ### Sub-Phase 5.1: Project Setup
 
-- [ ] Set up React + Vite application in `web/` directory
-- [ ] Configure Vite with `base: '/half-america/'` for GitHub Pages
-- [ ] Configure GitHub Pages source to "GitHub Actions" in repository settings
+- [x] Set up React + Vite application in `web/` directory
+- [x] Configure Vite with `base: '/half-america/'` for GitHub Pages
+- [x] Copy TopoJSON files to `web/public/data/`
+- [ ] Configure GitHub Pages source to "GitHub Actions" in repository settings (deferred to Sub-Phase 5.3)
 
 ### Sub-Phase 5.2: Core Visualization
 
