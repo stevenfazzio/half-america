@@ -9,6 +9,7 @@ tags: [research, codebase, method-tab, methodology, math-rendering, react]
 status: complete
 last_updated: 2025-11-23
 last_updated_by: Claude
+last_updated_note: "Investigated all 4 open questions with detailed analysis"
 ---
 
 # Research: Add content to Method tab (technical methodology)
@@ -179,25 +180,200 @@ Based on tab strategy guidance and StoryTab patterns:
 - `thoughts/shared/research/2025-11-23-tab-structure-implementation.md` - Tab navigation implementation
 - `thoughts/shared/plans/2025-11-23-tab-structure-implementation.md` - Original tab implementation plan
 
+## Investigated Questions
+
+### 1. Math rendering decision: Should we use KaTeX for the objective function, or can Unicode + CSS achieve acceptable results?
+
+**Investigation Summary**
+
+Researched four approaches: KaTeX, Unicode+CSS, PureTex.css, and native MathML. The objective function `E(X) = λ Σ(l_ij/ρ)|x_i - x_j| + (1-λ) Σ(a_i/ρ²)x_i - μ Σ p_i x_i` with underbrace annotations requires sophisticated rendering.
+
+**Options Analysis**
+
+| Option | Pros | Cons |
+|--------|------|------|
+| **KaTeX** | - Full LaTeX support, native underbraces<br>- Fast synchronous rendering<br>- Professional typesetting<br>- Easy maintenance (standard LaTeX) | - ~100KB gzipped bundle overhead<br>- Requires CSS import |
+| **Unicode + CSS** | - Zero bundle cost<br>- Full styling control | - Underbraces require CSS hack (looks less professional)<br>- Fractions don't render naturally<br>- Manual maintenance burden<br>- Poor accessibility |
+| **PureTex.css** | - No JavaScript (~5-10KB CSS)<br>- Supports fractions, summations | - No underbrace support<br>- Requires SVG symbol files<br>- Verbose HTML |
+| **Native MathML** | - Zero JavaScript<br>- Semantic, accessible | - Inconsistent browser support (Chrome limited)<br>- Requires polyfill |
+
+**Recommendation: Use KaTeX**
+
+For a portfolio piece targeting data science roles:
+1. Professional LaTeX typesetting signals technical competence
+2. The equation complexity (subscripts, fractions, underbraces) makes CSS-only fragile
+3. ~100KB is modest relative to existing deck.gl (~300KB) + MapLibre (~200KB)
+4. Future-proof if more equations are added
+5. Aligns with tab strategy's "neat boxed section" guidance
+
+**Implementation:**
+```bash
+npm install katex @matejmazur/react-katex
+```
+
+```tsx
+import 'katex/dist/katex.min.css';
+import { BlockMath } from '@matejmazur/react-katex';
+
+<BlockMath math={`
+  E(X) = \\underbrace{\\lambda \\sum_{(i,j) \\in N} \\frac{\\ell_{ij}}{\\rho} |x_i - x_j|}_{\\text{Boundary Cost}}
+  + \\underbrace{(1-\\lambda) \\sum_i \\frac{a_i}{\\rho^2} x_i}_{\\text{Area Cost}}
+  - \\underbrace{\\mu \\sum_i p_i x_i}_{\\text{Population Reward}}
+`} />
+```
+
+---
+
+### 2. Content depth: Should we include all sections from METHODOLOGY.md, or prioritize the most important ones?
+
+**Investigation Summary**
+
+Analyzed all 6 sections of METHODOLOGY.md against the Story tab content and target audience needs ("technically literate skeptics" who want to "replicate, critique, extend").
+
+**Section Analysis**
+
+| Section | Lines | Recommendation | Rationale |
+|---------|-------|----------------|-----------|
+| Motivation | 3-13 | **EXCLUDE** | Fully covered by Story tab cards (San Bernardino, Census Tracts, perimeter) |
+| Data Sources | 15-26 | Include (condensed) | Essential for reproducibility (TIGER/ACS sources, 73K tracts) |
+| Mathematical Formulation | 27-53 | **PROMINENT** | Intellectual core - what distinguishes the project |
+| Algorithmic Approach | 54-84 | Include (full) | The "how" - essential for replication |
+| Post-Processing | 86-94 | Include (condensed) | Explains output artifacts |
+| Implementation Stack | 96-102 | Include (as-is) | Quick reference for implementation |
+
+**Recommendation: Include 5 of 6 sections, exclude Motivation**
+
+**Structure:**
+1. **Objective Function** (prominent boxed section at top)
+2. Variable Definitions
+3. Algorithm: Max-Flow Min-Cut (full detail on n-links, t-links, binary search)
+4. Data Sources (condensed)
+5. Post-Processing (condensed)
+6. Implementation Stack
+
+**Target length:** 800-1200 words (~60-80% of METHODOLOGY.md)
+
+**Rationale:** The tab strategy says "the visualization is the primary artifact" and supporting tabs "should feel supportive." Removing the redundant Motivation section and condensing peripheral sections keeps focus on the technical substance.
+
+---
+
+### 3. External links: Should we link to specific lines in the GitHub repository for code references?
+
+**Investigation Summary**
+
+Analyzed existing link patterns in the repository's research documents and evaluated strategies for a portfolio piece.
+
+**Options Analysis**
+
+| Approach | URL Format | Pros | Cons |
+|----------|------------|------|------|
+| **Commit SHA** | `/blob/{sha}/path#L10-L20` | Permanent, reproducible, matches documentation | Becomes stale as code evolves |
+| **Branch (master)** | `/blob/master/path#L10-L20` | Always current | Line numbers can shift |
+| **File only** | `/blob/master/path` | Never breaks | No precision |
+
+**Recommendation: Hybrid approach**
+
+1. **Top-level "View Source" link** to repository root on master:
+   ```markdown
+   [View full source on GitHub](https://github.com/stevenfazzio/half-america)
+   ```
+
+2. **Inline code references** using commit SHA for specific algorithms:
+   ```markdown
+   > Code references link to commit [`6604a5d`](https://github.com/stevenfazzio/half-america/tree/6604a5d) for reproducibility.
+   ```
+
+**Key files to link:**
+
+| File | Lines | Purpose |
+|------|-------|---------|
+| `src/half_america/graph/network.py` | 9-53 | `build_flow_network()` - s-t cut graph construction |
+| `src/half_america/graph/network.py` | 70-108 | `compute_energy()` - energy function |
+| `src/half_america/optimization/search.py` | 27-119 | `find_optimal_mu()` - binary search |
+| `src/half_america/optimization/solver.py` | 31-118 | `solve_partition()` - main solver |
+
+**Rationale:** The existing research documents already use SHA-based permalinks with line ranges. This pattern aligns with the "replicate" goal. The project is at Phase 6 (mature), so core algorithm files are stable.
+
+---
+
+### 4. Mobile optimization: Do mathematical equations need special handling for small screens?
+
+**Investigation Summary**
+
+Analyzed the main equation width (~500-600px when rendered) vs mobile content width (288-398px after padding), reviewed current responsive patterns in StoryTab.css and MethodTab.css.
+
+**The Problem**
+
+- Mobile content width: 288-398px (screen minus 32px padding)
+- Rendered equation width: ~500-600px
+- **Result:** Equation overflows on phones
+
+**Audience Context**
+
+The Method tab targets "technically literate skeptics" who are more likely evaluating the portfolio on desktop. Mobile is secondary but should still work.
+
+**Recommendation: Horizontal scroll container**
+
+This is the most appropriate pattern because:
+1. Preserves equation integrity (no line breaks or font reduction)
+2. Matches industry practice (MDN, academic sites use this)
+3. No effect on desktop (primary audience)
+4. Familiar interaction pattern on mobile
+
+**CSS Pattern:**
+```css
+.method-content .equation-block {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px 0;
+  margin: 24px 0;
+}
+
+/* Optional: scroll hint on mobile */
+@media (max-width: 767px) {
+  .method-content .equation-block::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 24px;
+    background: linear-gradient(to right, transparent, #1a1a1a);
+    pointer-events: none;
+  }
+}
+```
+
+**Not recommended:** Font-size reduction (harms readability), line-breaking equations (mathematically problematic), responsive reflow (complex, inconsistent).
+
+---
+
 ## Open Questions
 
-1. **Math rendering decision**: Should we use KaTeX for the objective function, or can Unicode + CSS achieve acceptable results?
-
-2. **Content depth**: Should we include all sections from METHODOLOGY.md, or prioritize the most important ones?
-
-3. **External links**: Should we link to specific lines in the GitHub repository for code references?
-
-4. **Mobile optimization**: Do mathematical equations need special handling for small screens?
+No remaining open questions. All questions have been investigated with clear recommendations.
 
 ## Implementation Approach
 
-### Phase 1: Content + Structure (No Math Library)
-1. Create content sections using Unicode for Greek letters
-2. Add CSS patterns from StoryTab
-3. Structure the objective function as a styled code/formula block
-4. Add navigation links
+### Phase 1: Setup and Dependencies
+1. Install KaTeX: `npm install katex @matejmazur/react-katex`
+2. Copy CSS patterns from StoryTab.css to MethodTab.css (h2, p, .section-card, .section-divider, etc.)
 
-### Phase 2: Polish (If Needed)
-1. Evaluate if KaTeX is worth adding for objective function
-2. Add GitHub permalink to repository
-3. Fine-tune responsive styling for equations
+### Phase 2: Content Structure
+1. Create prominent objective function box using KaTeX BlockMath
+2. Add variable definitions section
+3. Add Algorithm section with n-links/t-links explanation
+4. Add condensed Data Sources and Post-Processing sections
+5. Add Implementation Stack with library links
+6. Add navigation links to Map and Story tabs
+
+### Phase 3: GitHub Integration and Mobile
+1. Add "View Source on GitHub" link at top
+2. Add commit SHA reference note for code links
+3. Add horizontal scroll container for equation block (mobile support)
+4. Test on mobile viewport sizes
+
+### Key Implementation Details
+- **Skip Motivation section** - already covered by Story tab
+- **Use KaTeX** for the objective function with underbraces
+- **Hybrid GitHub links** - master for repo root, SHA for specific lines
+- **Horizontal scroll** for equations on mobile (no font reduction)
