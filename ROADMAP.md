@@ -4,7 +4,7 @@ This document outlines the implementation plan for Half of America.
 
 ## Current Status
 
-**Sub-Phase 5.1: Project Setup** is complete. Moving to Sub-Phase 5.2: Core Visualization.
+**Sub-Phase 5.2: Core Visualization** is complete. Moving to Sub-Phase 5.3: Deployment.
 
 ---
 
@@ -120,13 +120,13 @@ web/                        # Frontend application
 
 ### Sub-Phase 5.2: Core Visualization
 
-- [ ] Integrate MapLibre GL JS basemap via react-map-gl
-- [ ] Add deck.gl with MapboxOverlay in interleaved mode
-- [ ] Implement TopoJSON → GeoJSON conversion via topojson-client
-- [ ] Create GeoJsonLayer for census tract polygons
-- [ ] Add loading state/skeleton during initial data fetch
-- [ ] Implement λ slider control for surface tension parameter
-- [ ] Pre-load layers for each λ value with visibility toggling (instant slider response)
+- [x] Integrate MapLibre GL JS basemap via react-map-gl
+- [x] Add deck.gl with MapboxOverlay in interleaved mode
+- [x] Implement TopoJSON → GeoJSON conversion via topojson-client
+- [x] Create GeoJsonLayer for census tract polygons
+- [x] Add loading state/skeleton during initial data fetch
+- [x] Implement λ slider control for surface tension parameter
+- [x] Pre-load layers for each λ value with visibility toggling (instant slider response)
 
 ### Sub-Phase 5.3: Deployment
 
@@ -151,6 +151,7 @@ Polish for initial release
 
 Ideas for future development:
 
+- **Light/dark mode toggle**: Allow users to switch between Positron (light) and Dark Matter (dark) basemaps
 - **Variable region granularity**: Support other region types (e.g. state, county)
 - **Alternative metrics**: Optimize for other variables (e.g. number of regions instead of perimeter)
 - **Custom thresholds**: Allow users to select different population percentages (25%, 75%, etc.)

@@ -144,8 +144,8 @@ Replace with minimal styles:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `cd web && npm run build`
-- [ ] No ESLint errors: `cd web && npm run lint`
+- [x] TypeScript compiles: `cd web && npm run build`
+- [x] No ESLint errors: `cd web && npm run lint`
 
 #### Manual Verification:
 - [ ] `npm run dev` shows Dark Matter basemap
@@ -326,8 +326,8 @@ export default App;
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `cd web && npm run build`
-- [ ] No ESLint errors: `cd web && npm run lint`
+- [x] TypeScript compiles: `cd web && npm run build`
+- [x] No ESLint errors: `cd web && npm run lint`
 
 #### Manual Verification:
 - [ ] Loading state appears briefly on page load
@@ -512,8 +512,8 @@ import { LambdaSlider } from './components/LambdaSlider';
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `cd web && npm run build`
-- [ ] No ESLint errors: `cd web && npm run lint`
+- [x] TypeScript compiles: `cd web && npm run build`
+- [x] No ESLint errors: `cd web && npm run lint`
 
 #### Manual Verification:
 - [ ] Slider appears in top-left on desktop, bottom on mobile
@@ -660,8 +660,8 @@ import { SummaryPanel } from './components/SummaryPanel';
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `cd web && npm run build`
-- [ ] No ESLint errors: `cd web && npm run lint`
+- [x] TypeScript compiles: `cd web && npm run build`
+- [x] No ESLint errors: `cd web && npm run lint`
 
 #### Manual Verification:
 - [ ] Summary panel appears in top-right corner
@@ -889,8 +889,8 @@ if (state.status === 'error') {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `cd web && npm run build`
-- [ ] No ESLint errors: `cd web && npm run lint`
+- [x] TypeScript compiles: `cd web && npm run build`
+- [x] No ESLint errors: `cd web && npm run lint`
 
 #### Manual Verification:
 - [ ] Loading overlay shows with progress bar during initial load
@@ -1021,19 +1021,148 @@ Add to Future Enhancements:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `cd web && npm run build`
-- [ ] No ESLint errors: `cd web && npm run lint`
-- [ ] Production build succeeds and runs: `cd web && npm run build && npm run preview`
+- [x] TypeScript compiles: `cd web && npm run build`
+- [x] No ESLint errors: `cd web && npm run lint`
+- [x] Production build succeeds and runs: `cd web && npm run build && npm run preview`
 
 #### Manual Verification:
-- [ ] Complete user flow works: loading → map → slider interaction
-- [ ] All components properly styled and positioned
-- [ ] Mobile responsive (test at 375px width)
-- [ ] No console errors or warnings
-- [ ] Summary panel shows accurate data
-- [ ] Slider provides instant feedback
+- [x] Complete user flow works: loading → map → slider interaction
+- [x] All components properly styled and positioned
+- [x] Mobile responsive (test at 375px width)
+- [x] No console errors or warnings
+- [x] Summary panel shows accurate data
+- [x] Slider provides instant feedback
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that the manual testing was successful.
+
+---
+
+## Phase 7: Individual Polygon Hover Highlighting
+
+### Overview
+Enable hover highlighting of individual disconnected regions rather than the entire MultiPolygon feature.
+
+### Problem
+The dissolved TopoJSON geometries store all selected regions as a single MultiPolygon feature. When hovering, deck.gl highlights the entire feature (all regions) rather than just the polygon under the cursor.
+
+### Solution
+Split MultiPolygon features into individual Polygon features client-side after loading. This allows deck.gl's `autoHighlight` to work on individual polygons.
+
+### Changes Required:
+
+#### 1. Add explodeMultiPolygons helper to useTopoJsonLoader
+**File**: `web/src/hooks/useTopoJsonLoader.ts`
+
+```typescript
+function explodeMultiPolygons(
+  fc: FeatureCollection<Geometry, HalfAmericaProperties>
+): FeatureCollection<Geometry, HalfAmericaProperties> {
+  const features: Feature<Geometry, HalfAmericaProperties>[] = [];
+  for (const feature of fc.features) {
+    if (feature.geometry.type === 'MultiPolygon') {
+      for (const coordinates of feature.geometry.coordinates) {
+        features.push({
+          type: 'Feature',
+          properties: feature.properties,
+          geometry: { type: 'Polygon', coordinates },
+        });
+      }
+    } else {
+      features.push(feature);
+    }
+  }
+  return { type: 'FeatureCollection', features };
+}
+```
+
+#### 2. Apply explodeMultiPolygons after TopoJSON conversion
+In `loadSingleTopoJSON`, wrap the return:
+
+```typescript
+const geojson = topojson.feature(...);
+return explodeMultiPolygons(geojson);
+```
+
+### Performance Analysis
+- Worst case (λ=0): ~2,779 individual polygon features
+- Best case (λ=0.9): ~288 individual polygon features
+- All 10 layers combined: ~15,000 features total
+- Well within deck.gl's performance envelope (handles 100k+ features)
+
+### Success Criteria:
+
+#### Automated Verification:
+- [x] TypeScript compiles: `cd web && npm run build`
+- [x] No ESLint errors: `cd web && npm run lint`
+
+#### Manual Verification:
+- [x] Hovering over a region highlights only that specific region
+- [x] Other regions remain unhighlighted
+- [x] Works at all lambda values (test λ=0 with many regions and λ=0.9 with few)
+- [x] No performance degradation when switching lambda values
+
+---
+
+## Phase 8: UI Refinements
+
+### Overview
+Polish the visual presentation by removing polygon outlines and adding area statistics to the summary panel.
+
+### Changes Required:
+
+#### 1. Remove white outline from GeoJsonLayer
+**File**: `web/src/App.tsx`
+
+Update the GeoJsonLayer configuration:
+```typescript
+return new GeoJsonLayer({
+  // ...
+  stroked: false,  // Changed from true
+  // Remove getLineColor and getLineWidth
+});
+```
+
+#### 2. Add Area statistic to SummaryPanel
+**File**: `web/src/components/SummaryPanel.tsx`
+
+Add area calculation and display between Population and Regions:
+```tsx
+// Convert area from square meters to square miles
+const areaSqMiles = (props.area_sqm / 2_589_988).toLocaleString(undefined, { maximumFractionDigits: 0 });
+
+// In the JSX, between Population and Regions:
+<div className="stat">
+  <dt>Area</dt>
+  <dd>{areaSqMiles} mi²</dd>
+</div>
+```
+
+#### 3. Add Area per Region statistic to SummaryPanel
+**File**: `web/src/components/SummaryPanel.tsx`
+
+Add area per region calculation and display below Regions:
+```tsx
+// Calculate area per region in square miles
+const areaPerRegion = (props.area_sqm / 2_589_988 / props.num_parts).toLocaleString(undefined, { maximumFractionDigits: 0 });
+
+// In the JSX, after Regions:
+<div className="stat">
+  <dt>Area/Region</dt>
+  <dd>{areaPerRegion} mi²</dd>
+</div>
+```
+
+### Success Criteria:
+
+#### Automated Verification:
+- [x] TypeScript compiles: `cd web && npm run build`
+- [x] No ESLint errors: `cd web && npm run lint`
+
+#### Manual Verification:
+- [x] Polygons render without white outline
+- [x] Area displays in square miles in summary panel
+- [x] Area per Region displays in square miles in summary panel
+- [x] All values update when lambda changes
 
 ---
 
