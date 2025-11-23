@@ -9,6 +9,7 @@ tags: [research, codebase, web-frontend, tabs, navigation, react]
 status: complete
 last_updated: 2025-11-23
 last_updated_by: Claude
+last_updated_note: "Investigated open questions for Map persistence, tab bar position, and mobile UX"
 ---
 
 # Research: Create Tab Structure with Map, Story, and Method Stubs
@@ -186,24 +187,200 @@ No prior research on tabs found in thoughts/ directory. This is a greenfield imp
 
 - `thoughts/shared/research/2025-11-22-deck-gl-feasibility.md` - deck.gl integration research
 
+## Investigated Questions
+
+### 1. URL sync: Should tabs sync to URL hash for shareability?
+
+**User Response**: Yes
+
+**Implementation**: Use hash routing (`#map`, `#story`, `#method`) with the Map tab as default when no hash is present.
+
+---
+
+### 2. Map persistence: Keep Map mounted when on other tabs, or unmount and remount?
+
+**Investigation Summary**
+
+Using `display: none` on deck.gl components causes severe issues (infinite resize loops, WebGL warnings). The recommended approach is a "KeepMounted" pattern with `visibility: collapse`.
+
+**Options Analysis**
+
+| Option | Pros | Cons |
+|--------|------|------|
+| **Conditional render** | Lower memory when hidden, clean initial load | Loses all state, expensive to recreate WebGL resources |
+| **display: none** | Preserves state, simple | **Breaks deck.gl** - causes infinite resize loops |
+| **visibility: collapse** | Preserves state, deck.gl compatible | Mounts at startup even if never accessed |
+| **KeepMounted + visibility** | Lazy init + state persistence | Slightly more complex |
+
+**Recommendation**: Use **KeepMounted pattern with `visibility: collapse`**
+
+```tsx
+// hooks/useKeepMounted.ts
+export function useKeepMounted(isActive: boolean) {
+  const [hasBeenMounted, setHasBeenMounted] = useState(false);
+  useEffect(() => {
+    if (isActive && !hasBeenMounted) setHasBeenMounted(true);
+  }, [isActive, hasBeenMounted]);
+  return { shouldRender: hasBeenMounted, isVisible: isActive };
+}
+
+// Usage in MapTab
+function MapTab({ isActive }: { isActive: boolean }) {
+  const { shouldRender, isVisible } = useKeepMounted(isActive);
+  const mapRef = useRef<MapRef>(null);
+
+  useEffect(() => {
+    if (isVisible && mapRef.current) {
+      requestAnimationFrame(() => mapRef.current?.resize());
+    }
+  }, [isVisible]);
+
+  if (!shouldRender) return null;
+
+  return (
+    <div style={{ visibility: isVisible ? 'visible' : 'collapse' }}>
+      <Map ref={mapRef} ... />
+    </div>
+  );
+}
+```
+
+**Key implementation notes**:
+- Use `visibility: collapse` not `display: none`
+- Call `map.resize()` after showing the map
+- Move TopoJSON loading to trigger on first Map tab access
+
+---
+
+### 3. Loading state: Should loading overlay show for all tabs or just Map?
+
+**User Response**: Just Map tab.
+
+**Implementation**: Show loading overlay only when Map tab is active AND data is loading. If user navigates directly to `#story`, show Story content immediately and load Map data in background (or defer until Map tab is accessed).
+
+---
+
+### 4. Tab bar position: Top fixed, or integrate with Map controls?
+
+**Investigation Summary**
+
+Analyzed current control positioning (LambdaSlider top-left, SummaryPanel top-right) and evaluated options for tab placement that fits the "immersive, minimal chrome" design goal.
+
+**Options Analysis**
+
+| Option | Minimal Chrome | Discoverability | Integration Effort |
+|--------|---------------|-----------------|-------------------|
+| Top center bar | Medium | High | Low |
+| Integrate with slider | Low | Medium | High |
+| Top-left stack | Medium | Medium | Medium |
+| **Ultra-minimal pills (top center)** | **High** | Low-Medium | Low |
+| Bottom nav | Low | High | Medium |
+
+**Recommendation**: **Ultra-minimal floating pills at top center**
+
+```css
+.tab-bar {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 1;
+}
+.tab-button {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  border: none;
+  padding: 6px 12px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.tab-button:hover { color: rgba(255, 255, 255, 0.9); }
+.tab-button.active {
+  color: #fff;
+  background: rgba(30, 30, 30, 0.7);
+  border-radius: 4px;
+}
+```
+
+**Rationale**: Maximizes map visibility, matches "immersive" design goal, does not require repositioning existing controls. Tabs feel like navigation metadata rather than competing chrome.
+
+**Fallback**: If user testing reveals pills are too subtle, use standard panel-styled top center bar.
+
+---
+
+### 5. Mobile UX: Tabs as horizontal bar, bottom navigation, or hamburger menu?
+
+**Investigation Summary**
+
+Research strongly favors visible navigation over hamburger menus (20%+ drop in discoverability). Thumb zone research shows bottom navigation is most accessible for one-handed mobile use.
+
+**Options Analysis**
+
+| Option | Thumb Reachability | Discoverability | Conflict with Slider |
+|--------|-------------------|-----------------|---------------------|
+| Top horizontal | Poor (stretch zone) | High | None |
+| **Bottom nav bar** | **Excellent** | **High** | Requires adjustment |
+| Hamburger menu | N/A (2 taps) | Poor (-20%) | None |
+| FAB menu | Good | Medium | Minimal |
+
+**Recommendation**: **Compact bottom navigation bar**
+
+```
+Mobile Layout:
++---------------------------+
+|        FULL SCREEN        |
+|           MAP             |
++---------------------------+
+|    [LambdaSlider]         |  <- bottom: ~110px (Map tab only)
++---------------------------+
+| [Map]  [Story]  [Method]  |  <- bottom: 0, height: ~50px
++---------------------------+
+```
+
+```css
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: rgba(30, 30, 30, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 10;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+```
+
+**Key adjustments**:
+- Move LambdaSlider to `bottom: 110px` on mobile
+- Hide LambdaSlider on Story/Method tabs
+- Use `env(safe-area-inset-bottom)` for iOS notch safety
+
+**Research sources**: Nielsen Norman Group, Smashing Magazine, Google Maps Platform
+
 ## Open Questions
 
-1. **URL sync**: Should tabs sync to URL hash for shareability? (e.g., `#story`)
-RESPONSE: Yes
-2. **Map persistence**: Keep Map mounted when on other tabs, or unmount and remount?
-3. **Loading state**: Should loading overlay show for all tabs or just Map?
-RESPONSE: I think just Map, unless I'm misunderstanding the question. My interpretation is that you're asking whether we should show the loading screen if someone is going directly to the #story tab (as an example). I don't see why we should. If anything, we could either show the relevant content and load the map silently, or just load the map once the user has switched to the Map tab.
-4. **Tab bar position**: Top fixed, or integrate with Map controls?
-5. **Mobile UX**: Tabs as horizontal bar, bottom navigation, or hamburger menu?
+No remaining open questions.
 
 ## Implementation Checklist
 
-- [ ] Create `TabBar.tsx` component with Map/Story/Method buttons
-- [ ] Create `TabBar.css` with styling matching existing panels
-- [ ] Extract current Map logic into `MapTab.tsx`
+- [ ] Create `useKeepMounted.ts` hook for lazy mount + state persistence
+- [ ] Create `TabBar.tsx` component with ultra-minimal pill styling (desktop)
+- [ ] Create `TabBar.css` with desktop (top center pills) and mobile (bottom nav) styles
+- [ ] Extract current Map logic into `MapTab.tsx` with KeepMounted pattern
+- [ ] Add `map.resize()` call when Map tab becomes visible
 - [ ] Create `StoryTab.tsx` stub (placeholder content)
 - [ ] Create `MethodTab.tsx` stub (placeholder content)
-- [ ] Update `App.tsx` with tab state and conditional rendering
-- [ ] Ensure TopoJSON loading persists across tab switches
-- [ ] Add responsive styles for mobile tab navigation
-- [ ] Test all tabs render correctly
+- [ ] Update `App.tsx` with tab state, hash routing, and conditional rendering
+- [ ] Modify `useTopoJsonLoader` to support lazy loading on first Map tab access
+- [ ] Move loading overlay logic to only show when Map tab active + loading
+- [ ] Adjust LambdaSlider mobile position to `bottom: 110px`
+- [ ] Hide LambdaSlider/SummaryPanel on non-Map tabs
+- [ ] Add `env(safe-area-inset-bottom)` for iOS notch safety
+- [ ] Test all tabs render correctly with hash navigation
