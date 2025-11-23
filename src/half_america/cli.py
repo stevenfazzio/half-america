@@ -40,11 +40,19 @@ def cli() -> None:
     help="Lambda increment (default: 0.1)",
 )
 @click.option(
+    "--lambda-max",
+    type=float,
+    default=0.99,
+    help="Maximum lambda value, exclusive (default: 0.99)",
+)
+@click.option(
     "--skip-failures",
     is_flag=True,
     help="Continue sweep even if some lambda values fail to converge",
 )
-def precompute(force: bool, lambda_step: float, skip_failures: bool) -> None:
+def precompute(
+    force: bool, lambda_step: float, lambda_max: float, skip_failures: bool
+) -> None:
     """Pre-compute optimization results for all lambda values."""
     cache_path = get_sweep_cache_path(lambda_step)
 
@@ -59,8 +67,8 @@ def precompute(force: bool, lambda_step: float, skip_failures: bool) -> None:
     click.echo("Building graph data...")
     graph_data = load_graph_data(gdf)
 
-    # Generate lambda values from 0.0 up to but not including 1.0
-    num_steps = int(1 / lambda_step)
+    # Generate lambda values from 0.0 up to but not including lambda_max
+    num_steps = int(lambda_max / lambda_step)
     lambda_values = [round(i * lambda_step, 2) for i in range(num_steps)]
     click.echo(f"Running sweep for {len(lambda_values)} lambda values...")
 

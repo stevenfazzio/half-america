@@ -50,7 +50,7 @@ function explodeMultiPolygons(
 async function loadSingleTopoJSON(lambda: LambdaValue): Promise<FeatureCollection<Geometry, HalfAmericaProperties>> {
   const response = await fetch(getTopoJsonPath(lambda));
   if (!response.ok) {
-    throw new Error(`Failed to load lambda_${lambda.toFixed(1)}.json: ${response.status}`);
+    throw new Error(`Failed to load lambda_${lambda.toFixed(2)}.json: ${response.status}`);
   }
   const topology = await response.json() as HalfAmericaTopology;
   const geojson = topojson.feature(topology, topology.objects.selected_region) as FeatureCollection<Geometry, HalfAmericaProperties>;
@@ -82,14 +82,30 @@ async function performLoad() {
   notifyListeners();
 
   const dataMap = new Map<LambdaValue, FeatureCollection<Geometry, HalfAmericaProperties>>();
-  let loadedCount = 0;
 
   try {
-    // Load files sequentially to track progress
-    for (const lambda of LAMBDA_VALUES) {
-      const geojson = await loadSingleTopoJSON(lambda);
-      dataMap.set(lambda, geojson);
-      loadedCount++;
+    // Load all files in parallel with batching to avoid overwhelming the browser
+    const BATCH_SIZE = 10; // 10 concurrent requests at a time
+    const batches: LambdaValue[][] = [];
+
+    for (let i = 0; i < LAMBDA_VALUES.length; i += BATCH_SIZE) {
+      batches.push(LAMBDA_VALUES.slice(i, i + BATCH_SIZE) as LambdaValue[]);
+    }
+
+    let loadedCount = 0;
+    for (const batch of batches) {
+      const results = await Promise.all(
+        batch.map(async (lambda) => {
+          const geojson = await loadSingleTopoJSON(lambda);
+          return { lambda, geojson };
+        })
+      );
+
+      for (const { lambda, geojson } of results) {
+        dataMap.set(lambda, geojson);
+      }
+
+      loadedCount += batch.length;
       cachedState = { status: 'loading', loaded: loadedCount, total: LAMBDA_VALUES.length };
       notifyListeners();
     }

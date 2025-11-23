@@ -32,11 +32,11 @@ export function LambdaSlider({ value, onChange, disabled }: LambdaSliderProps) {
           onChange={handleChange}
           disabled={disabled}
           aria-valuemin={0}
-          aria-valuemax={0.9}
+          aria-valuemax={0.98}
           aria-valuenow={value}
-          aria-valuetext={`Lambda ${value.toFixed(1)}`}
+          aria-valuetext={`Lambda ${value.toFixed(2)}`}
         />
-        <span className="lambda-value">{value.toFixed(1)}</span>
+        <span className="lambda-value">{value.toFixed(2)}</span>
       </div>
       <p className="lambda-hint">
         {value < 0.3 ? 'Minimizes area (more fragmented)' :

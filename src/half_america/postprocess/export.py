@@ -139,7 +139,7 @@ def export_all_lambdas(
             num_parts=dissolve_result.num_parts,
         )
 
-        output_path = output_dir / f"lambda_{lambda_val}.json"
+        output_path = output_dir / f"lambda_{lambda_val:.2f}.json"
         result = export_to_topojson(
             geometry=simplify_result.geometry,
             output_path=output_path,
@@ -197,7 +197,7 @@ def export_combined_topojson(
         )
         gdf_wgs84 = gdf.to_crs("EPSG:4326")
         gdfs.append(gdf_wgs84)
-        object_names.append(f"lambda_{lambda_val}")
+        object_names.append(f"lambda_{lambda_val:.2f}")
 
     if verbose:
         print(f"Creating combined TopoJSON with {len(gdfs)} objects...")

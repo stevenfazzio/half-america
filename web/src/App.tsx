@@ -36,7 +36,7 @@ function App() {
     return LAMBDA_VALUES.map((lambda) => {
       const data = state.data.get(lambda);
       return new GeoJsonLayer({
-        id: `layer-${lambda.toFixed(1)}`,
+        id: `layer-${lambda.toFixed(2)}`,
         data,
         visible: lambda === currentLambda,
         filled: true,
