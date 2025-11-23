@@ -2,7 +2,9 @@
 
 ## Overview
 
-Increase lambda (surface tension) granularity from 0.1 to 0.01 increments, expanding from 10 values to 100 values. This enables smoother slider interaction with less visual "jumping" between adjacent lambda values.
+Increase lambda (surface tension) granularity from 0.1 to 0.01 increments, expanding from 10 values to 99 values (0.00-0.98). This enables smoother slider interaction with less visual "jumping" between adjacent lambda values.
+
+**Status: ✅ IMPLEMENTED** (2025-11-23)
 
 ## Current State Analysis
 
@@ -37,15 +39,15 @@ Increase lambda (surface tension) granularity from 0.1 to 0.01 increments, expan
 ## Desired End State
 
 After implementation:
-- **Lambda values**: `[0.0, 0.01, 0.02, ..., 0.99]` (100 values)
+- **Lambda values**: `[0.0, 0.01, 0.02, ..., 0.98]` (99 values) — *Note: 0.99 excluded to avoid convergence issues near λ=1.0*
 - **File naming**: `lambda_X.XX.json` with 2 decimal precision
-- **Slider**: 100 discrete positions with smooth stepping
+- **Slider**: 99 discrete positions with smooth stepping
 - **Load time**: Acceptable (<5 seconds target, achieved via parallel loading)
 
 ### Verification
-1. Slider moves smoothly through 100 positions
+1. Slider moves smoothly through 99 positions
 2. Each lambda value displays correctly with 2 decimal places
-3. Map visualization updates correctly for all 100 values
+3. Map visualization updates correctly for all 99 values
 4. Initial load completes in <5 seconds on typical connection
 
 ## What We're NOT Doing
@@ -82,20 +84,20 @@ cp data/output/topojson/lambda_*.json web/public/data/
 ```
 
 ### Expected Output
-- 100 files: `lambda_0.00.json` through `lambda_0.99.json`
+- 99 files: `lambda_0.00.json` through `lambda_0.98.json`
 - Cache file: `data/cache/processed/sweep_2024_2022_0.01.pkl`
-- Total size: ~12-15 MB
+- Total size: ~11 MB
 
 ### Success Criteria
 
 #### Automated Verification:
-- [ ] 100 files exist in `web/public/data/`: `ls web/public/data/lambda_*.json | wc -l` returns 100
-- [ ] Files follow naming pattern: `ls web/public/data/lambda_0.00.json` succeeds
-- [ ] No old single-decimal files remain: `ls web/public/data/lambda_0.0.json` fails
+- [x] 99 files exist in `web/public/data/`: `ls web/public/data/lambda_*.json | wc -l` returns 99
+- [x] Files follow naming pattern: `ls web/public/data/lambda_0.00.json` succeeds
+- [x] No old single-decimal files remain: `ls web/public/data/lambda_0.0.json` fails
 
 #### Manual Verification:
-- [ ] Spot-check a few files open correctly in a JSON viewer
-- [ ] Verify file sizes follow expected pattern (0.00 largest, 0.99 smallest)
+- [x] Spot-check a few files open correctly in a JSON viewer
+- [x] Verify file sizes follow expected pattern (0.00 largest, 0.98 smallest)
 
 **Implementation Note**: This phase can be run independently before any code changes.
 
@@ -104,18 +106,18 @@ cp data/output/topojson/lambda_*.json web/public/data/
 ## Phase 2: Frontend Updates
 
 ### Overview
-Update the frontend to use 100 lambda values with 2-decimal precision.
+Update the frontend to use 99 lambda values with 2-decimal precision.
 
 ### Changes Required
 
 #### 1. Lambda Type Definitions
 **File**: `web/src/types/lambda.ts`
-**Changes**: Expand `LAMBDA_VALUES` to 100 elements, update `toFixed(1)` to `toFixed(2)`
+**Changes**: Expand `LAMBDA_VALUES` to 99 elements, update `toFixed(1)` to `toFixed(2)`
 
 ```typescript
 /**
  * Lambda parameter values for surface tension control.
- * λ≈0 minimizes area (dusty map), λ≈0.99 minimizes perimeter (smooth blobs).
+ * λ≈0 minimizes area (dusty map), λ≈0.98 minimizes perimeter (smooth blobs).
  */
 export const LAMBDA_VALUES = [
   0.0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09,
@@ -127,7 +129,7 @@ export const LAMBDA_VALUES = [
   0.6, 0.61, 0.62, 0.63, 0.64, 0.65, 0.66, 0.67, 0.68, 0.69,
   0.7, 0.71, 0.72, 0.73, 0.74, 0.75, 0.76, 0.77, 0.78, 0.79,
   0.8, 0.81, 0.82, 0.83, 0.84, 0.85, 0.86, 0.87, 0.88, 0.89,
-  0.9, 0.91, 0.92, 0.93, 0.94, 0.95, 0.96, 0.97, 0.98, 0.99,
+  0.9, 0.91, 0.92, 0.93, 0.94, 0.95, 0.96, 0.97, 0.98,
 ] as const;
 
 export type LambdaValue = (typeof LAMBDA_VALUES)[number];
@@ -146,7 +148,7 @@ export const getTopoJsonPath = (lambda: LambdaValue): string =>
 
 ```typescript
 // Line 35: Update aria-valuemax
-aria-valuemax={0.99}
+aria-valuemax={0.98}
 
 // Line 37: Update aria-valuetext precision
 aria-valuetext={`Lambda ${value.toFixed(2)}`}
@@ -181,15 +183,15 @@ throw new Error(`Failed to load lambda_${lambda.toFixed(2)}.json: ${response.sta
 ### Success Criteria
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `cd web && npm run build`
-- [ ] Linting passes: `cd web && npm run lint`
-- [ ] No runtime errors in dev server: `cd web && npm run dev`
+- [x] TypeScript compiles: `cd web && npm run build`
+- [x] Linting passes: `cd web && npm run lint`
+- [x] No runtime errors in dev server: `cd web && npm run dev`
 
 #### Manual Verification:
-- [ ] Slider displays values with 2 decimal places (e.g., "0.50" not "0.5")
-- [ ] Slider has 100 discrete positions
-- [ ] Map updates correctly when moving slider
-- [ ] All 100 lambda values load and display correctly
+- [x] Slider displays values with 2 decimal places (e.g., "0.50" not "0.5")
+- [x] Slider has 99 discrete positions
+- [x] Map updates correctly when moving slider
+- [x] All 99 lambda values load and display correctly
 
 **Implementation Note**: After completing this phase, test locally before proceeding. Load time may be slow (~10-20s) - this is expected and addressed in Phase 3.
 
@@ -198,7 +200,9 @@ throw new Error(`Failed to load lambda_${lambda.toFixed(2)}.json: ${response.sta
 ## Phase 3: Performance Assessment
 
 ### Overview
-Measure actual load time with 100 files and determine if optimization is needed.
+Measure actual load time with 99 files and determine if optimization is needed.
+
+**Note**: Phase 4 (parallel loading) was implemented proactively during Phase 2. Manual load time verification is still pending.
 
 ### Testing Procedure
 
@@ -241,6 +245,8 @@ Measure actual load time with 100 files and determine if optimization is needed.
 
 ### Overview
 If load time exceeds 5 seconds, implement parallel HTTP requests to speed up loading.
+
+**Status**: ✅ Implemented proactively during Phase 2
 
 ### Changes Required
 
@@ -295,13 +301,13 @@ async function performLoad() {
 ### Success Criteria
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `cd web && npm run build`
-- [ ] No runtime errors: `cd web && npm run dev`
+- [x] TypeScript compiles: `cd web && npm run build`
+- [x] No runtime errors: `cd web && npm run dev`
 
 #### Manual Verification:
 - [ ] Load time reduced to <5 seconds
 - [ ] Progress indicator still updates smoothly
-- [ ] All 100 files load correctly
+- [ ] All 99 files load correctly
 - [ ] No browser console errors
 
 ---
@@ -312,13 +318,13 @@ async function performLoad() {
 No new unit tests required - this is primarily a configuration change.
 
 ### Integration Tests
-- Verify all 100 TopoJSON files parse correctly
-- Verify slider traverses all 100 values
+- Verify all 99 TopoJSON files parse correctly
+- Verify slider traverses all 99 values
 
 ### Manual Testing Steps
 1. Load the application fresh (clear cache)
-2. Verify loading overlay shows progress (0/100 → 100/100)
-3. Move slider from 0.00 to 0.99, verify smooth stepping
+2. Verify loading overlay shows progress (0/99 → 99/99)
+3. Move slider from 0.00 to 0.98, verify smooth stepping
 4. Verify map updates at each position
 5. Check that lambda value display shows 2 decimal places
 6. Test on mobile device (responsive layout)
@@ -326,8 +332,8 @@ No new unit tests required - this is primarily a configuration change.
 
 ## Performance Considerations
 
-- **Memory**: 100 FeatureCollections in memory (~50-100 MB depending on geometry complexity)
-- **deck.gl layers**: 100 layers created, only 1 visible at a time (deck.gl handles this efficiently)
+- **Memory**: 99 FeatureCollections in memory (~50-100 MB depending on geometry complexity)
+- **deck.gl layers**: 99 layers created, only 1 visible at a time (deck.gl handles this efficiently)
 - **Initial load**: Target <5 seconds; parallel loading achieves ~3-5x speedup over sequential
 
 ## Migration Notes
