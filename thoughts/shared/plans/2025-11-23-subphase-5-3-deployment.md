@@ -125,8 +125,8 @@ jobs:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File exists at `.github/workflows/deploy.yml`
-- [ ] YAML syntax is valid: `python -c "import yaml; yaml.safe_load(open('.github/workflows/deploy.yml'))"`
+- [x] File exists at `.github/workflows/deploy.yml`
+- [x] YAML syntax is valid: `python -c "import yaml; yaml.safe_load(open('.github/workflows/deploy.yml'))"`
 - [ ] Workflow appears in GitHub Actions UI after push
 
 #### Manual Verification:
@@ -194,8 +194,8 @@ Confirm the deployed site functions correctly.
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Site returns 200: `curl -s -o /dev/null -w "%{http_code}" https://stevenfazzio.github.io/half-america`
-- [ ] Index.html contains expected content: `curl -s https://stevenfazzio.github.io/half-america | grep -q "half-america"`
+- [x] Site returns 200: `curl -s -o /dev/null -w "%{http_code}" https://stevenfazzio.github.io/half-america`
+- [x] Index.html contains expected content: `curl -s https://stevenfazzio.github.io/half-america | grep -q "half-america"`
 
 #### Manual Verification:
 - [ ] Map renders correctly in browser
@@ -229,7 +229,7 @@ Mark Sub-Phase 5.3 as complete in the roadmap.
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] ROADMAP.md contains `[x]` for both Sub-Phase 5.3 tasks
+- [x] ROADMAP.md contains `[x]` for both Sub-Phase 5.3 tasks
 
 #### Manual Verification:
 - [ ] None required

@@ -4,7 +4,7 @@ This document outlines the implementation plan for Half of America.
 
 ## Current Status
 
-**Sub-Phase 5.2: Core Visualization** is complete. Moving to Sub-Phase 5.3: Deployment.
+**Phase 5: Web Frontend** is complete. The site is live at https://stevenfazzio.github.io/half-america
 
 ---
 
@@ -130,8 +130,8 @@ web/                        # Frontend application
 
 ### Sub-Phase 5.3: Deployment
 
-- [ ] Set up GitHub Actions workflow (`working-directory: ./web`)
-- [ ] Deploy to GitHub Pages (`stevenfazzio.github.io/half-america`)
+- [x] Set up GitHub Actions workflow (`working-directory: ./web`)
+- [x] Deploy to GitHub Pages (`stevenfazzio.github.io/half-america`)
 
 ---
 
