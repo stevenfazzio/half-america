@@ -272,17 +272,17 @@ export function StoryTab() {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Build passes: `cd web && npm run build`
-- [ ] Lint passes: `cd web && npm run lint`
-- [ ] Dev server starts: `cd web && npm run dev`
-- [ ] Story tab accessible at `http://localhost:5173/#story`
+- [x] Build passes: `cd web && npm run build`
+- [x] Lint passes: `cd web && npm run lint`
+- [x] Dev server starts: `cd web && npm run dev`
+- [x] Story tab accessible at `http://localhost:5175/#story`
 
 #### Manual Verification:
-- [ ] Content renders correctly with proper typography
-- [ ] Links to Map and Method tabs work
-- [ ] Mobile layout looks reasonable (responsive CSS already exists)
-- [ ] Dark background and white text provide good contrast
-- [ ] No marketing tone - reads as a thoughtful guide
+- [x] Content renders correctly with proper typography
+- [x] Links to Map and Method tabs work
+- [x] Mobile layout looks reasonable (responsive CSS already exists)
+- [x] Dark background and white text provide good contrast
+- [x] No marketing tone - reads as a thoughtful guide
 
 ---
 
