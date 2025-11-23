@@ -138,7 +138,7 @@ class TestExportAllLambdas:
     def test_creates_correct_filenames(
         self, sample_simplify_results, sample_dissolve_results, tmp_path
     ):
-        """Should create files with lambda_X.X.json naming."""
+        """Should create files with lambda_X.XX.json naming."""
         export_all_lambdas(
             sample_simplify_results,
             sample_dissolve_results,
@@ -147,7 +147,7 @@ class TestExportAllLambdas:
         )
 
         for lambda_val in sample_simplify_results:
-            expected_path = tmp_path / f"lambda_{lambda_val}.json"
+            expected_path = tmp_path / f"lambda_{lambda_val:.2f}.json"
             assert expected_path.exists()
 
 
@@ -186,7 +186,7 @@ class TestExportCombinedTopojson:
 
         assert data["type"] == "Topology"
         for lambda_val in sample_simplify_results:
-            assert f"lambda_{lambda_val}" in data["objects"]
+            assert f"lambda_{lambda_val:.2f}" in data["objects"]
 
 
 # Fixtures specific to export tests
