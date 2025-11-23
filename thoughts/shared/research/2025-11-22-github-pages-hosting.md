@@ -97,10 +97,10 @@ GitHub Pages returns 404 for client-side routes. Solutions:
 
 For this project, HashRouter is fine since we likely only need one route (the map).
 
-#### Mapbox GL JS
+#### MapLibre GL JS
 
-- Works on GitHub Pages, but watch for version-specific issues
-- Access token is exposed in client-side code (unavoidable for any static hosting)
+- Works on GitHub Pages with no special configuration
+- No API token required (using CARTO basemaps)
 - Consider CDN loading to reduce bundle size
 
 #### TopoJSON Serving

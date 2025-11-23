@@ -1,15 +1,8 @@
 # Sub-Phase 5.1: Project Setup Implementation Plan
 
-> **STATUS (2025-11-22):** RESUMING - Migrating from Mapbox to MapLibre.
+> **STATUS (2025-11-22):** COMPLETE. All phases (1-6) finished. Manual verification passed.
 >
-> Phases 1-5 completed with Mapbox dependencies. Research concluded MapLibre is better for this portfolio project (see `thoughts/shared/research/2025-11-22-maplibre-vs-mapbox.md`).
->
-> **Decision:** Switch to MapLibre before committing. Phase 6 added for migration.
->
-> **Current state:**
-> - `web/` directory exists with Mapbox deps (not yet committed)
-> - Need to swap packages, update code, update docs
-> - Then complete manual verification and commit
+> Sub-Phase 5.1 is done. Ready for Sub-Phase 5.2 (Core Visualization).
 
 ## Overview
 
@@ -687,18 +680,18 @@ npx tsc --noEmit
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] `maplibre-gl` in package.json: `grep -q "maplibre-gl" web/package.json`
-- [ ] `mapbox-gl` NOT in package.json: `! grep -q "mapbox-gl" web/package.json`
-- [ ] No .env.example: `! test -f web/.env.example`
-- [ ] TypeScript compiles: `cd web && npx tsc --noEmit`
-- [ ] Build succeeds: `cd web && npm run build`
-- [ ] CLAUDE.md mentions MapLibre: `grep -q "MapLibre" CLAUDE.md`
-- [ ] ROADMAP.md mentions MapLibre: `grep -q "MapLibre" ROADMAP.md`
+- [x] `maplibre-gl` in package.json: `grep -q "maplibre-gl" web/package.json`
+- [x] `mapbox-gl` NOT in package.json: `! grep -q "mapbox-gl" web/package.json`
+- [x] No .env.example: `! test -f web/.env.example`
+- [x] TypeScript compiles: `cd web && npx tsc --noEmit`
+- [x] Build succeeds: `cd web && npm run build`
+- [x] CLAUDE.md mentions MapLibre: `grep -q "MapLibre" CLAUDE.md`
+- [x] ROADMAP.md mentions MapLibre: `grep -q "MapLibre" ROADMAP.md`
 
 #### Manual Verification:
-- [ ] Dev server starts: `cd web && npm run dev`
-- [ ] Page loads at http://localhost:5173/half-america/
-- [ ] No Mapbox token warning shown
-- [ ] TopoJSON file paths are displayed correctly
+- [x] Dev server starts: `cd web && npm run dev`
+- [x] Page loads at http://localhost:5173/half-america/ (or next available port)
+- [x] No Mapbox token warning shown
+- [x] TopoJSON file paths are displayed correctly
 
 **Implementation Note**: After completing this phase and all verification passes, the `web/` directory is ready to commit.

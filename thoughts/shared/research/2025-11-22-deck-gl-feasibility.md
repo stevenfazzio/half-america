@@ -13,6 +13,8 @@ last_updated_by: Claude
 
 # Research: deck.gl Feasibility for Half of America Web Frontend
 
+> **Update (2025-11-22):** This research was conducted with Mapbox GL JS in mind. We have since decided to use **MapLibre GL JS** instead. All patterns and recommendations in this document apply equally to MapLibre - the `@deck.gl/mapbox` module works with both libraries, and `react-map-gl` supports both via `/mapbox` and `/maplibre` imports. See `thoughts/shared/research/2025-11-22-maplibre-vs-mapbox.md` for the comparison.
+
 **Date**: 2025-11-22
 **Researcher**: Claude
 **Git Commit**: 2a30aa9b98687a205fd1c86247715eff9597e551
