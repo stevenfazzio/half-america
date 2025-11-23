@@ -1,8 +1,21 @@
 # Sub-Phase 5.1: Project Setup Implementation Plan
 
+> **STATUS (2025-11-22):** RESUMING - Migrating from Mapbox to MapLibre.
+>
+> Phases 1-5 completed with Mapbox dependencies. Research concluded MapLibre is better for this portfolio project (see `thoughts/shared/research/2025-11-22-maplibre-vs-mapbox.md`).
+>
+> **Decision:** Switch to MapLibre before committing. Phase 6 added for migration.
+>
+> **Current state:**
+> - `web/` directory exists with Mapbox deps (not yet committed)
+> - Need to swap packages, update code, update docs
+> - Then complete manual verification and commit
+
 ## Overview
 
-Set up the React + Vite frontend project scaffold with deck.gl and Mapbox dependencies, configured for GitHub Pages deployment. This creates the foundation for the interactive visualization without implementing the actual map components (Sub-Phase 5.2) or deployment workflow (Sub-Phase 5.3).
+Set up the React + Vite frontend project scaffold with deck.gl and MapLibre dependencies, configured for GitHub Pages deployment. This creates the foundation for the interactive visualization without implementing the actual map components (Sub-Phase 5.2) or deployment workflow (Sub-Phase 5.3).
+
+> **Note:** This plan was originally written for Mapbox. Phase 6 was added to migrate to MapLibre after research showed it's better suited for this portfolio project. Phases 1-5 contain the original Mapbox implementation steps (now complete); Phase 6 transforms the setup to use MapLibre.
 
 ## Current State Analysis
 
@@ -28,9 +41,9 @@ Set up the React + Vite frontend project scaffold with deck.gl and Mapbox depend
 After this plan is complete:
 
 1. A `web/` directory exists with a working React + Vite + TypeScript scaffold
-2. All required dependencies are installed (react-map-gl, deck.gl, mapbox-gl, topojson-client)
+2. All required dependencies are installed (react-map-gl, deck.gl, maplibre-gl, topojson-client)
 3. Vite is configured with `base: '/half-america/'` for GitHub Pages
-4. Environment configuration exists for `VITE_MAPBOX_ACCESS_TOKEN`
+4. No API token required (MapLibre + CARTO basemaps are free)
 5. TopoJSON files are copied to `web/public/data/`
 6. Dev server runs successfully (`npm run dev`)
 7. Production build succeeds (`npm run build`)
@@ -90,10 +103,10 @@ npm install -D @types/mapbox-gl @types/topojson-client
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] `web/` directory exists with expected structure
-- [ ] `npm install` completes without errors: `cd web && npm install`
-- [ ] Dependencies present in `package.json`: `grep -q "react-map-gl" web/package.json`
-- [ ] TypeScript compiles: `cd web && npm run build` (will fail on Vite config, but TS should pass)
+- [x] `web/` directory exists with expected structure
+- [x] `npm install` completes without errors: `cd web && npm install`
+- [x] Dependencies present in `package.json`: `grep -q "react-map-gl" web/package.json`
+- [x] TypeScript compiles: `cd web && npm run build` (will fail on Vite config, but TS should pass)
 
 #### Manual Verification:
 - [ ] Confirm `web/node_modules/` contains deck.gl packages
@@ -144,10 +157,10 @@ Vite's template already includes `strict: true`. Verify these settings exist (no
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Vite config has correct base path: `grep -q "base: '/half-america/'" web/vite.config.ts`
-- [ ] TypeScript strict mode enabled: `grep -q '"strict": true' web/tsconfig.json`
-- [ ] Build succeeds: `cd web && npm run build`
-- [ ] Built assets use correct base path: `grep -q "/half-america/assets" web/dist/index.html`
+- [x] Vite config has correct base path: `grep -q "base: '/half-america/'" web/vite.config.ts`
+- [x] TypeScript strict mode enabled: `grep -q '"strict": true' web/tsconfig.app.json`
+- [x] Build succeeds: `cd web && npm run build`
+- [x] Built assets use correct base path: `grep -q "/half-america/assets" web/dist/index.html`
 
 #### Manual Verification:
 - [ ] None required for this phase
@@ -255,13 +268,13 @@ export const getCombinedTopoJsonPath = (): string =>
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] `.env.example` exists: `test -f web/.env.example`
-- [ ] Root `.gitignore` updated: `grep -q "web/node_modules" .gitignore`
-- [ ] Web `.gitignore` exists: `test -f web/.gitignore`
-- [ ] TopoJSON files copied: `ls web/public/data/lambda_*.json | wc -l` returns 10
-- [ ] Combined file copied: `test -f web/public/data/combined.json`
-- [ ] Types file exists: `test -f web/src/types/lambda.ts`
-- [ ] Types compile: `cd web && npx tsc --noEmit`
+- [x] `.env.example` exists: `test -f web/.env.example`
+- [x] Root `.gitignore` updated: `grep -q "web/node_modules" .gitignore`
+- [x] Web `.gitignore` exists: `test -f web/.gitignore`
+- [x] TopoJSON files copied: `ls web/public/data/lambda_*.json | wc -l` returns 10
+- [x] Combined file copied: `test -f web/public/data/combined.json`
+- [x] Types file exists: `test -f web/src/types/lambda.ts`
+- [x] Types compile: `cd web && npx tsc --noEmit`
 
 #### Manual Verification:
 - [ ] User has created `web/.env.local` with their Mapbox token
@@ -397,10 +410,10 @@ Update `web/src/main.tsx` to remove default index.css import if present, or keep
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `cd web && npx tsc --noEmit`
-- [ ] Build succeeds: `cd web && npm run build`
-- [ ] No unused imports: `cd web && npx tsc --noEmit 2>&1 | grep -c "error"` returns 0
-- [ ] index.html has correct title: `grep -q "Half of America" web/index.html`
+- [x] TypeScript compiles: `cd web && npx tsc --noEmit`
+- [x] Build succeeds: `cd web && npm run build`
+- [x] No unused imports: `cd web && npx tsc --noEmit 2>&1 | grep -c "error"` returns 0
+- [x] index.html has correct title: `grep -q "Half of America" web/index.html`
 
 #### Manual Verification:
 - [ ] Dev server starts: `cd web && npm run dev`
@@ -475,8 +488,8 @@ The deployment workflow will use this secret during the build step.
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] CLAUDE.md updated: `grep -q "npm run dev" CLAUDE.md`
-- [ ] GitHub setup doc exists: `test -f web/GITHUB_SETUP.md`
+- [x] CLAUDE.md updated: `grep -q "npm run dev" CLAUDE.md`
+- [x] GitHub setup doc exists: `test -f web/GITHUB_SETUP.md`
 
 #### Manual Verification:
 - [ ] Instructions are clear and complete
@@ -516,4 +529,176 @@ The deployment workflow will use this secret during the build step.
 - Research document: `thoughts/shared/research/2025-11-22-subphase-5-1-project-setup.md`
 - deck.gl feasibility: `thoughts/shared/research/2025-11-22-deck-gl-feasibility.md`
 - GitHub Pages research: `thoughts/shared/research/2025-11-22-github-pages-hosting.md`
+- MapLibre vs Mapbox research: `thoughts/shared/research/2025-11-22-maplibre-vs-mapbox.md`
 - ROADMAP milestones: `ROADMAP.md:114-121`
+
+---
+
+## Phase 6: Migrate to MapLibre
+
+### Overview
+
+Replace Mapbox dependencies with MapLibre and update all documentation. This phase was added after research concluded MapLibre is better suited for this portfolio project (no API key required, free forever, shows FOSS awareness).
+
+### Rationale
+
+See `thoughts/shared/research/2025-11-22-maplibre-vs-mapbox.md` for full analysis. Key points:
+- MapLibre is free and open source (BSD-2 license)
+- No API key needed for the library itself
+- CARTO basemaps are free with no authentication
+- deck.gl's `@deck.gl/mapbox` module works with both libraries
+- Better fit for a portfolio project
+
+### Changes Required:
+
+#### 1. Update npm packages
+**File**: `web/package.json`
+
+Remove Mapbox packages, add MapLibre:
+```bash
+cd web
+npm uninstall mapbox-gl @types/mapbox-gl
+npm install maplibre-gl
+```
+
+Expected dependencies after change:
+```json
+{
+  "dependencies": {
+    "maplibre-gl": "^5.0.0",
+    "react-map-gl": "^8.1.0",
+    "@deck.gl/core": "^9.2.2",
+    "@deck.gl/react": "^9.2.2",
+    "@deck.gl/mapbox": "^9.2.2",
+    "@deck.gl/layers": "^9.2.2",
+    "topojson-client": "^3.1.0"
+  }
+}
+```
+
+#### 2. Update App.tsx smoke test
+**File**: `web/src/App.tsx`
+
+Remove Mapbox token check, simplify to just show data files:
+```typescript
+import { LAMBDA_VALUES, getTopoJsonPath } from './types/lambda';
+import './App.css';
+
+function App() {
+  return (
+    <div className="app">
+      <h1>Half of America</h1>
+      <p>Project setup complete. Map implementation coming in Sub-Phase 5.2.</p>
+
+      <section>
+        <h2>Stack</h2>
+        <p>Using MapLibre GL JS with CARTO basemaps (no API key required).</p>
+      </section>
+
+      <section>
+        <h2>Data Files</h2>
+        <p>TopoJSON files available for lambda values:</p>
+        <ul>
+          {LAMBDA_VALUES.map((lambda) => (
+            <li key={lambda}>
+              <code>{getTopoJsonPath(lambda)}</code>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+export default App;
+```
+
+#### 3. Remove environment files
+**Commands**:
+```bash
+rm web/.env.example
+rm web/.env.local
+```
+
+These are no longer needed since MapLibre + CARTO basemaps require no authentication.
+
+#### 4. Update GITHUB_SETUP.md
+**File**: `web/GITHUB_SETUP.md`
+
+Remove Mapbox token section, simplify:
+```markdown
+# GitHub Configuration for Deployment
+
+These manual steps are required before the deployment workflow (Sub-Phase 5.3) will work.
+
+## Configure GitHub Pages Source
+
+1. Go to repository **Settings** > **Pages**
+2. Under "Build and deployment" > "Source", select **GitHub Actions**
+3. Save changes
+
+This enables deployment via GitHub Actions instead of branch-based deployment.
+
+## Notes
+
+- **No API keys required**: This project uses MapLibre GL JS with CARTO basemaps, which are free and require no authentication.
+- The deployment workflow will be set up in Sub-Phase 5.3.
+```
+
+#### 5. Update CLAUDE.md
+**File**: `CLAUDE.md`
+
+Update the Frontend Development section to remove Mapbox token reference:
+```markdown
+## Frontend Development
+
+```bash
+cd web
+npm install                          # Install dependencies
+npm run dev                          # Start dev server (localhost:5173)
+npm run build                        # Production build
+npm run preview                      # Preview production build
+```
+
+**Stack**: React + Vite + MapLibre GL JS + deck.gl. No API keys required.
+```
+
+Also update the Architecture section to reference MapLibre instead of Mapbox.
+
+#### 6. Update other documentation
+
+**Files to update**:
+- `ROADMAP.md` - Change "Mapbox GL JS" to "MapLibre GL JS" in Phase 5 description
+- `METHODOLOGY.md` - Update implementation stack reference
+
+**Research documents** (update references but preserve historical context):
+- `thoughts/shared/research/2025-11-22-deck-gl-feasibility.md` - Add note about MapLibre compatibility
+- `thoughts/shared/research/2025-11-22-github-pages-hosting.md` - Remove Mapbox token references
+
+#### 7. Verify build still works
+**Commands**:
+```bash
+cd web
+npm install
+npm run build
+npx tsc --noEmit
+```
+
+### Success Criteria:
+
+#### Automated Verification:
+- [ ] `maplibre-gl` in package.json: `grep -q "maplibre-gl" web/package.json`
+- [ ] `mapbox-gl` NOT in package.json: `! grep -q "mapbox-gl" web/package.json`
+- [ ] No .env.example: `! test -f web/.env.example`
+- [ ] TypeScript compiles: `cd web && npx tsc --noEmit`
+- [ ] Build succeeds: `cd web && npm run build`
+- [ ] CLAUDE.md mentions MapLibre: `grep -q "MapLibre" CLAUDE.md`
+- [ ] ROADMAP.md mentions MapLibre: `grep -q "MapLibre" ROADMAP.md`
+
+#### Manual Verification:
+- [ ] Dev server starts: `cd web && npm run dev`
+- [ ] Page loads at http://localhost:5173/half-america/
+- [ ] No Mapbox token warning shown
+- [ ] TopoJSON file paths are displayed correctly
+
+**Implementation Note**: After completing this phase and all verification passes, the `web/` directory is ready to commit.
