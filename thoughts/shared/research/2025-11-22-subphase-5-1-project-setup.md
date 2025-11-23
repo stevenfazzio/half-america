@@ -9,6 +9,7 @@ tags: [research, codebase, phase-5, web-frontend, react, vite, deck.gl, mapbox, 
 status: complete
 last_updated: 2025-11-22
 last_updated_by: Claude
+last_updated_note: "Resolved Open Questions #2 (TypeScript strictness) and #3 (Monorepo tooling)"
 ---
 
 # Research: Sub-Phase 5.1: Project Setup
@@ -318,16 +319,114 @@ half-america/
 - [thoughts/shared/research/2025-11-22-github-pages-hosting.md](thoughts/shared/research/2025-11-22-github-pages-hosting.md)
 - [thoughts/shared/research/2025-11-22-phase5-web-frontend-review.md](thoughts/shared/research/2025-11-22-phase5-web-frontend-review.md)
 
-## Open Questions
+## Open Questions (Resolved)
 
-1. **Mapbox style**: Which style (light-v11, dark-v10, streets-v12) best showcases the population regions? Needs visual testing.
-2. **TypeScript strictness**: Should we use strict mode from the start, or relax for faster iteration?
-3. **Monorepo tooling**: Should we add workspace configuration for shared types between Python and TypeScript?
+| Question | Decision | Rationale |
+|----------|----------|-----------|
+| **Mapbox style** | Deferred to Phase 6 | Visual styling decision, not setup |
+| **TypeScript strictness** | **Use Vite defaults (strict)** | Framework default, catches bugs, deck.gl compatible |
+| **Monorepo tooling** | **Do not add** | One frontend, no shared code, adds complexity without benefit |
+
+---
+
+### Decision: TypeScript Strictness
+
+**Use strict mode (Vite's default). No changes needed.**
+
+Vite's `react-ts` template already enables `strict: true`, and this is the right choice for data visualization code where catching null/undefined bugs at compile time is especially valuable.
+
+#### What Vite's Default Enables
+
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true
+  }
+}
+```
+
+#### Pros of Strict Mode
+
+| Benefit | Relevance to This Project |
+|---------|---------------------------|
+| **Catches null/undefined bugs** | High - Census tract data arrays, GeoJSON parsing |
+| **Better IDE support** | High - Autocompletion for deck.gl layers |
+| **Self-documenting code** | Medium - Portfolio piece should be readable |
+| **Prevents technical debt** | High - Adding strict later is painful |
+
+#### deck.gl Compatibility
+
+> "You may need to set `skipLibCheck: true` in your project's tsconfig to unblock compilation." — [deck.gl TypeScript docs](https://deck.gl/docs/get-started/using-with-typescript)
+
+Vite's default already includes `skipLibCheck: true`, so no issues expected.
+
+#### Optional Enhancement
+
+Consider adding `noUncheckedIndexedAccess: true` for array access safety—particularly valuable for data visualization code iterating over census tract arrays.
+
+---
+
+### Decision: Monorepo Tooling
+
+**Do not add monorepo tooling. Keep it simple.**
+
+For a single frontend package consuming static TopoJSON files, monorepo tools add complexity without proportional benefit.
+
+#### Why Tooling Is Unnecessary
+
+Monorepos provide value when you have:
+- ✗ Multiple interdependent packages sharing code → *We have one frontend*
+- ✗ Shared tooling/configuration across many projects → *Python and TypeScript don't share config*
+- ✗ Need for atomic commits across multiple packages → *Changes are independent*
+- ✗ Complex CI/CD that benefits from caching → *Simple deploy workflow*
+
+#### What "Shared Types" Actually Means Here
+
+| Data | Already Handled? |
+|------|------------------|
+| Lambda parameter values | Trivial constant (0.0-0.9) |
+| File naming convention | Simple pattern (`lambda_{x}.json`) |
+| TopoJSON structure | `@types/topojson-client` exists |
+
+This is a **data contract**, not shared code. It doesn't benefit from tooling.
+
+#### Type Sharing Strategy
+
+Create a simple TypeScript constants file (not "shared"—just frontend types):
+
+```typescript
+// web/src/types/lambda.ts
+export const LAMBDA_VALUES = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9] as const;
+export type LambdaValue = (typeof LAMBDA_VALUES)[number];
+
+export const getTopoJsonPath = (lambda: LambdaValue): string =>
+  `/data/lambda_${lambda.toFixed(1)}.json`;
+```
+
+#### When to Reconsider
+
+Add tooling if:
+- You add a second frontend package
+- You create shared npm packages
+- CI/CD times become problematic
+
+---
 
 ## Sources
 
 - [Vite Static Deploy Guide](https://vite.dev/guide/static-deploy)
 - [deck.gl Using with Mapbox](https://deck.gl/docs/developer-guide/base-maps/using-with-mapbox)
+- [deck.gl Using with TypeScript](https://deck.gl/docs/get-started/using-with-typescript)
 - [react-map-gl Documentation](https://visgl.github.io/react-map-gl/)
 - [GitHub Pages Documentation](https://docs.github.com/en/pages)
 - [Mapbox GL JS Documentation](https://docs.mapbox.com/mapbox-gl-js/)
+- [TypeScript TSConfig Reference - strict](https://www.typescriptlang.org/tsconfig/strict.html)
+- [Total TypeScript - TSConfig Cheat Sheet](https://www.totaltypescript.com/tsconfig-cheat-sheet)
+- [Vite create-vite template-react-ts](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts)
+- [Graphite: Monorepo Tools Comparison](https://graphite.com/guides/monorepo-tools-a-comprehensive-comparison)
+- [Toptal: Guide to Monorepos for Front-end](https://www.toptal.com/front-end/guide-to-monorepos)
+- [2ality: Simple Monorepos via npm Workspaces](https://2ality.com/2021/07/simple-monorepos.html)
