@@ -5,6 +5,8 @@
 
 An experimental data visualization exploring US population concentration. Interactive map highlighting where 50% of Americans live, with a slider to balance area minimization vs. perimeter smoothness.
 
+**[View the Live Demo →](https://stevenfazzio.github.io/half-america)**
+
 > Half of America lives in a *very* small area. See for yourself.
 
 ## Background
@@ -101,6 +103,18 @@ uv run mypy src/
 
 Data is cached in `data/cache/`. Clear with `rm -rf data/cache/` if you encounter stale data or change year configurations in `src/half_america/config.py`.
 
+### Frontend
+
+```bash
+cd web
+npm install        # Install dependencies
+npm run dev        # Start dev server (localhost:5173)
+npm run build      # Production build
+npm run preview    # Preview production build
+```
+
+The frontend is built with React + Vite + MapLibre GL JS + deck.gl. No API keys required.
+
 ## API Reference
 
 For complete API documentation, see [docs/API.md](docs/API.md).
@@ -131,10 +145,12 @@ See [docs/API.md](docs/API.md) for post-processing (dissolve, simplify, export) 
 
 ## Project Status
 
-**Current Phase**: Post-Processing Complete (Phase 4)
+**Current Phase**: Web Frontend Complete (Phase 5)
+
+The interactive visualization is live at https://stevenfazzio.github.io/half-america
 
 For more information:
-- [ROADMAP.md](ROADMAP.md) - Implementation plan
+- [ROADMAP.md](ROADMAP.md) - Implementation plan and future enhancements
 - [METHODOLOGY.md](METHODOLOGY.md) - Mathematical details
 
 ## License

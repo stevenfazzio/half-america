@@ -55,6 +55,8 @@ npm run preview                      # Preview production build
 
 **Stack**: React + Vite + MapLibre GL JS + deck.gl. No API keys required.
 
+**Live Site**: https://stevenfazzio.github.io/half-america
+
 ## Cache Management
 
 The `data/` directory (gitignored) contains cached data at multiple levels:
