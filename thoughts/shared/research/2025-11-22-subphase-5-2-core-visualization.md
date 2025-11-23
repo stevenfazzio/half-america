@@ -5,10 +5,11 @@ git_commit: 6f1491a3a88a650c03e6fa703f6dd49e794acb3a
 branch: master
 repository: half-america
 topic: "Sub-Phase 5.2: Core Visualization Implementation Research"
-tags: [research, codebase, phase-5, web-frontend, maplibre, deck-gl, react, topojson, visualization]
+tags: [research, codebase, phase-5, web-frontend, maplibre, deck-gl, react, topojson, visualization, color-scheme, basemap, tooltips, mobile, data-loading]
 status: complete
 last_updated: 2025-11-22
 last_updated_by: Claude
+last_updated_note: "Added comprehensive analysis and recommendations for all 5 open questions"
 ---
 
 # Research: Sub-Phase 5.2 - Core Visualization
@@ -353,14 +354,251 @@ Based on ROADMAP.md Sub-Phase 5.2 tasks:
 | Implement λ slider control | Ready | Range input with discrete steps |
 | Pre-load layers for each λ value with visibility toggling | Ready | visible prop toggling |
 
-## Open Questions
+## Open Questions - Analysis and Recommendations
 
-1. **Color scheme:** What fill color should be used for the selected regions? Current suggestion: semi-transparent orange-red `[255, 100, 100, 180]`
+### 1. Color Scheme for Selected Regions
 
-2. **Basemap style:** Positron (light) or Dark Matter (dark)? Light basemaps typically work better for choropleth-style visualizations.
+**Question:** What fill color should be used for the selected regions?
 
-3. **Tooltip content:** Should hovering show region statistics? Properties available: `lambda`, `population_selected`, `tract_count`
+#### Options Analysis
 
-4. **Mobile responsiveness:** Should the slider be repositioned on mobile screens?
+| Option | Pros | Cons |
+|--------|------|------|
+| **Cool Blue (#0072B2)** | Maximally colorblind accessible; professional/trustworthy; doesn't imply value judgment; cool colors "recede" and layer well | May not grab attention as strongly as warm colors |
+| **Teal/Cyan (#009E73)** | Fresh, modern; distinctive; good basemap contrast | Less traditional for geographic visualization |
+| **Warm Orange (#E69F00)** | Eye-catching; creates urgency; colorblind-safe with blue | May imply warning/danger; can feel aggressive |
+| **Semi-transparent Red** | High attention; "hot spot" aesthetic | Red-green colorblind issues; implies negative connotation |
 
-5. **Combined vs individual files:** Load individual TopoJSON files (~200-350KB each) or the combined file (~1MB)? Individual files enable progress tracking.
+#### Transparency Considerations
+- **40-60% opacity** is the research consensus ("50% sweet spot")
+- Semi-transparent preserves basemap context (roads, cities visible through overlay)
+- **White outlines** (100% opacity) create clean separation and help polygons "pop"
+
+#### Recommendation: **Deep Blue with White Outline**
+
+```javascript
+getFillColor: [0, 114, 178, 153]     // Okabe-Ito Blue at 60% opacity
+getLineColor: [255, 255, 255, 230]   // White at 90% opacity
+lineWidthMinPixels: 1.5
+```
+
+**Rationale:**
+1. Blue is maximally colorblind accessible (works for 100% of viewers)
+2. 60% opacity preserves geographic context while clearly marking selected regions
+3. White outline creates clean separation on any basemap
+4. Professional appearance appropriate for portfolio piece
+5. Does not imply value judgment (unlike red=danger or green=good)
+
+---
+
+### 2. Basemap Style (Light vs Dark)
+
+**Question:** Should we use Positron (light) or Dark Matter (dark) basemap?
+
+#### Options Analysis
+
+| Factor | Positron (Light) | Dark Matter (Dark) |
+|--------|------------------|-------------------|
+| **Best for** | Text-heavy maps, point data | Polygon/line data, dashboards |
+| **Visual effect** | Professional, informative | Eye-catching, dramatic |
+| **Readability** | Better text/label legibility | Reduced eye strain in low-light |
+| **Accessibility** | Easier to meet WCAG | Higher contrast requirements |
+| **Color approach** | Dark fill = higher values | Light fill = higher values |
+
+#### CARTO Recommendation
+CARTO explicitly states: "Positron is good for point data" while "Dark Matter is good for polygon/line data."
+
+#### Recommendation: **Dark Matter (with light mode toggle)**
+
+**Primary:** Start with Dark Matter for visual impact:
+- Your primary visualization is polygon-based (CARTO recommends dark for polygons)
+- Portfolio piece benefits from dramatic effect
+- "Where 50% of Americans live" narrative is more compelling with glowing regions against darkness
+- deck.gl examples commonly use dark basemaps
+
+**Secondary:** Consider adding a light/dark toggle:
+- Some users prefer light mode for accessibility or personal preference
+- Allows detailed exploration with better label readability
+
+**Color adjustment for dark basemap:**
+- Use bright, saturated fill colors (blue/teal/orange will "glow")
+- White or light-colored outlines for visibility
+
+---
+
+### 3. Tooltip Content
+
+**Question:** Should hovering show region statistics?
+
+#### Options Analysis
+
+| Approach | Pros | Cons |
+|----------|------|------|
+| **Rich tooltips** | Progressive disclosure; expected UX pattern | Distracting with ~73,000 potential targets; doesn't work on mobile |
+| **Minimal tooltips** | Location context only | Still creates "flickery" experience |
+| **No tooltips** | Clean, focused; better mobile experience | May feel unresponsive |
+| **Fixed panel** | Always accessible; works on mobile; shows aggregate stats | Takes screen space |
+
+#### Key Insight
+The interesting properties (`lambda`, `population_selected`, `tract_count`) describe the **entire selection**, not individual tracts. These belong in a fixed panel, not per-tract tooltips.
+
+#### Recommendation: **Fixed Summary Panel + Hover Highlight (No Text Tooltip)**
+
+**Implementation:**
+1. **Fixed Summary Panel** (always visible, top-left or bottom-left):
+   ```
+   Selected Areas: [tract_count] tracts
+   Population: [population_selected] (50.0%)
+   Surface Tension: λ = [lambda]
+   ```
+
+2. **Hover highlight** (visual feedback only):
+   ```javascript
+   pickable: true,
+   autoHighlight: true,
+   highlightColor: [255, 255, 255, 100]  // Subtle white highlight
+   // No getTooltip - let visual highlight speak
+   ```
+
+**Rationale:**
+- Focus on the overall pattern, not individual parts
+- 73,000 tracts = tooltip noise; hover constantly firing
+- Aggregate statistics belong in fixed panel (accessible on mobile)
+- Visual highlight confirms interactivity without text overhead
+
+---
+
+### 4. Mobile Responsiveness
+
+**Question:** Should the slider be repositioned on mobile screens?
+
+#### Placement Options Analysis
+
+| Pattern | Pros | Cons |
+|---------|------|------|
+| **Bottom-right overlay** | Thumb-zone accessible; Google Maps pattern; always visible | Can conflict with map gestures |
+| **Bottom sheet** | Scalable for more controls; familiar pattern | Heavy for single slider; complex implementation |
+| **Top position** | Doesn't conflict with bottom nav | Hard to reach one-handed; violates mobile-first principles |
+| **Full-width bottom** | Natural swipe direction; maximizes precision | Takes significant space |
+
+#### Touch Target Requirements
+- Apple minimum: **44x44 pt**
+- Android minimum: **48x48 dp**
+- At least 8px spacing between interactive elements
+
+#### Recommendation: **Floating Bottom-Right Overlay with Responsive Sizing**
+
+**Desktop (>768px):**
+- Position: bottom-left or top-left corner
+- Orientation: horizontal
+- Width: ~280px fixed
+
+**Mobile (<768px):**
+- Position: bottom area (above MapLibre attribution)
+- Full-width minus padding (16px on each side)
+- Slider thumb: minimum 48x48px touch target
+- Semi-transparent background panel for visibility
+
+**CSS Implementation:**
+```css
+.slider-control {
+  position: fixed;
+  bottom: 80px;
+  right: 16px;
+  left: 16px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 1;
+}
+
+@media (min-width: 768px) {
+  .slider-control {
+    bottom: auto;
+    top: 16px;
+    left: 16px;
+    right: auto;
+    width: 280px;
+  }
+}
+```
+
+**Touch enhancements:**
+- `touch-action: none` on slider to prevent scroll conflicts
+- Show lambda value prominently during drag
+
+---
+
+### 5. Combined vs Individual Files
+
+**Question:** Load individual TopoJSON files or the combined file?
+
+#### Options Analysis
+
+| Factor | Individual Files (10 × 200-350KB) | Combined File (~1MB) |
+|--------|-----------------------------------|---------------------|
+| **Compression** | ~500-700KB total (worse) | ~200-300KB (better, ~2x smaller) |
+| **Lazy loading** | Yes - load only what user selects | No - must download all |
+| **Caching** | Granular - update one without invalidating others | All-or-nothing invalidation |
+| **Progress UX** | "Loading 3/10..." (more informative) | Single progress bar |
+| **HTTP/2** | Parallel downloads work well | Single request |
+| **Fault tolerance** | One failure doesn't block others | All-or-nothing |
+
+#### Key Consideration
+Most users likely won't explore all 10 lambda values. If average user tries 2-3 values, lazy loading means 400-1000KB instead of full 1MB (compressed).
+
+#### Recommendation: **Individual Files with Lazy Loading + Preloading**
+
+**Strategy:**
+1. Load default lambda (0.5) immediately on page load
+2. Preload adjacent values (0.4, 0.6) in background after initial render
+3. Load others on-demand as user explores via slider
+
+**Implementation:**
+```javascript
+// Load default immediately
+const defaultData = await loadTopoJSON(0.5);
+
+// After initial render, preload neighbors
+useEffect(() => {
+  prefetch(getTopoJsonPath(0.4));
+  prefetch(getTopoJsonPath(0.6));
+}, []);
+
+// On slider change, load if not cached
+async function onLambdaChange(lambda: LambdaValue) {
+  if (!cache.has(lambda)) {
+    cache.set(lambda, await loadTopoJSON(lambda));
+  }
+  setCurrentLambda(lambda);
+}
+```
+
+**Rationale (for current 10-file setup):**
+- 10 files is well under HTTP/2's "50 files per page" threshold
+- Lazy loading savings outweigh compression penalty for typical usage
+- Users see results faster (wait for one file, not all)
+- Better progress tracking UX
+- Individual files enable preloading strategy
+
+#### Future Consideration: 100 Lambda Values
+
+Per ROADMAP.md, a future milestone plans to increase lambda granularity to 0.01 increments (100 values) for smooth animations. This changes the calculus significantly:
+
+| Factor | 10 Files (Current) | 100 Files (Future) |
+|--------|-------------------|-------------------|
+| HTTP/2 threshold | Well under 50 | At/above 50 threshold |
+| Server overhead | Minimal | Significant (100 file reads) |
+| Compression benefit | ~2x worse than combined | ~5-10x worse than combined |
+| Lazy loading value | High (users try 2-3) | Lower (animation needs many) |
+
+**Recommendation for 100-file phase:** Switch to **combined file** with:
+1. Single `combined.json` containing all 100 lambda values
+2. Client-side extraction by lambda key
+3. Progressive rendering (show first available, animate as more parse)
+
+**Alternative hybrid approach:**
+- Chunked files: `lambda_0.00-0.09.json`, `lambda_0.10-0.19.json`, etc. (10 files of 10 values each)
+- Balances compression benefits with some lazy loading capability
+- Stays well under HTTP/2 threshold while enabling partial loading
