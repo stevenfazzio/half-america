@@ -1,77 +1,81 @@
-import { useState, useMemo } from 'react';
-import { Map } from 'react-map-gl/maplibre';
-import { GeoJsonLayer } from '@deck.gl/layers';
-import 'maplibre-gl/dist/maplibre-gl.css';
-import { DeckGLOverlay } from './components/DeckGLOverlay';
-import { LambdaSlider } from './components/LambdaSlider';
-import { SummaryPanel } from './components/SummaryPanel';
+import { useState, useEffect, useCallback } from 'react';
+import { TabBar } from './components/TabBar';
+import { MapTab } from './components/MapTab';
+import { StoryTab } from './components/StoryTab';
+import { MethodTab } from './components/MethodTab';
 import { LoadingOverlay } from './components/LoadingOverlay';
 import { ErrorOverlay } from './components/ErrorOverlay';
 import { useTopoJsonLoader } from './hooks/useTopoJsonLoader';
 import { LAMBDA_VALUES } from './types/lambda';
-import type { LambdaValue } from './types/lambda';
+import type { TabId } from './components/TabBar';
 import './App.css';
 
-const CARTO_DARK_MATTER = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
-
-const INITIAL_VIEW_STATE = {
-  longitude: -98.5795,
-  latitude: 39.8283,
-  zoom: 3.5,
-  pitch: 0,
-  bearing: 0,
-};
-
-// Okabe-Ito Blue at 60% opacity
-const FILL_COLOR: [number, number, number, number] = [0, 114, 178, 153];
-const HIGHLIGHT_COLOR: [number, number, number, number] = [255, 255, 255, 100];
+function getTabFromHash(): TabId {
+  const hash = window.location.hash.slice(1); // Remove #
+  if (hash === 'story' || hash === 'method') {
+    return hash;
+  }
+  return 'map';
+}
 
 function App() {
-  const { state, retry } = useTopoJsonLoader();
-  const [currentLambda, setCurrentLambda] = useState<LambdaValue>(0.5);
+  const { state: loaderState, retry } = useTopoJsonLoader();
+  const [activeTab, setActiveTab] = useState<TabId>(getTabFromHash);
 
-  const layers = useMemo(() => {
-    if (state.status !== 'success') return [];
+  // Sync tab state with URL hash
+  useEffect(() => {
+    const handleHashChange = () => {
+      setActiveTab(getTabFromHash());
+    };
 
-    return LAMBDA_VALUES.map((lambda) => {
-      const data = state.data.get(lambda);
-      return new GeoJsonLayer({
-        id: `layer-${lambda.toFixed(2)}`,
-        data,
-        visible: lambda === currentLambda,
-        filled: true,
-        stroked: false,
-        getFillColor: FILL_COLOR,
-        pickable: true,
-        autoHighlight: true,
-        highlightColor: HIGHLIGHT_COLOR,
-      });
-    });
-  }, [state, currentLambda]);
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
-  if (state.status === 'loading') {
-    return <LoadingOverlay loaded={state.loaded} total={state.total} />;
+  const handleTabChange = useCallback((tab: TabId) => {
+    window.location.hash = tab;
+    setActiveTab(tab);
+  }, []);
+
+  // Set initial hash if not present
+  useEffect(() => {
+    if (!window.location.hash) {
+      window.location.hash = 'map';
+    }
+  }, []);
+
+  // Show loading overlay only when Map tab is active and data is loading
+  const showLoading = activeTab === 'map' &&
+    (loaderState.status === 'loading' || loaderState.status === 'idle');
+
+  // Show error overlay only when Map tab is active and there's an error
+  const showError = activeTab === 'map' && loaderState.status === 'error';
+
+  if (showLoading) {
+    const loaded = loaderState.status === 'loading' ? loaderState.loaded : 0;
+    return (
+      <>
+        <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
+        <LoadingOverlay loaded={loaded} total={LAMBDA_VALUES.length} />
+      </>
+    );
   }
 
-  if (state.status === 'idle') {
-    return <LoadingOverlay loaded={0} total={LAMBDA_VALUES.length} />;
-  }
-
-  if (state.status === 'error') {
-    return <ErrorOverlay message={state.error.message} onRetry={retry} />;
+  if (showError) {
+    return (
+      <>
+        <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
+        <ErrorOverlay message={loaderState.error.message} onRetry={retry} />
+      </>
+    );
   }
 
   return (
     <div className="app">
-      <Map
-        initialViewState={INITIAL_VIEW_STATE}
-        style={{ width: '100%', height: '100vh' }}
-        mapStyle={CARTO_DARK_MATTER}
-      >
-        <DeckGLOverlay layers={layers} interleaved />
-      </Map>
-      <LambdaSlider value={currentLambda} onChange={setCurrentLambda} />
-      <SummaryPanel data={state.data.get(currentLambda)} lambda={currentLambda} />
+      <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
+      <MapTab isActive={activeTab === 'map'} loaderState={loaderState} />
+      {activeTab === 'story' && <StoryTab />}
+      {activeTab === 'method' && <MethodTab />}
     </div>
   );
 }

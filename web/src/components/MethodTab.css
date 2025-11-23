@@ -1,0 +1,46 @@
+.method-tab {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  background: #1a1a1a;
+  padding: 80px 24px 24px; /* Top padding for tab bar */
+}
+
+@media (max-width: 767px) {
+  .method-tab {
+    padding: 24px 16px 80px; /* Bottom padding for mobile nav */
+  }
+}
+
+.method-content {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.method-content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.method-content .subtitle {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 32px 0;
+}
+
+.method-content .placeholder {
+  padding: 24px;
+  background: rgba(30, 30, 30, 0.95);
+  border-radius: 8px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+.method-content .placeholder p {
+  margin: 0 0 8px 0;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.method-content .placeholder p:last-child {
+  margin-bottom: 0;
+}

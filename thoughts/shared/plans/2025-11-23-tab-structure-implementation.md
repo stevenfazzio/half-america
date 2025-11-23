@@ -199,8 +199,8 @@ export function TabBar({ activeTab, onTabChange }: TabBarProps) {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles without errors: `cd web && npm run build`
-- [ ] No lint errors: `npm run lint`
+- [x] TypeScript compiles without errors: `cd web && npm run build`
+- [x] No lint errors: `npm run lint`
 
 #### Manual Verification:
 - [ ] (Deferred to Phase 3 - components not yet integrated)
@@ -351,8 +351,8 @@ Replace the mobile `bottom: 80px` with `bottom: 70px` to leave space for the 50p
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles without errors: `cd web && npm run build`
-- [ ] No lint errors: `npm run lint`
+- [x] TypeScript compiles without errors: `cd web && npm run build`
+- [x] No lint errors: `npm run lint`
 
 #### Manual Verification:
 - [ ] (Deferred to Phase 3 - component not yet integrated into App)
@@ -608,22 +608,22 @@ export function MethodTab() {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles without errors: `cd web && npm run build`
-- [ ] No lint errors: `npm run lint`
-- [ ] Dev server starts without errors: `npm run dev`
+- [x] TypeScript compiles without errors: `cd web && npm run build`
+- [x] No lint errors: `npm run lint`
+- [x] Dev server starts without errors: `npm run dev`
 
 #### Manual Verification:
-- [ ] Navigate to site root → redirects to `#map`, shows Map tab with visualization
-- [ ] Click "Story" tab → URL changes to `#story`, Story stub content appears
-- [ ] Click "Method" tab → URL changes to `#method`, Method stub content appears
-- [ ] Click "Map" tab → URL changes to `#map`, Map reappears instantly (no reload)
-- [ ] Direct navigation to `localhost:5173/#story` → Story tab loads immediately
-- [ ] Direct navigation to `localhost:5173/#method` → Method tab loads immediately
-- [ ] Browser back/forward buttons work correctly with tab navigation
-- [ ] Desktop: Tab pills appear at top center, minimal and unobtrusive
-- [ ] Mobile (dev tools): Bottom nav bar appears, tabs fill width
-- [ ] Mobile: LambdaSlider positioned above bottom nav (not overlapping)
-- [ ] Map controls (slider, summary panel) only visible on Map tab
+- [x] Navigate to site root → redirects to `#map`, shows Map tab with visualization
+- [x] Click "Story" tab → URL changes to `#story`, Story stub content appears
+- [x] Click "Method" tab → URL changes to `#method`, Method stub content appears
+- [x] Click "Map" tab → URL changes to `#map`, Map reappears instantly (no reload)
+- [x] Direct navigation to `localhost:5173/#story` → Story tab loads immediately
+- [x] Direct navigation to `localhost:5173/#method` → Method tab loads immediately
+- [x] Browser back/forward buttons work correctly with tab navigation
+- [x] Desktop: Tab pills appear at top center, minimal and unobtrusive
+- [x] Mobile (dev tools): Bottom nav bar appears, tabs fill width
+- [x] Mobile: LambdaSlider positioned above bottom nav (not overlapping)
+- [x] Map controls (slider, summary panel) only visible on Map tab
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that the manual testing was successful before proceeding to Phase 4.
 
@@ -661,15 +661,15 @@ Already handled in Phase 3 - the TabBar renders even during loading/error states
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Build succeeds: `cd web && npm run build`
-- [ ] Production preview works: `npm run preview`
+- [x] Build succeeds: `cd web && npm run build`
+- [x] Production preview works: `npm run preview`
 
 #### Manual Verification:
-- [ ] While Map is loading, clicking Story/Method tabs shows their content immediately
-- [ ] After viewing Story/Method, returning to Map while it's still loading shows loading overlay
-- [ ] Error state on Map tab allows navigation to Story/Method tabs
-- [ ] No console errors or warnings during tab navigation
-- [ ] No visual glitches when switching tabs rapidly
+- [x] While Map is loading, clicking Story/Method tabs shows their content immediately
+- [x] After viewing Story/Method, returning to Map while it's still loading shows loading overlay
+- [x] Error state on Map tab allows navigation to Story/Method tabs
+- [x] No console errors or warnings during tab navigation
+- [x] No visual glitches when switching tabs rapidly
 
 **Implementation Note**: After completing this phase and all verification passes, the implementation is complete.
 

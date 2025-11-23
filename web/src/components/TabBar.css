@@ -1,0 +1,66 @@
+/* Desktop: Ultra-minimal floating pills at top center */
+.tab-bar {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.tab-button {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  border: none;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.tab-button:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tab-button.active {
+  color: #fff;
+  background: rgba(30, 30, 30, 0.7);
+  border-radius: 4px;
+}
+
+/* Mobile: Bottom navigation bar */
+@media (max-width: 767px) {
+  .tab-bar {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: none;
+    height: 50px;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(30, 30, 30, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .tab-button {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    padding: 0;
+  }
+
+  .tab-button.active {
+    background: transparent;
+    color: #0072B2;
+  }
+}

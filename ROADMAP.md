@@ -142,7 +142,10 @@ Polish for initial release
 ### Milestones
 
 - [x] Fine λ granularity: Move to 0.01 increments (99 values, 0.00-0.98) for smoother slider interaction
-- [ ] Create tab structure with Map, Story, and Method stubs (see [docs/tab_strategy.md](docs/tab_strategy.md))
+- [x] Create tab structure with Map, Story, and Method stubs (see [docs/tab_strategy.md](docs/tab_strategy.md))
+  - Hash-based routing (`#map`, `#story`, `#method`)
+  - Responsive navigation (top pills desktop, bottom nav mobile)
+  - WebGL state preserved across tab switches via KeepMounted pattern
 - [ ] Add content to Story tab (narrative explanation for general audience)
 - [ ] Add content to Method tab (technical methodology)
 - [ ] Style and polish UI
