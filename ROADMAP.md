@@ -4,7 +4,7 @@ This document outlines the implementation plan for Half of America.
 
 ## Current Status
 
-**Phase 5: Web Frontend** is complete. The site is live at https://stevenfazzio.github.io/half-america
+**Phase 6: Final Touches** is in progress. The site is live at https://stevenfazzio.github.io/half-america
 
 ---
 
@@ -141,7 +141,7 @@ Polish for initial release
 
 ### Milestones
 
-- [ ] Fine λ granularity: Move to 0.01 increments (100 values) for smooth animations
+- [x] Fine λ granularity: Move to 0.01 increments (99 values, 0.00-0.98) for smoother slider interaction
 - [ ] Style and polish UI
 - [ ] Create tabs for the main visualization (default tab), project description (narrative), and technical methodology
 
