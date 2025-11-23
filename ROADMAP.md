@@ -151,7 +151,10 @@ Polish for initial release
   - Navigation links to Map and Method tabs
   - Image placeholder for evolution diagram
 - [ ] Create evolution diagram images for Story tab (San Bernardino → Tracts → Bridges → Smooth)
-- [ ] Add content to Method tab (technical methodology)
+- [x] Add content to Method tab (technical methodology)
+  - KaTeX math rendering with prominent objective function
+  - Variable definitions, algorithm details, data sources, post-processing
+  - Implementation stack and navigation links
 - [ ] Style and polish UI
 
 ---

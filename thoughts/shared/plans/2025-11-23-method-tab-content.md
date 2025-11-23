@@ -195,12 +195,12 @@ Add after existing styles (copy and adapt from StoryTab.css):
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] KaTeX packages installed: `cd web && npm ls katex @matejmazur/react-katex`
-- [ ] TypeScript compiles: `cd web && npm run build`
-- [ ] No lint errors: `cd web && npm run lint`
+- [x] KaTeX packages installed: `cd web && npm ls katex @matejmazur/react-katex`
+- [x] TypeScript compiles: `cd web && npm run build`
+- [x] No lint errors: `cd web && npm run lint`
 
 #### Manual Verification:
-- [ ] CSS file contains new styles matching StoryTab patterns
+- [x] CSS file contains new styles matching StoryTab patterns
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to Phase 2.
 
@@ -393,16 +393,16 @@ export function MethodTab() {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `cd web && npm run build`
-- [ ] No lint errors: `cd web && npm run lint`
-- [ ] Dev server starts: `cd web && npm run dev`
+- [x] TypeScript compiles: `cd web && npm run build`
+- [x] No lint errors: `cd web && npm run lint`
+- [x] Dev server starts: `cd web && npm run dev`
 
 #### Manual Verification:
-- [ ] Objective function renders with underbraces
-- [ ] All inline math renders correctly (no raw LaTeX)
-- [ ] Section structure is clear and readable
-- [ ] Tab navigation links work (switch to Map and Story tabs)
-- [ ] GitHub link opens in new tab
+- [x] Objective function renders with underbraces
+- [x] All inline math renders correctly (no raw LaTeX)
+- [x] Section structure is clear and readable
+- [x] Tab navigation links work (switch to Map and Story tabs)
+- [x] GitHub link opens in new tab
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation before proceeding to Phase 3.
 
@@ -522,18 +522,18 @@ Add after existing styles:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Build succeeds: `cd web && npm run build`
-- [ ] No lint errors: `cd web && npm run lint`
+- [x] Build succeeds: `cd web && npm run build`
+- [x] No lint errors: `cd web && npm run lint`
 
 #### Manual Verification:
-- [ ] Equation hero box has blue accent styling
-- [ ] Variable list and stack list have card-style backgrounds
-- [ ] On mobile viewport (< 768px):
-  - [ ] Equation block scrolls horizontally when needed
-  - [ ] Content remains readable
-- [ ] On desktop:
-  - [ ] All content displays without horizontal scroll
-  - [ ] Layout looks intentional and professional
+- [x] Equation hero box has blue accent styling
+- [x] Variable list and stack list have card-style backgrounds
+- [x] On mobile viewport (< 768px):
+  - [x] Equation block scrolls horizontally when needed
+  - [x] Content remains readable
+- [x] On desktop:
+  - [x] All content displays without horizontal scroll
+  - [x] Layout looks intentional and professional
 
 **Implementation Note**: After completing this phase, run final verification and testing.
 
