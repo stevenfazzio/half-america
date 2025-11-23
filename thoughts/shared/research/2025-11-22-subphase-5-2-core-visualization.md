@@ -9,7 +9,7 @@ tags: [research, codebase, phase-5, web-frontend, maplibre, deck-gl, react, topo
 status: complete
 last_updated: 2025-11-22
 last_updated_by: Claude
-last_updated_note: "Added comprehensive analysis and recommendations for all 5 open questions"
+last_updated_note: "Deep dive on 100-file loading: chunked files recommended over combined"
 ---
 
 # Research: Sub-Phase 5.2 - Core Visualization
@@ -593,19 +593,89 @@ Per ROADMAP.md, a future milestone plans to increase lambda granularity to 0.01 
 | Compression benefit | ~2x worse than combined | ~5-10x worse than combined |
 | Lazy loading value | High (users try 2-3) | Lower (animation needs many) |
 
-**Options for 100-file phase:**
+#### Deep Dive: Combined File vs Chunked Files for 100 Lambda Values
 
-| Approach | Pros | Cons |
-|----------|------|------|
-| **Combined file** | Best compression; single request/parse; simpler implementation | Must load all data upfront; no lazy loading |
-| **Chunked files** (10 files × 10 values) | Stays under HTTP/2 threshold; enables progressive animation; partial exploration possible | More complex implementation; slightly worse compression than combined |
+##### Critical Finding: No TopoJSON Arc Sharing Benefit
 
-**Option A: Combined file**
-- Single `combined.json` containing all 100 lambda values
-- Client-side extraction by lambda key
-- Best for: auto-playing animations that need instant access to all values
+TopoJSON's arc sharing only works for **exactly matching coordinate sequences**. Since different lambda values produce different polygon boundaries (the whole point of the optimization), there is **zero arc sharing** between lambda values. This means:
 
-**Option B: Chunked files**
-- Files like `lambda_0.00-0.09.json`, `lambda_0.10-0.19.json`, etc.
-- Load first chunk, start animating, preload subsequent chunks
-- Best for: progressive loading, manual slider exploration
+- Combined file size ≈ sum of individual file sizes
+- The compression benefit of combined files is **only** from gzip/brotli dictionary sharing, not topology
+- Estimated savings: ~10-20% smaller combined vs sum of individuals (gzip benefit only)
+
+##### JSON Parsing Performance Considerations
+
+| File Size | Parse Time (Desktop) | Parse Time (Mobile) | UI Impact |
+|-----------|---------------------|---------------------|-----------|
+| 500KB-1MB | 15-30ms | 50-100ms | Imperceptible |
+| 2-3MB | 60-100ms | 200-300ms | Noticeable |
+| 5-10MB | 150-300ms | 500-1000ms | **Blocks UI** |
+
+**Key threshold:** UI jank becomes perceptible at ~50ms blocking. A single 5-10MB combined file would block the main thread for 150-300ms on desktop.
+
+##### Animation Use Case Analysis
+
+Per ROADMAP.md, the 100-file phase is for "smooth animations". This favors chunked loading:
+
+1. **Animation can start before all data loads** - show first frames immediately
+2. **Scrubber UX** - if user drags to λ=0.5, only need that chunk loaded
+3. **Preloading works naturally** - load current chunk, prefetch adjacent chunks in background
+
+##### Options Comparison
+
+| Factor | Combined File | Chunked Files (10 × 10) |
+|--------|---------------|------------------------|
+| **File size** | ~5-10MB (all 100 values) | ~500KB-1MB per chunk |
+| **Parse time** | 150-300ms (blocks UI) | 15-30ms per chunk (safe) |
+| **Time to first frame** | Must wait for full download + parse | First chunk only (~100-200ms) |
+| **HTTP requests** | 1 | 10 (well under HTTP/2 threshold) |
+| **Compression** | Best (~10-20% smaller) | Good |
+| **Animation start** | Delayed until all loaded | Immediate with first chunk |
+| **Memory** | All 100 values in RAM | Can evict unused chunks |
+| **Caching** | All-or-nothing | Granular per chunk |
+| **Implementation** | Simpler | Moderate complexity |
+
+##### Web Worker Consideration
+
+Moving JSON parsing to a Web Worker keeps UI responsive but doesn't change the fundamental tradeoffs:
+- Combined file: Worker parses 150-300ms, then ~100-200ms structured clone overhead to return
+- Chunked: Each chunk parses fast, progressive rendering possible
+
+**Web Workers are recommended regardless of approach** for files >1MB.
+
+##### Recommendation: **Chunked Files**
+
+For the 100-lambda animation use case, **chunked files (10 files × 10 values)** is the better approach.
+
+**Rationale:**
+1. **No TopoJSON arc sharing** - combined file offers only ~10-20% size reduction, not the dramatic savings that shared topology would provide
+2. **Animation UX** - users can see the map and start interacting after loading just the first chunk (100-200ms) vs waiting for full download (1-3 seconds)
+3. **Parse time under jank threshold** - each 500KB-1MB chunk parses in ~30ms, avoiding UI blocking
+4. **Natural preloading** - load current chunk, prefetch ±1 chunks in background
+5. **HTTP/2 efficient** - 10 parallel requests is well under the recommended maximum
+6. **Better caching** - changing one lambda range only invalidates one chunk
+
+**Implementation pattern:**
+```javascript
+// Chunk naming: lambda_00-09.json, lambda_10-19.json, etc.
+function getChunkForLambda(lambda: number): string {
+  const chunkStart = Math.floor(lambda * 10) * 10;
+  return `/data/lambda_${chunkStart.toString().padStart(2, '0')}-${(chunkStart + 9).toString().padStart(2, '0')}.json`;
+}
+
+// Progressive loading for animation
+async function loadForAnimation(startLambda: number) {
+  // Load starting chunk immediately
+  const startChunk = await loadChunk(startLambda);
+  renderFrame(startLambda, startChunk);
+
+  // Prefetch adjacent chunks in background
+  prefetchChunk(startLambda + 0.1);
+  prefetchChunk(startLambda - 0.1);
+}
+```
+
+**When to reconsider combined file:**
+- If analytics show users always watch full animation start-to-finish
+- If server doesn't support HTTP/2
+- If implementation simplicity is paramount and UX tradeoff is acceptable
