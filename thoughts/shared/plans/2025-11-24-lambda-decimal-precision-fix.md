@@ -44,8 +44,8 @@ Change `toFixed(1)` to `toFixed(2)` in the legend.
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `npm run build`
-- [ ] Linting passes: `npm run lint`
+- [x] TypeScript compiles: `npm run build`
+- [x] Linting passes: `npm run lint`
 
 #### Manual Verification:
 - [ ] Lambda value in legend shows 2 decimal places (e.g., "0.50" not "0.5")

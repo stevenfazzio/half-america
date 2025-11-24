@@ -49,7 +49,7 @@ export function SummaryPanel({ data, lambda }: SummaryPanelProps) {
         </div>
         <div className="stat">
           <dt>Lambda (λ)</dt>
-          <dd>{lambda.toFixed(1)}</dd>
+          <dd>{lambda.toFixed(2)}</dd>
         </div>
       </dl>
     </div>
