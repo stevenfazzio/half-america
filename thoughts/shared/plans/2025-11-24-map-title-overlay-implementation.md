@@ -106,12 +106,12 @@ export function MapTitle() {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Build passes: `cd web && npm run build`
-- [ ] Lint passes: `cd web && npm run lint`
-- [ ] TypeScript compiles without errors
+- [x] Build passes: `cd web && npm run build`
+- [x] Lint passes: `cd web && npm run lint`
+- [x] TypeScript compiles without errors
 
 #### Manual Verification:
-- [ ] Files created at correct paths
+- [x] Files created at correct paths
 
 **Implementation Note**: Proceed to Phase 2 immediately after creating files.
 
@@ -160,15 +160,15 @@ The render section should look like:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Build passes: `cd web && npm run build`
-- [ ] Lint passes: `cd web && npm run lint`
-- [ ] Dev server starts: `cd web && npm run dev`
+- [x] Build passes: `cd web && npm run build`
+- [x] Lint passes: `cd web && npm run lint`
+- [x] Dev server starts: `cd web && npm run dev`
 
 #### Manual Verification:
-- [ ] Desktop: Title visible at top-center, below TabBar
-- [ ] Desktop: Title doesn't overlap LambdaSlider or SummaryPanel
-- [ ] Mobile: Title hidden (use browser DevTools responsive mode)
-- [ ] Mobile: SummaryPanel still visible with "Half of America" heading
+- [x] Desktop: Title visible at top-center, below TabBar
+- [x] Desktop: Title doesn't overlap LambdaSlider or SummaryPanel
+- [x] Mobile: Title hidden (use browser DevTools responsive mode)
+- [x] Mobile: SummaryPanel still visible with "Half of America" heading
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that the manual testing was successful before proceeding to the next phase.
 
@@ -198,10 +198,10 @@ To:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File updated correctly
+- [x] File updated correctly
 
 #### Manual Verification:
-- [ ] ROADMAP.md reflects completed status
+- [x] ROADMAP.md reflects completed status
 
 ---
 

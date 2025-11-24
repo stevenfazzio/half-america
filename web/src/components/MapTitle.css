@@ -1,0 +1,32 @@
+.map-title {
+  position: fixed;
+  top: 56px; /* Below TabBar (16px top + ~32px height + 8px gap) */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 20px;
+  background: rgba(30, 30, 30, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  color: #fff;
+  text-align: center;
+}
+
+.map-title-main {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.map-title-sub {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 4px 0 0 0;
+}
+
+/* Hide on mobile - SummaryPanel already has title */
+@media (max-width: 767px) {
+  .map-title {
+    display: none;
+  }
+}

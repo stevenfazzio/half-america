@@ -6,6 +6,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { DeckGLOverlay } from './DeckGLOverlay';
 import { LambdaSlider } from './LambdaSlider';
 import { SummaryPanel } from './SummaryPanel';
+import { MapTitle } from './MapTitle';
 import { useKeepMounted } from '../hooks/useKeepMounted';
 import { LAMBDA_VALUES } from '../types/lambda';
 import type { LambdaValue } from '../types/lambda';
@@ -89,6 +90,7 @@ export function MapTab({ isActive, loaderState }: MapTabProps) {
           >
             <DeckGLOverlay layers={layers} interleaved />
           </Map>
+          <MapTitle />
           <LambdaSlider value={currentLambda} onChange={setCurrentLambda} />
           <SummaryPanel data={loaderState.data.get(currentLambda)} lambda={currentLambda} />
         </>
