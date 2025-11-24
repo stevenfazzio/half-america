@@ -69,7 +69,7 @@ Insert between `.slider-container` and `.lambda-hint`:
 </div>
 <div className="slider-endpoints">
   <span>Fragmented</span>
-  <span>Smooth</span>
+  <span>Compact</span>
 </div>
 <p className="lambda-hint">
   ...
@@ -148,7 +148,7 @@ The endpoint labels should work without modification because:
 
 ### Phase 1: Add Endpoint Labels
 
-1. **Edit `LambdaSlider.tsx`**: Add `.slider-endpoints` div with "Fragmented" and "Smooth" spans
+1. **Edit `LambdaSlider.tsx`**: Add `.slider-endpoints` div with "Fragmented" and "Compact" spans
 2. **Edit `LambdaSlider.css`**: Add `.slider-endpoints` styling
 3. **Verify**: Build succeeds, lint passes
 4. **Manual test**: Labels visible at correct positions on desktop and mobile
@@ -156,7 +156,7 @@ The endpoint labels should work without modification because:
 ### Success Criteria
 
 - [ ] "Fragmented" label visible at left end of slider
-- [ ] "Smooth" label visible at right end of slider
+- [ ] "Compact" label visible at right end of slider
 - [ ] Labels are subtle (don't compete with slider value)
 - [ ] Works on both desktop and mobile layouts
 - [ ] Build and lint pass
@@ -167,7 +167,7 @@ The endpoint labels should work without modification because:
 Surface Tension (λ)
 
 ─────────────●───────────── 0.50
-Fragmented                 Smooth
+Fragmented                 Compact
 
          Balanced optimization
 ```
@@ -321,6 +321,16 @@ However, "Jagged/Rough/Sharp" don't accurately describe λ=0 behavior (many smal
 | Scattered / Connected | ✓ | ✓ | ✓ | ○ | 3.5/4 |
 | Fragmented / Smooth | ✗ | ✓ | ✓ | ✓ | 3/4 |
 | Fine / Coarse | ✓ | ○ | ✓ | ✗ | 2.5/4 |
+
+### Final Decision
+
+**`Fragmented` ↔ `Compact`** selected.
+
+Rationale:
+- Keeps "Fragmented" from original spec (consistency with existing hint text)
+- Fixes the parallelism issue (both describe region character)
+- Established geographic terminology pair
+- "Compact" already appears in codebase ("smooth, compact blobs")
 
 ### Sources
 
