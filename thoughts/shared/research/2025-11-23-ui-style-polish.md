@@ -339,7 +339,9 @@ export const LAMBDA_VALUES = [
 ## Open Questions
 
 1. **Region naming**: How to name disconnected regions in tooltips? Derive from containing county/metro?
+RESPONSE: I'm confused. Regions don't have names, they're groups of connected census tracts. They can't be disconnected, by definition.
 2. **Mobile tooltips**: deck.gl hover behavior is problematic on touch devices. Use tap-to-reveal or fixed panel?
+RESPONSE: If there's an easy best practice, we should do that. I don't want to spend too much time optimizing for mobile.
 3. **Area comparison**: Worth showing "smaller than Rhode Island" style comparisons?
 4. **Algorithm bias**: Should we retarget to 50.5% to ensure ≥50%?
 
