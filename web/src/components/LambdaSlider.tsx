@@ -38,6 +38,10 @@ export function LambdaSlider({ value, onChange, disabled }: LambdaSliderProps) {
         />
         <span className="lambda-value">{value.toFixed(2)}</span>
       </div>
+      <div className="slider-endpoints">
+        <span>Fragmented</span>
+        <span>Compact</span>
+      </div>
       <p className="lambda-hint">
         {value < 0.3 ? 'Minimizes area (more fragmented)' :
          value > 0.7 ? 'Minimizes perimeter (smoother shapes)' :
