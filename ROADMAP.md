@@ -159,7 +159,7 @@ Polish for initial release
 - [ ] Add slider endpoint labels ("Fragmented" ← → "Smooth") to encourage exploration
 - [ ] Add hover tooltips showing population, area, and density for selected regions
 - [ ] Redesign legend: prominently display population %, reorder metrics, improve formatting
-- [ ] Add tab bar glassmorphism container (backdrop-filter blur) for desktop visibility
+- [x] Add tab bar glassmorphism container (backdrop-filter blur) for desktop visibility
 
 ---
 

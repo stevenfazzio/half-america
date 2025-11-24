@@ -5,13 +5,21 @@
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 8px;
+  gap: 4px;
   z-index: 10;
+
+  /* Glassmorphism container */
+  background: rgba(30, 30, 30, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px;
 }
 
 .tab-button {
   background: transparent;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.7);
   border: none;
   padding: 6px 12px;
   font-size: 12px;
@@ -20,16 +28,18 @@
   letter-spacing: 0.05em;
   cursor: pointer;
   transition: color 0.15s ease, background 0.15s ease;
+  border-radius: 4px;
 }
 
 .tab-button:hover {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .tab-button.active {
   color: #fff;
-  background: rgba(30, 30, 30, 0.7);
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  font-weight: 600;
 }
 
 /* Mobile: Bottom navigation bar */
@@ -43,8 +53,15 @@
     height: 50px;
     justify-content: space-around;
     align-items: center;
+
+    /* Reset glassmorphism for mobile's solid background */
     background: rgba(30, 30, 30, 0.95);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-radius: 0;
+    border: none;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0;
     gap: 0;
     padding-bottom: env(safe-area-inset-bottom);
   }
@@ -57,10 +74,13 @@
     justify-content: center;
     font-size: 14px;
     padding: 0;
+    border-radius: 0;
+    font-weight: normal;
   }
 
   .tab-button.active {
     background: transparent;
     color: #0072B2;
+    font-weight: normal;
   }
 }
