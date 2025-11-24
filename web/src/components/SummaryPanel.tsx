@@ -4,6 +4,7 @@ import './SummaryPanel.css';
 interface HalfAmericaProperties {
   lambda_value: number;
   population_selected: number;
+  total_population: number;
   area_sqm: number;
   num_parts: number;
 }
@@ -13,9 +14,6 @@ interface SummaryPanelProps {
   lambda: number;
 }
 
-// US population from 2022 ACS (same year as our data)
-const US_TOTAL_POPULATION = 331_893_745;
-
 export function SummaryPanel({ data, lambda }: SummaryPanelProps) {
   if (!data || data.features.length === 0) {
     return null;
@@ -23,7 +21,7 @@ export function SummaryPanel({ data, lambda }: SummaryPanelProps) {
 
   // Get properties from first feature (all features share the same aggregate properties)
   const props = data.features[0].properties;
-  const populationPercent = ((props.population_selected / US_TOTAL_POPULATION) * 100).toFixed(1);
+  const populationPercent = ((props.population_selected / props.total_population) * 100).toFixed(1);
   // Convert area from square meters to square miles (1 sq mi = 2,589,988 sq m)
   const areaSqMiles = (props.area_sqm / 2_589_988).toLocaleString(undefined, { maximumFractionDigits: 0 });
   // Calculate area per region

@@ -81,8 +81,8 @@ const US_TOTAL_POPULATION = 328_912_183;
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `cd web && npm run build`
-- [ ] Lint passes: `cd web && npm run lint`
+- [x] TypeScript compiles: `cd web && npm run build`
+- [x] Lint passes: `cd web && npm run lint`
 
 #### Manual Verification:
 - [ ] λ=0.50 displays ~50.0% instead of 49.87%
@@ -232,12 +232,12 @@ gdf = gpd.GeoDataFrame(
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Type check passes: `uv run mypy src/half_america/postprocess/`
-- [ ] Lint passes: `uv run ruff check src/half_america/postprocess/`
-- [ ] Unit tests pass: `uv run pytest tests/test_postprocess/ -v`
+- [x] Type check passes: `uv run mypy src/half_america/postprocess/`
+- [x] Lint passes: `uv run ruff check src/half_america/postprocess/`
+- [x] Unit tests pass: `uv run pytest tests/test_postprocess/ -v`
 
 #### Manual Verification:
-- [ ] None required for this phase (tested in Phase 4)
+- [x] None required for this phase (tested in Phase 4)
 
 ---
 
@@ -279,11 +279,11 @@ const populationPercent = ((props.population_selected / props.total_population) 
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `cd web && npm run build`
-- [ ] Lint passes: `cd web && npm run lint`
+- [x] TypeScript compiles: `cd web && npm run build`
+- [x] Lint passes: `cd web && npm run lint`
 
 #### Manual Verification:
-- [ ] Verify no TypeScript errors about missing `total_population` property
+- [x] Verify no TypeScript errors about missing `total_population` property
 - [ ] (Full verification after Phase 4 when data is regenerated)
 
 **Implementation Note**: The frontend will show errors until Phase 4 completes (TopoJSON files need regeneration). This is expected.
@@ -315,19 +315,19 @@ cp data/output/topojson/combined.json web/public/data/
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Export completes without errors
-- [ ] All 99 files + combined.json are generated
-- [ ] Files contain `total_population` property:
+- [x] Export completes without errors
+- [x] All 99 files + combined.json are generated
+- [x] Files contain `total_population` property:
   ```bash
   python3 -c "import json; d=json.load(open('web/public/data/lambda_0.50.json')); print('total_population' in str(d))"
   # Should print: True
   ```
 
 #### Manual Verification:
-- [ ] Start dev server: `cd web && npm run dev`
-- [ ] λ=0.50 displays ~50.0%
-- [ ] Multiple lambda values show percentages centered around 50%
-- [ ] No console errors about missing properties
+- [x] Start dev server: `cd web && npm run dev`
+- [x] λ=0.50 displays ~50.0%
+- [x] Multiple lambda values show percentages centered around 50%
+- [x] No console errors about missing properties
 
 ---
 

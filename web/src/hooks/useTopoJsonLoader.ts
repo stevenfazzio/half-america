@@ -8,6 +8,7 @@ import type { LambdaValue } from '../types/lambda';
 interface HalfAmericaProperties {
   lambda_value: number;
   population_selected: number;
+  total_population: number;
   area_sqm: number;
   num_parts: number;
 }
