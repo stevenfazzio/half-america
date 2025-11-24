@@ -343,7 +343,9 @@ RESPONSE: I'm confused. Regions don't have names, they're groups of connected ce
 2. **Mobile tooltips**: deck.gl hover behavior is problematic on touch devices. Use tap-to-reveal or fixed panel?
 RESPONSE: If there's an easy best practice, we should do that. I don't want to spend too much time optimizing for mobile.
 3. **Area comparison**: Worth showing "smaller than Rhode Island" style comparisons?
+RESPONSE: I don't think we need this (we already have somethign like this in the Story tab).
 4. **Algorithm bias**: Should we retarget to 50.5% to ensure ≥50%?
+RESPONSE: I'd rather diagnose the issue first.
 
 ## Related Research
 
