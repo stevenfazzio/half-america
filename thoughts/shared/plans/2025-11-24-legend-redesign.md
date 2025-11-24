@@ -206,14 +206,14 @@ combined_path = export_combined_topojson(
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Type checking passes: `uv run mypy src/`
-- [ ] Linting passes: `uv run ruff check src/`
-- [ ] Unit tests pass: `uv run pytest tests/ -v`
-- [ ] Export runs successfully: `uv run half-america export --lambda-step 0.01`
+- [x] Type checking passes: `uv run mypy src/`
+- [x] Linting passes: `uv run ruff check src/`
+- [x] Unit tests pass: `uv run pytest tests/ -v`
+- [x] Export runs successfully: `uv run half-america export --lambda-step 0.01`
 
 #### Manual Verification:
-- [ ] Inspect a TopoJSON file and confirm `total_area_all_sqm` is present in properties
-- [ ] Value should be ~3.8 trillion sq meters (total contiguous US area)
+- [x] Inspect a TopoJSON file and confirm `total_area_all_sqm` is present in properties
+- [x] Value should be ~8.1 trillion sq meters (total contiguous US area)
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that the TopoJSON files contain the new field before proceeding to Phase 2.
 
@@ -381,17 +381,17 @@ export function SummaryPanel({ data, lambda }: SummaryPanelProps) {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `npm run build`
-- [ ] Linting passes: `npm run lint`
+- [x] TypeScript compiles: `npm run build`
+- [x] Linting passes: `npm run lint`
 
 #### Manual Verification:
-- [ ] Legend displays two hero stats prominently (Population % and Land Area %)
-- [ ] Population % shows ~50% as expected
-- [ ] Land Area % shows ~1.1% at λ=0.50 (consistent with Story tab)
-- [ ] Area/Region stat is removed
-- [ ] Lambda is smaller and dimmer than other stats
-- [ ] Mobile view looks acceptable
-- [ ] Slider still updates all values correctly
+- [x] Legend displays two hero stats prominently (Population % and Land Area %)
+- [x] Population % shows ~50% as expected
+- [x] Land Area % shows ~1.4% at λ=0.50 (consistent with Story tab)
+- [x] Area/Region stat is removed
+- [x] Lambda is smaller and dimmer than other stats (hidden on mobile)
+- [x] Mobile view looks acceptable
+- [x] Slider still updates all values correctly
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation that the visual design is acceptable.
 

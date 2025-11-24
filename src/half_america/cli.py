@@ -147,6 +147,7 @@ def export(
     export_results = export_all_lambdas(
         simplify_results,
         dissolve_results,
+        sweep_result,
         output_dir=output_dir,
         verbose=True,
     )
@@ -157,6 +158,7 @@ def export(
         combined_path = export_combined_topojson(
             simplify_results,
             dissolve_results,
+            sweep_result,
             output_path=output_dir / "combined.json",
             verbose=True,
         )

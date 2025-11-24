@@ -12,6 +12,7 @@ from topojson import Topology
 from half_america.config import TOPOJSON_DIR
 
 if TYPE_CHECKING:
+    from half_america.optimization.sweep import SweepResult
     from half_america.postprocess.dissolve import DissolveResult
     from half_america.postprocess.simplify import SimplifyResult
 
@@ -36,6 +37,7 @@ class ExportMetadata(NamedTuple):
     total_population: int
     area_sqm: float
     num_parts: int
+    total_area_all_sqm: float  # Total area of all tracts (entire US)
 
 
 def export_to_topojson(
@@ -72,6 +74,7 @@ def export_to_topojson(
             "total_population": [metadata.total_population],
             "area_sqm": [metadata.area_sqm],
             "num_parts": [metadata.num_parts],
+            "total_area_all_sqm": [metadata.total_area_all_sqm],
             "geometry": [geometry],
         },
         crs="EPSG:5070",
@@ -105,6 +108,7 @@ def export_to_topojson(
 def export_all_lambdas(
     simplify_results: dict[float, SimplifyResult],
     dissolve_results: dict[float, DissolveResult],
+    sweep_result: SweepResult,
     output_dir: Path | None = None,
     verbose: bool = True,
 ) -> dict[float, ExportResult]:
@@ -115,6 +119,7 @@ def export_all_lambdas(
         simplify_results: Dictionary mapping lambda values to SimplifyResult
         dissolve_results: Dictionary mapping lambda values to DissolveResult
             (needed for population/area metadata)
+        sweep_result: SweepResult with optimization results (needed for total_area)
         output_dir: Output directory (default: data/output/topojson)
         verbose: Print progress messages
 
@@ -133,6 +138,10 @@ def export_all_lambdas(
         simplify_result = simplify_results[lambda_val]
         dissolve_result = dissolve_results[lambda_val]
 
+        # Get total area from sweep result
+        opt_result = sweep_result.results[lambda_val].search_result.result
+        total_area_all_sqm = opt_result.total_area
+
         # Build metadata from dissolve result
         metadata = ExportMetadata(
             lambda_value=lambda_val,
@@ -140,6 +149,7 @@ def export_all_lambdas(
             total_population=dissolve_result.total_population,
             area_sqm=dissolve_result.total_area_sqm,
             num_parts=dissolve_result.num_parts,
+            total_area_all_sqm=total_area_all_sqm,
         )
 
         output_path = output_dir / f"lambda_{lambda_val:.2f}.json"
@@ -160,6 +170,7 @@ def export_all_lambdas(
 def export_combined_topojson(
     simplify_results: dict[float, SimplifyResult],
     dissolve_results: dict[float, DissolveResult],
+    sweep_result: SweepResult,
     output_path: Path | None = None,
     quantization: float = DEFAULT_QUANTIZATION,
     verbose: bool = True,
@@ -170,6 +181,7 @@ def export_combined_topojson(
     Args:
         simplify_results: Dictionary mapping lambda values to SimplifyResult
         dissolve_results: Dictionary mapping lambda values to DissolveResult
+        sweep_result: SweepResult with optimization results (needed for total_area)
         output_path: Output file path (default: data/output/topojson/combined.json)
         quantization: Quantization factor
         verbose: Print progress messages
@@ -188,6 +200,10 @@ def export_combined_topojson(
         simplify_result = simplify_results[lambda_val]
         dissolve_result = dissolve_results[lambda_val]
 
+        # Get total area from sweep result
+        opt_result = sweep_result.results[lambda_val].search_result.result
+        total_area_all_sqm = opt_result.total_area
+
         gdf = gpd.GeoDataFrame(
             {
                 "lambda_value": [lambda_val],
@@ -195,6 +211,7 @@ def export_combined_topojson(
                 "total_population": [dissolve_result.total_population],
                 "area_sqm": [dissolve_result.total_area_sqm],
                 "num_parts": [dissolve_result.num_parts],
+                "total_area_all_sqm": [total_area_all_sqm],
                 "geometry": [simplify_result.geometry],
             },
             crs="EPSG:5070",

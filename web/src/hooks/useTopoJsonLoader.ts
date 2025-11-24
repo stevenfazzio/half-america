@@ -11,6 +11,7 @@ interface HalfAmericaProperties {
   total_population: number;
   area_sqm: number;
   num_parts: number;
+  total_area_all_sqm: number;
 }
 
 type HalfAmericaTopology = Topology<{

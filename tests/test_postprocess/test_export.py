@@ -1,6 +1,7 @@
 """Tests for export module."""
 
 import json
+from unittest.mock import MagicMock
 
 import pytest
 from shapely import MultiPolygon, Polygon
@@ -120,12 +121,17 @@ class TestExportAllLambdas:
     """Tests for export_all_lambdas batch function."""
 
     def test_exports_all_lambda_values(
-        self, sample_simplify_results, sample_dissolve_results, tmp_path
+        self,
+        sample_simplify_results,
+        sample_dissolve_results,
+        sample_sweep_result,
+        tmp_path,
     ):
         """Should export all lambda values."""
         results = export_all_lambdas(
             sample_simplify_results,
             sample_dissolve_results,
+            sample_sweep_result,
             output_dir=tmp_path,
             verbose=False,
         )
@@ -136,12 +142,17 @@ class TestExportAllLambdas:
             assert isinstance(results[lambda_val], ExportResult)
 
     def test_creates_correct_filenames(
-        self, sample_simplify_results, sample_dissolve_results, tmp_path
+        self,
+        sample_simplify_results,
+        sample_dissolve_results,
+        sample_sweep_result,
+        tmp_path,
     ):
         """Should create files with lambda_X.XX.json naming."""
         export_all_lambdas(
             sample_simplify_results,
             sample_dissolve_results,
+            sample_sweep_result,
             output_dir=tmp_path,
             verbose=False,
         )
@@ -155,13 +166,18 @@ class TestExportCombinedTopojson:
     """Tests for export_combined_topojson function."""
 
     def test_creates_combined_file(
-        self, sample_simplify_results, sample_dissolve_results, tmp_path
+        self,
+        sample_simplify_results,
+        sample_dissolve_results,
+        sample_sweep_result,
+        tmp_path,
     ):
         """Should create a single combined file."""
         output_path = tmp_path / "combined.json"
         result = export_combined_topojson(
             sample_simplify_results,
             sample_dissolve_results,
+            sample_sweep_result,
             output_path=output_path,
             verbose=False,
         )
@@ -170,13 +186,18 @@ class TestExportCombinedTopojson:
         assert output_path.exists()
 
     def test_contains_all_objects(
-        self, sample_simplify_results, sample_dissolve_results, tmp_path
+        self,
+        sample_simplify_results,
+        sample_dissolve_results,
+        sample_sweep_result,
+        tmp_path,
     ):
         """Combined file should contain all lambda objects."""
         output_path = tmp_path / "combined.json"
         export_combined_topojson(
             sample_simplify_results,
             sample_dissolve_results,
+            sample_sweep_result,
             output_path=output_path,
             verbose=False,
         )
@@ -216,6 +237,7 @@ def sample_metadata() -> ExportMetadata:
         total_population=328_912_183,
         area_sqm=5_000_000_000_000.0,
         num_parts=50,
+        total_area_all_sqm=7_910_000_000_000_000.0,  # ~7.9 trillion sq m (US total)
     )
 
 
@@ -275,3 +297,30 @@ def sample_dissolve_results() -> dict[float, DissolveResult]:
             total_population=328_912_183,
         ),
     }
+
+
+@pytest.fixture
+def sample_sweep_result():
+    """Create a mock SweepResult for testing export functions."""
+    total_area = 7_910_000_000_000_000.0  # ~7.9 trillion sq m
+
+    def make_lambda_result(lambda_val: float):
+        """Create a mock LambdaResult with nested structure."""
+        mock_opt_result = MagicMock()
+        mock_opt_result.total_area = total_area
+
+        mock_search_result = MagicMock()
+        mock_search_result.result = mock_opt_result
+
+        mock_lambda_result = MagicMock()
+        mock_lambda_result.search_result = mock_search_result
+
+        return mock_lambda_result
+
+    mock_sweep = MagicMock()
+    mock_sweep.results = {
+        0.0: make_lambda_result(0.0),
+        0.5: make_lambda_result(0.5),
+        0.9: make_lambda_result(0.9),
+    }
+    return mock_sweep

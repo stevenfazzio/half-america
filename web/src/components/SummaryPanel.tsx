@@ -7,6 +7,7 @@ interface HalfAmericaProperties {
   total_population: number;
   area_sqm: number;
   num_parts: number;
+  total_area_all_sqm: number;
 }
 
 interface SummaryPanelProps {
@@ -21,20 +22,32 @@ export function SummaryPanel({ data, lambda }: SummaryPanelProps) {
 
   // Get properties from first feature (all features share the same aggregate properties)
   const props = data.features[0].properties;
+
+  // Hero stats
   const populationPercent = ((props.population_selected / props.total_population) * 100).toFixed(1);
-  // Convert area from square meters to square miles (1 sq mi = 2,589,988 sq m)
+  const landAreaPercent = ((props.area_sqm / props.total_area_all_sqm) * 100).toFixed(1);
+
+  // Supporting stats
   const areaSqMiles = (props.area_sqm / 2_589_988).toLocaleString(undefined, { maximumFractionDigits: 0 });
-  // Calculate area per region
-  const areaPerRegion = (props.area_sqm / 2_589_988 / props.num_parts).toLocaleString(undefined, { maximumFractionDigits: 0 });
 
   return (
     <div className="summary-panel">
       <h2 className="summary-title">Half of America</h2>
-      <dl className="summary-stats">
-        <div className="stat">
-          <dt>Population</dt>
-          <dd>{populationPercent}%</dd>
+
+      {/* Hero stats section */}
+      <div className="hero-stats">
+        <div className="hero-stat">
+          <span className="hero-value">{populationPercent}%</span>
+          <span className="hero-label">of U.S. Population</span>
         </div>
+        <div className="hero-stat">
+          <span className="hero-value">{landAreaPercent}%</span>
+          <span className="hero-label">of U.S. Land Area</span>
+        </div>
+      </div>
+
+      {/* Supporting stats */}
+      <dl className="summary-stats">
         <div className="stat">
           <dt>Area</dt>
           <dd>{areaSqMiles} mi²</dd>
@@ -43,15 +56,12 @@ export function SummaryPanel({ data, lambda }: SummaryPanelProps) {
           <dt>Regions</dt>
           <dd>{props.num_parts.toLocaleString()}</dd>
         </div>
-        <div className="stat">
-          <dt>Area/Region</dt>
-          <dd>{areaPerRegion} mi²</dd>
-        </div>
-        <div className="stat">
-          <dt>Lambda (λ)</dt>
-          <dd>{lambda.toFixed(2)}</dd>
-        </div>
       </dl>
+
+      {/* Technical stats (de-emphasized) */}
+      <div className="technical-stats">
+        <span className="technical-stat">λ = {lambda.toFixed(2)}</span>
+      </div>
     </div>
   );
 }

@@ -157,7 +157,7 @@ Polish for initial release
   - Implementation stack and navigation links
 - [x] Add map title overlay ("Half of America / Where 50% of Americans live") for first-glance clarity
 - [x] Add slider endpoint labels ("Fragmented" ← → "Compact") to encourage exploration
-- [ ] Redesign legend: prominently display population %, reorder metrics, improve formatting
+- [x] Redesign legend: hero stats (Population % and Land Area %), removed Area/Region, de-emphasized λ (hidden on mobile)
 - [x] Add tab bar glassmorphism container (backdrop-filter blur) for desktop visibility
 
 ---
