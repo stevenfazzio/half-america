@@ -48,8 +48,8 @@ Change `toFixed(1)` to `toFixed(2)` in the legend.
 - [x] Linting passes: `npm run lint`
 
 #### Manual Verification:
-- [ ] Lambda value in legend shows 2 decimal places (e.g., "0.50" not "0.5")
-- [ ] Value matches slider display exactly
+- [x] Lambda value in legend shows 2 decimal places (e.g., "0.50" not "0.5")
+- [x] Value matches slider display exactly
 
 ## References
 
