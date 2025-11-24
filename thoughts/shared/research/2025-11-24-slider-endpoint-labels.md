@@ -1,14 +1,15 @@
 ---
 date: 2025-11-24T01:30:00-05:00
 researcher: Claude
-git_commit: 45cd68c549aed0c58c0124b43680a8f9fafae3f5
+git_commit: c3ce794b9fcaa2031fac428f179d2329c0d01ef4
 branch: master
 repository: half-america
 topic: "Slider Endpoint Labels Implementation Research"
-tags: [research, ui, ux, slider, labels, lambda]
+tags: [research, ui, ux, slider, labels, lambda, terminology]
 status: complete
 last_updated: 2025-11-24
 last_updated_by: Claude
+last_updated_note: "Added follow-up research on alternative label terminology"
 ---
 
 # Research: Slider Endpoint Labels
@@ -179,3 +180,152 @@ Fragmented                 Smooth
 ## Open Questions
 
 None - implementation is straightforward.
+
+---
+
+## Follow-up Research: Label Terminology Alternatives (2025-11-24)
+
+### Question
+
+Are "Fragmented" and "Smooth" the best word choices? The concern is that "Smooth" describes boundary quality rather than region characteristics, creating a category mismatch with "Fragmented."
+
+### Terminology Currently Used in Codebase
+
+| Context | λ=0 (area min) | λ→1 (perimeter min) |
+|---------|----------------|---------------------|
+| **CLAUDE.md** | "dusty map" | "smooth blobs" |
+| **README.md** | "dusty", "tiny disconnected" | "smooth, compact blobs" |
+| **LambdaSlider hint** | "more fragmented" | "smoother shapes" |
+| **StoryTab** | "scattered dots" | "coherent shapes", "maximum smoothness" |
+| **MethodTab** | — | "smooth boundaries" |
+| **ROADMAP animation** | "dusty (λ=0)" | "smooth (λ=1)" |
+
+**Key insight**: The codebase consistently uses "smooth" but pairs it differently:
+- "smooth blobs" (regions)
+- "smooth boundaries" (perimeter)
+- "smoother shapes" (visual result)
+
+### UX Best Practices for Slider Labels
+
+Per Microsoft, Smashing Magazine, and Nielsen Norman Group:
+
+1. **Single word preferred** - "Use only one word, if possible, for each label"
+2. **True opposites** - Labels should be parallel and conceptually opposite
+3. **Descriptive parallelism** - Both labels should describe the same category (regions, boundaries, or visual effect)
+
+### The Parallelism Problem
+
+"Fragmented" describes **regions** (broken into pieces), while "Smooth" describes **boundaries** (not jagged). This violates parallelism:
+
+| Label | Describes |
+|-------|-----------|
+| Fragmented | Region distribution |
+| Smooth | Boundary quality |
+
+A user might ask: "Fragmented *what*? Smooth *what*?"
+
+### Alternative Label Pairs
+
+#### Option 1: Scattered / Consolidated (Recommended)
+
+| Criterion | Score | Notes |
+|-----------|-------|-------|
+| Parallelism | ✓ | Both describe spatial distribution |
+| Intuitive | ✓ | Immediately conveys meaning |
+| Single word | ✓/✗ | "Consolidated" is 4 syllables |
+| Geographic | ✓ | Common in urban planning |
+
+**Visual**: `Scattered ──────●────── Consolidated`
+
+#### Option 2: Fragmented / Compact
+
+| Criterion | Score | Notes |
+|-----------|-------|-------|
+| Parallelism | ✓ | Both describe region character |
+| Intuitive | ✓ | Clear opposition |
+| Single word | ✓ | Both short |
+| Geographic | ✓ | Established pair in political geography |
+
+**Visual**: `Fragmented ──────●────── Compact`
+
+**Note**: "Compact" already appears in README.md: "smooth, compact blobs"
+
+#### Option 3: Scattered / Connected
+
+| Criterion | Score | Notes |
+|-----------|-------|-------|
+| Parallelism | ✓ | Both describe connectivity |
+| Intuitive | ✓ | Clear visual meaning |
+| Single word | ✓ | Both short |
+| Geographic | ✓ | Common terms |
+
+**Visual**: `Scattered ──────●────── Connected`
+
+#### Option 4: Many / Few (Simplest)
+
+| Criterion | Score | Notes |
+|-----------|-------|-------|
+| Parallelism | ✓ | Both describe quantity |
+| Intuitive | ✓ | Dead simple |
+| Single word | ✓ | Minimal |
+| Geographic | ✗ | Too generic |
+
+**Visual**: `Many ──────●────── Few`
+
+#### Option 5: Fine / Coarse (Resolution metaphor)
+
+| Criterion | Score | Notes |
+|-----------|-------|-------|
+| Parallelism | ✓ | Both describe granularity |
+| Intuitive | ✓ | Common in map generalization |
+| Single word | ✓ | Both short |
+| Geographic | ✓ | Used in cartography |
+
+**Visual**: `Fine ──────●────── Coarse`
+
+### Keeping "Smooth" - Reframing Options
+
+If "Smooth" is preferred for consistency with existing terminology, the left label could be adjusted:
+
+| Left | Right | Parallel Category |
+|------|-------|-------------------|
+| Jagged | Smooth | Boundary quality |
+| Rough | Smooth | Visual texture |
+| Sharp | Smooth | Shape character |
+
+However, "Jagged/Rough/Sharp" don't accurately describe λ=0 behavior (many small regions).
+
+### Recommendation
+
+**Primary**: `Scattered` ↔ `Compact`
+- Best balance of parallelism, intuitiveness, and brevity
+- "Compact" already used in codebase ("smooth, compact blobs")
+- Both describe the regions themselves
+
+**Alternative**: `Fragmented` ↔ `Compact`
+- Keeps "Fragmented" from original spec
+- Fixes the parallelism issue
+- Established geographic terminology pair
+
+**Why not keep "Smooth"?**
+- Violates parallelism principle
+- Describes algorithm effect (perimeter) rather than visual result (regions)
+- May confuse users expecting boundary quality to change
+
+### Decision Matrix
+
+| Pair | Parallelism | Intuitive | Brevity | Codebase Fit | Total |
+|------|-------------|-----------|---------|--------------|-------|
+| Scattered / Compact | ✓ | ✓ | ✓ | ✓ | 4/4 |
+| Fragmented / Compact | ✓ | ✓ | ✓ | ✓ | 4/4 |
+| Scattered / Connected | ✓ | ✓ | ✓ | ○ | 3.5/4 |
+| Fragmented / Smooth | ✗ | ✓ | ✓ | ✓ | 3/4 |
+| Fine / Coarse | ✓ | ○ | ✓ | ✗ | 2.5/4 |
+
+### Sources
+
+- Microsoft Slider Design Guidelines
+- Smashing Magazine: Designing The Perfect Slider UX
+- Nielsen Norman Group: Rating Scales in UX Research
+- Semantic Differential research (bipolar adjective pairs)
+- AP Human Geography: Compact vs Fragmented state morphology
