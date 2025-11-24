@@ -157,16 +157,16 @@ See [METHODOLOGY.md](METHODOLOGY.md) for the mathematical formulation and algori
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] README.md renders correctly in GitHub preview
-- [ ] All internal links still work (METHODOLOGY.md, ROADMAP.md)
-- [ ] Markdown syntax is valid (no broken formatting)
+- [x] README.md renders correctly in GitHub preview
+- [x] All internal links still work (METHODOLOGY.md, ROADMAP.md)
+- [x] Markdown syntax is valid (no broken formatting)
 
 #### Manual Verification:
-- [ ] Opening paragraph emphasizes methodology before data insight
-- [ ] Language uses "exploration" tone, not "innovation" claims
-- [ ] Technical content is accessible to general audience
-- [ ] Data insight (1.1%) is present but positioned as result, not headline
-- [ ] Reviewer feedback: "What is this project about?" should elicit methodology-first responses
+- [x] Opening paragraph emphasizes methodology before data insight
+- [x] Language uses "exploration" tone, not "innovation" claims
+- [x] Technical content is accessible to general audience
+- [x] Data insight (surprising concentration) is present but positioned as result, not headline
+- [x] Reviewer feedback: "What is this project about?" should elicit methodology-first responses
 
 ---
 
@@ -223,16 +223,16 @@ This project showcases:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] CLAUDE.md is valid Markdown
-- [ ] All internal links work (README.md, METHODOLOGY.md, etc.)
-- [ ] File structure matches expected format for Claude Code
+- [x] CLAUDE.md is valid Markdown
+- [x] All internal links work (README.md, METHODOLOGY.md, etc.)
+- [x] File structure matches expected format for Claude Code
 
 #### Manual Verification:
-- [ ] Project Overview clearly identifies portfolio purpose
-- [ ] Portfolio Value section is prominent and clear
-- [ ] Project Goals emphasize methodology over data insight
-- [ ] Tone is appropriate for guiding AI assistants (clear, directive)
-- [ ] Technical concepts are accurately described
+- [x] Project Overview clearly identifies portfolio purpose
+- [x] Portfolio Value section is prominent and clear
+- [x] Project Goals emphasize methodology over data insight
+- [x] Tone is appropriate for guiding AI assistants (clear, directive)
+- [x] Technical concepts are accurately described
 
 ---
 

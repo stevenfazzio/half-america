@@ -3,11 +3,11 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-An experimental data visualization exploring US population concentration. Interactive map highlighting where 50% of Americans live, with a slider to balance area minimization vs. perimeter smoothness.
+An exploration of max-flow min-cut optimization applied to cartographic data visualization. This project introduces an interactive "surface tension" parameter (λ) that controls the tradeoff between area minimization and perimeter smoothness when selecting census tracts, producing smooth organic boundaries for population concentration maps.
 
 **[View the Live Demo →](https://stevenfazzio.github.io/half-america)**
 
-> Half of America lives in a *very* small area. See for yourself.
+> Half of America lives in a surprisingly small area. The slider lets you explore how balancing precision vs. visual clarity affects the result.
 
 ## Background
 
@@ -25,18 +25,21 @@ This project evolved through several iterations:
 
 ## How It Works
 
-The visualization shows how concentrated the US population is—50% of Americans live in a surprisingly small area. The challenge is presenting this in a visually compelling way.
+This project treats census tract selection as a graph optimization problem. Given ~73,000 census tracts and their spatial adjacencies, we use **max-flow min-cut** to find the optimal 50% population subset while balancing two competing objectives:
 
-A slider controls lambda (0 to <1):
+1. **Minimize area** (precision): Select the smallest possible land area
+2. **Minimize perimeter** (smoothness): Create smooth, organic boundaries
 
-- **lambda ~ 0**: Minimizes total area. Shows high-resolution "dusty" city centers—accurate but hard to visually process.
-- **lambda ~ 0.9**: Minimizes perimeter. Creates smooth, compact blobs that are easier to reason about while still being accurate.
+The interactive slider controls lambda (λ), the "surface tension" parameter (0 to <1):
 
-The slider lets you explore the tradeoff between precision and visual clarity.
+- **λ ≈ 0**: Prioritizes area minimization. Produces high-resolution "dusty" city centers—accurate but hard to visually process.
+- **λ ≈ 0.9**: Prioritizes perimeter minimization. Creates smooth, compact regions that are easier to reason about while remaining accurate.
 
-Note: lambda=1.0 is mathematically degenerate and excluded from valid values. Due to computational complexity, geometries for various lambda values are pre-calculated. The web app serves as a visualizer for these pre-computed states.
+The result reveals surprising population concentration: **50% of Americans live in a very small fraction of the country's land area**. The exact percentage depends on your parameter choice—prioritizing precision produces smaller areas, while prioritizing smoothness creates larger, more cohesive regions.
 
-See [METHODOLOGY.md](METHODOLOGY.md) for the mathematical formulation.
+**Technical Note**: λ=1.0 is mathematically degenerate and excluded. Due to computational complexity, geometries for various lambda values are pre-calculated offline; the web app visualizes these pre-computed states.
+
+See [METHODOLOGY.md](METHODOLOGY.md) for the mathematical formulation and algorithm details.
 
 ## Installation
 
