@@ -155,7 +155,11 @@ Polish for initial release
   - KaTeX math rendering with prominent objective function
   - Variable definitions, algorithm details, data sources, post-processing
   - Implementation stack and navigation links
-- [ ] Style and polish UI
+- [ ] Add map title overlay ("Half of America / Where 50% of Americans live") for first-glance clarity
+- [ ] Add slider endpoint labels ("Fragmented" ← → "Smooth") to encourage exploration
+- [ ] Add hover tooltips showing population, area, and density for selected regions
+- [ ] Redesign legend: prominently display population %, reorder metrics, improve formatting
+- [ ] Add tab bar glassmorphism container (backdrop-filter blur) for desktop visibility
 
 ---
 
