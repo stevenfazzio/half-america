@@ -157,7 +157,6 @@ Polish for initial release
   - Implementation stack and navigation links
 - [x] Add map title overlay ("Half of America / Where 50% of Americans live") for first-glance clarity
 - [x] Add slider endpoint labels ("Fragmented" ← → "Compact") to encourage exploration
-- [ ] Add hover tooltips showing population, area, and density for selected regions
 - [ ] Redesign legend: prominently display population %, reorder metrics, improve formatting
 - [x] Add tab bar glassmorphism container (backdrop-filter blur) for desktop visibility
 
@@ -167,6 +166,7 @@ Polish for initial release
 
 Ideas for future development:
 
+- **Hover tooltips**: Add per-region statistics on hover (requires exporting per-region data instead of aggregate MultiPolygon)
 - **Light/dark mode toggle**: Allow users to switch between Positron (light) and Dark Matter (dark) basemaps
 - **Variable region granularity**: Support other region types (e.g. state, county)
 - **Alternative metrics**: Optimize for other variables (e.g. number of regions instead of perimeter)
