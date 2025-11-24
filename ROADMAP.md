@@ -150,7 +150,6 @@ Polish for initial release
   - Key statistics, evolution story, slider explanation
   - Navigation links to Map and Method tabs
   - Image placeholder for evolution diagram
-- [ ] Create evolution diagram images for Story tab (San Bernardino → Tracts → Bridges → Smooth)
 - [x] Add content to Method tab (technical methodology)
   - KaTeX math rendering with prominent objective function
   - Variable definitions, algorithm details, data sources, post-processing
@@ -159,6 +158,7 @@ Polish for initial release
 - [x] Add slider endpoint labels ("Fragmented" ← → "Compact") to encourage exploration
 - [x] Redesign legend: hero stats (Population % and Land Area %), removed Area/Region, de-emphasized λ (hidden on mobile)
 - [x] Add tab bar glassmorphism container (backdrop-filter blur) for desktop visibility
+- [ ] Create evolution diagram images for Story tab (San Bernardino → Tracts → Bridges → Smooth)
 
 ---
 
