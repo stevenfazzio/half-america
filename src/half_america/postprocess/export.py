@@ -33,6 +33,7 @@ class ExportMetadata(NamedTuple):
 
     lambda_value: float
     population_selected: int
+    total_population: int
     area_sqm: float
     num_parts: int
 
@@ -68,6 +69,7 @@ def export_to_topojson(
         {
             "lambda_value": [metadata.lambda_value],
             "population_selected": [metadata.population_selected],
+            "total_population": [metadata.total_population],
             "area_sqm": [metadata.area_sqm],
             "num_parts": [metadata.num_parts],
             "geometry": [geometry],
@@ -135,6 +137,7 @@ def export_all_lambdas(
         metadata = ExportMetadata(
             lambda_value=lambda_val,
             population_selected=dissolve_result.population_selected,
+            total_population=dissolve_result.total_population,
             area_sqm=dissolve_result.total_area_sqm,
             num_parts=dissolve_result.num_parts,
         )
@@ -189,6 +192,7 @@ def export_combined_topojson(
             {
                 "lambda_value": [lambda_val],
                 "population_selected": [dissolve_result.population_selected],
+                "total_population": [dissolve_result.total_population],
                 "area_sqm": [dissolve_result.total_area_sqm],
                 "num_parts": [dissolve_result.num_parts],
                 "geometry": [simplify_result.geometry],

@@ -213,6 +213,7 @@ def sample_metadata() -> ExportMetadata:
     return ExportMetadata(
         lambda_value=0.5,
         population_selected=165_000_000,
+        total_population=328_912_183,
         area_sqm=5_000_000_000_000.0,
         num_parts=50,
     )
@@ -255,6 +256,7 @@ def sample_dissolve_results() -> dict[float, DissolveResult]:
             total_area_sqm=geom.area,
             num_tracts=30000,
             population_selected=165_000_000,
+            total_population=328_912_183,
         ),
         0.5: DissolveResult(
             geometry=geom,
@@ -262,6 +264,7 @@ def sample_dissolve_results() -> dict[float, DissolveResult]:
             total_area_sqm=geom.area,
             num_tracts=30000,
             population_selected=165_000_000,
+            total_population=328_912_183,
         ),
         0.9: DissolveResult(
             geometry=geom,
@@ -269,5 +272,6 @@ def sample_dissolve_results() -> dict[float, DissolveResult]:
             total_area_sqm=geom.area,
             num_tracts=30000,
             population_selected=165_000_000,
+            total_population=328_912_183,
         ),
     }

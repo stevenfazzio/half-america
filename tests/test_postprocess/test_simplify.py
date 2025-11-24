@@ -180,6 +180,7 @@ def sample_dissolve_results() -> dict[float, DissolveResult]:
             total_area_sqm=geom.area,
             num_tracts=10,
             population_selected=165_000_000,
+            total_population=328_912_183,
         ),
         0.5: DissolveResult(
             geometry=geom,
@@ -187,6 +188,7 @@ def sample_dissolve_results() -> dict[float, DissolveResult]:
             total_area_sqm=geom.area,
             num_tracts=10,
             population_selected=165_000_000,
+            total_population=328_912_183,
         ),
         0.9: DissolveResult(
             geometry=geom,
@@ -194,5 +196,6 @@ def sample_dissolve_results() -> dict[float, DissolveResult]:
             total_area_sqm=geom.area,
             num_tracts=10,
             population_selected=165_000_000,
+            total_population=328_912_183,
         ),
     }
