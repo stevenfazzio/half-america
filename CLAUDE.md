@@ -59,9 +59,11 @@ npm run build                        # Production build
 npm run preview                      # Preview production build
 ```
 
-**Stack**: React + Vite + MapLibre GL JS + deck.gl. No API keys required.
+**Stack**: React + Vite + MapLibre GL JS + deck.gl + KaTeX. No API keys required.
 
 **Live Site**: https://stevenfazzio.github.io/half-america
+
+**Navigation**: The app uses hash-based routing (`#map`, `#story`, `#method`) with three tabs. The Map tab uses a KeepMounted pattern to preserve WebGL state when switching tabs.
 
 ## Cache Management
 
@@ -106,7 +108,7 @@ Year constants in `src/half_america/config.py`: `TIGER_YEAR=2024`, `ACS_YEAR=202
 - **Spatial Logic:** geopandas, libpysal (adjacency graph building) - *implemented*
 - **Optimization:** PyMaxFlow (C++ graph cuts wrapper) - *implemented*
 - **Geometry Operations:** shapely, topojson - *implemented*
-- **Web Frontend:** React, MapLibre GL JS (basemap), deck.gl (data visualization) - *Phase 5*
+- **Web Frontend:** React, MapLibre GL JS (basemap), deck.gl (data visualization) - *implemented*
 
 **Core Algorithm:** The optimization uses Lagrangian relaxation with binary search to find the Lagrange multiplier (μ) that satisfies the 50% population constraint. The graph construction uses s-t cut with neighborhood edges (n-links) for boundary costs and terminal edges (t-links) for area costs and population rewards.
 
@@ -130,3 +132,4 @@ Year constants in `src/half_america/config.py`: `TIGER_YEAR=2024`, `ACS_YEAR=202
 - [docs/API.md](docs/API.md) - Python API reference
 - [METHODOLOGY.md](METHODOLOGY.md) - Mathematical formulation and algorithm details
 - [ROADMAP.md](ROADMAP.md) - Implementation phases and roadmap
+- [docs/archive/tab_strategy.md](docs/archive/tab_strategy.md) - Tab structure design rationale (archived)

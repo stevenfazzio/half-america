@@ -16,13 +16,27 @@ This methodology addresses these issues by minimizing *perimeter* rather than re
 To address the resolution limits of county-level maps, this project utilizes **US Census Tracts**.
 
 ### 1.1 Granularity
-* **Source:** US Census Bureau TIGER/Line Shapefiles and ACS 5-Year Estimates.
+* **Source:** US Census Bureau TIGER/Line Shapefiles (2024) and ACS 5-Year Estimates (2022).
 * **Scale:** ~73,000 tracts (vs. ~3,100 counties). Tracts offer a population resolution of 1,200–8,000 people, providing high-fidelity density data.
 
 ### 1.2 Topological Cleaning
 Raw census shapefiles often contain "slivers," overlaps, and self-intersections that break graph adjacency logic.
-* **Quantization:** Coordinates will be snapped to a high-precision integer grid (via TopoJSON) to eliminate micro-gaps between tracts.
+* **Quantization:** Coordinates are snapped to a high-precision integer grid (via TopoJSON) to eliminate micro-gaps between tracts.
 * **Validation:** All geometries are passed through `shapely.make_valid()` to fix self-intersections and ensure valid polygon topology before graph construction.
+
+### 1.3 Geographic Scope
+
+This analysis covers the **conterminous United States only**—the 48 states physically connected on the North American mainland, plus the District of Columbia.
+
+**Excluded Areas:**
+- Alaska, Hawaii, Puerto Rico, and other territories
+
+**Rationale:**
+- **Projection**: Albers Equal Area Conic (EPSG:5070) is optimized for conterminous U.S.
+- **Visualization**: Assumes continuous landmass without inset maps
+- **Interpretation**: Connected landmass simplifies visual story
+
+**Terminology**: "America" in this document refers specifically to the conterminous United States.
 
 ## 2. Mathematical Formulation
 

@@ -70,11 +70,11 @@ Update the status line from "in progress" to "complete".
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] File contains "Phase 6: Map Final Touches** is complete"
-- [ ] No linting errors
+- [x] File contains "Phase 6: Map Final Touches** is complete"
+- [x] No linting errors
 
 #### Manual Verification:
-- [ ] ROADMAP.md reads correctly with Phase 6 complete
+- [x] ROADMAP.md reads correctly with Phase 6 complete
 
 ---
 
@@ -164,14 +164,14 @@ The frontend is built with React + Vite + MapLibre GL JS + deck.gl + KaTeX. The 
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] README.md contains "λ ≈ 0.98"
-- [ ] README.md contains "--lambda-step 0.01"
-- [ ] README.md contains "Phase 6"
-- [ ] README.md contains "KaTeX"
+- [x] README.md contains "λ ≈ 0.98"
+- [x] README.md contains "--lambda-step 0.01"
+- [x] README.md contains "Phase 6"
+- [x] README.md contains "KaTeX"
 
 #### Manual Verification:
-- [ ] README renders correctly on GitHub
-- [ ] Examples are accurate and clear
+- [x] README renders correctly on GitHub
+- [x] Examples are accurate and clear
 
 ---
 
@@ -242,13 +242,13 @@ Update architecture section and add navigation pattern documentation.
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] CLAUDE.md contains "KaTeX"
-- [ ] CLAUDE.md contains "KeepMounted"
-- [ ] CLAUDE.md contains "implemented" (not "Phase 5") for web frontend
-- [ ] CLAUDE.md references docs/archive/tab_strategy.md
+- [x] CLAUDE.md contains "KaTeX"
+- [x] CLAUDE.md contains "KeepMounted"
+- [x] CLAUDE.md contains "implemented" (not "Phase 5") for web frontend
+- [x] CLAUDE.md references docs/archive/tab_strategy.md
 
 #### Manual Verification:
-- [ ] CLAUDE.md provides accurate developer guidance
+- [x] CLAUDE.md provides accurate developer guidance
 
 ---
 
@@ -315,15 +315,15 @@ This analysis covers the **conterminous United States only**—the 48 states phy
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] METHODOLOGY.md contains "TIGER/Line Shapefiles (2024)"
-- [ ] METHODOLOGY.md contains "ACS 5-Year Estimates (2022)"
-- [ ] METHODOLOGY.md contains "Coordinates are snapped" (not "will be")
-- [ ] METHODOLOGY.md contains "### 1.3 Geographic Scope"
-- [ ] METHODOLOGY.md contains "conterminous United States"
+- [x] METHODOLOGY.md contains "TIGER/Line Shapefiles (2024)"
+- [x] METHODOLOGY.md contains "ACS 5-Year Estimates (2022)"
+- [x] METHODOLOGY.md contains "Coordinates are snapped" (not "will be")
+- [x] METHODOLOGY.md contains "### 1.3 Geographic Scope"
+- [x] METHODOLOGY.md contains "conterminous United States"
 
 #### Manual Verification:
-- [ ] Section numbering flows correctly (1.1, 1.2, 1.3)
-- [ ] Geographic scope section is clear and accurate
+- [x] Section numbering flows correctly (1.1, 1.2, 1.3)
+- [x] Geographic scope section is clear and accurate
 
 ---
 
@@ -353,12 +353,12 @@ Move tab_strategy.md to docs/archive/ with archive notice.
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] `docs/archive/tab_strategy.md` exists
-- [ ] `docs/tab_strategy.md` does not exist
-- [ ] Archive file contains "Archive Notice"
+- [x] `docs/archive/tab_strategy.md` exists
+- [x] `docs/tab_strategy.md` does not exist
+- [x] Archive file contains "Archive Notice"
 
 #### Manual Verification:
-- [ ] Archive notice link works correctly
+- [x] Archive notice link works correctly
 
 ---
 

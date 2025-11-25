@@ -33,7 +33,7 @@ This project treats census tract selection as a graph optimization problem. Give
 The interactive slider controls lambda (λ), the "surface tension" parameter (0 to <1):
 
 - **λ ≈ 0**: Prioritizes area minimization. Produces high-resolution "dusty" city centers—accurate but hard to visually process.
-- **λ ≈ 0.9**: Prioritizes perimeter minimization. Creates smooth, compact regions that are easier to reason about while remaining accurate.
+- **λ ≈ 0.98**: Prioritizes perimeter minimization. Creates smooth, compact regions that are easier to reason about while remaining accurate.
 
 The result reveals surprising population concentration: **50% of Americans live in a very small fraction of the country's land area**. The exact percentage depends on your parameter choice—prioritizing precision produces smaller areas, while prioritizing smoothness creates larger, more cohesive regions.
 
@@ -70,7 +70,7 @@ uv run half-america precompute
 
 # Precompute options
 uv run half-america precompute --force          # Rebuild cache
-uv run half-america precompute --lambda-step 0.05  # Finer granularity
+uv run half-america precompute --lambda-step 0.01  # Match production (99 values)
 
 # Export TopoJSON files
 uv run half-america export
@@ -116,7 +116,7 @@ npm run build      # Production build
 npm run preview    # Preview production build
 ```
 
-The frontend is built with React + Vite + MapLibre GL JS + deck.gl. No API keys required.
+The frontend is built with React + Vite + MapLibre GL JS + deck.gl + KaTeX. The app features three tabs (Map, Story, Method) with hash-based routing. No API keys required.
 
 ## API Reference
 
@@ -148,9 +148,17 @@ See [docs/API.md](docs/API.md) for post-processing (dissolve, simplify, export) 
 
 ## Project Status
 
-**Current Phase**: Web Frontend Complete (Phase 5)
+**Current Phase**: Map Final Touches Complete (Phase 6)
 
 The interactive visualization is live at https://stevenfazzio.github.io/half-america
+
+**Features:**
+- Interactive map with smooth lambda slider (99 increments from 0.00 to 0.98)
+- Real-time statistics: population percentage and land area percentage
+- Story tab with project narrative and evolution explanation
+- Method tab with technical details and mathematical formulation (KaTeX)
+- Hash-based routing for shareable URLs (`#map`, `#story`, `#method`)
+- Responsive design (desktop and mobile optimized)
 
 For more information:
 - [ROADMAP.md](ROADMAP.md) - Implementation plan and future enhancements

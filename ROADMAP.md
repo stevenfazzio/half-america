@@ -4,7 +4,7 @@ This document outlines the implementation plan for Half of America.
 
 ## Current Status
 
-**Phase 6: Map Final Touches** is in progress. The site is live at https://stevenfazzio.github.io/half-america
+**Phase 6: Map Final Touches** is complete. The site is live at https://stevenfazzio.github.io/half-america
 
 ---
 
@@ -142,7 +142,7 @@ Polish for initial release
 ### Milestones
 
 - [x] Fine λ granularity: Move to 0.01 increments (99 values, 0.00-0.98) for smoother slider interaction
-- [x] Create tab structure with Map, Story, and Method stubs (see [docs/tab_strategy.md](docs/tab_strategy.md))
+- [x] Create tab structure with Map, Story, and Method stubs (see [docs/archive/tab_strategy.md](docs/archive/tab_strategy.md))
   - Hash-based routing (`#map`, `#story`, `#method`)
   - Responsive navigation (top pills desktop, bottom nav mobile)
   - WebGL state preserved across tab switches via KeepMounted pattern

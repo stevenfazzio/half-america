@@ -1,6 +1,10 @@
+> **Archive Notice** (2025-11-25): This document was used to plan the tab structure implemented in Phase 6. For current implementation details, see [ROADMAP.md](../../ROADMAP.md#phase-6-map-final-touches).
+
+---
+
 # Overall
 
-We’re addressing three distinct audiences and modes:
+We're addressing three distinct audiences and modes:
 
 1. **Explorers / demo viewers**
    → they want to *see* and *play*
@@ -44,7 +48,7 @@ This page needs:
 * brief conclusions
 
 Key:
-don’t just describe what we did — explain *why it matters*.
+don't just describe what we did — explain *why it matters*.
 
 ### **Tab 3 — Technical / Methodology**
 
@@ -68,7 +72,7 @@ That separation is natural and keeps each mode high-quality without compromise.
 ### 1. **Avoid copy/paste of `METHODOLOGY.md` literally**
 
 Instead:
-*render it*, don’t dump it.
+*render it*, don't dump it.
 
 Reflow headings, code, equations.
 
@@ -76,7 +80,7 @@ If you want, extract the objective function and constraints into a neat boxed se
 
 Make it look intentional.
 
-### 2. **Don’t let the tabs feel equal**
+### 2. **Don't let the tabs feel equal**
 
 The first tab should feel like *the point of the site*.
 
@@ -88,7 +92,7 @@ i.e., the visualization is the primary artifact.
 
 People *hate* being sold to in this space.
 
-Write it as a guide written by someone who respects the reader’s intelligence:
+Write it as a guide written by someone who respects the reader's intelligence:
 
 * clear problem
 * clear intuition
@@ -118,7 +122,7 @@ We intend this to serve as:
 
 Splitting them solves this.
 
-And this aligns with our ambition for “an artifact that stands alone and speaks for itself,” which we mention explicitly in our README.
+And this aligns with our ambition for "an artifact that stands alone and speaks for itself," which we mention explicitly in our README.
 
 ---
 
@@ -130,8 +134,8 @@ Ask yourself:
 
 If the answer is:
 
-* “understand what they’re looking at” → Tab 2
-* “evaluate whether the method is sound” → Tab 3
+* "understand what they're looking at" → Tab 2
+* "evaluate whether the method is sound" → Tab 3
 
 Then you know the structure is correct.
 
@@ -139,10 +143,10 @@ Then you know the structure is correct.
 
 # Tab Names
 
-I’d consider naming the tabs something like:
+I'd consider naming the tabs something like:
 
 * **Map**
 * **Story**
 * **Method**
 
-That avoids jargon and expectations (“explanation,” “methodology,” etc.) and feels inviting.
+That avoids jargon and expectations ("explanation," "methodology," etc.) and feels inviting.
