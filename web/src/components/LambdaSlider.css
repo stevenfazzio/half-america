@@ -7,8 +7,13 @@
   background: rgba(30, 30, 30, 0.95);
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  z-index: 10;
+  z-index: 100;
   color: #fff;
+}
+
+/* Raise panel above other UI when tooltip is visible */
+.lambda-slider:has(.lambda-tooltip) {
+  z-index: 10000;
 }
 
 @media (min-width: 768px) {
@@ -29,7 +34,7 @@
 }
 
 /* Info icon button */
-.info-icon {
+.lambda-slider .info-icon {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -48,15 +53,15 @@
   transition: all 0.2s ease;
 }
 
-.info-icon:hover,
-.info-icon:focus {
+.lambda-slider .info-icon:hover,
+.lambda-slider .info-icon:focus {
   background: rgba(0, 114, 178, 0.2);
   border-color: rgba(0, 114, 178, 0.6);
   color: #0072B2;
   outline: none;
 }
 
-.info-icon:focus-visible {
+.lambda-slider .info-icon:focus-visible {
   outline: 2px solid #0072B2;
   outline-offset: 2px;
 }
