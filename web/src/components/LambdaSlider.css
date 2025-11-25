@@ -17,7 +17,7 @@
     top: 16px;
     left: 16px;
     right: auto;
-    width: 280px;
+    width: 360px; /* Increased from 280px for better precision */
   }
 }
 
@@ -26,6 +26,100 @@
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 8px;
+}
+
+/* Info icon button */
+.info-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.info-icon:hover,
+.info-icon:focus {
+  background: rgba(0, 114, 178, 0.2);
+  border-color: rgba(0, 114, 178, 0.6);
+  color: #0072B2;
+  outline: none;
+}
+
+.info-icon:focus-visible {
+  outline: 2px solid #0072B2;
+  outline-offset: 2px;
+}
+
+/* Tooltip container */
+.lambda-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 8px;
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.95);
+  border: 1px solid rgba(0, 114, 178, 0.4);
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.tooltip-section {
+  margin-bottom: 12px;
+}
+
+.tooltip-section:last-child {
+  margin-bottom: 0;
+}
+
+.tooltip-section strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #56B4E9;
+  font-size: 12px;
+}
+
+.tooltip-section p {
+  margin: 0 0 6px 0;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tooltip-suggestion {
+  margin-top: 4px !important;
+  font-size: 11px !important;
+  font-style: italic;
+  color: rgba(86, 180, 233, 0.8) !important;
+}
+
+/* Mobile: Adjust tooltip positioning and size */
+@media (max-width: 767px) {
+  .lambda-tooltip {
+    font-size: 12px;
+    padding: 12px;
+  }
+
+  .tooltip-section p {
+    font-size: 11px;
+  }
+
+  .tooltip-suggestion {
+    font-size: 10px !important;
+  }
 }
 
 .slider-container {
@@ -88,15 +182,37 @@
 .slider-endpoints {
   display: flex;
   justify-content: space-between;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
   margin-top: 4px;
   padding: 0 2px;
 }
 
-.lambda-hint {
+.endpoint-left {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.endpoint-right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-end;
+}
+
+.endpoint-arrow {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 8px;
-  margin-bottom: 0;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1;
+}
+
+.endpoint-primary {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.endpoint-secondary {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
 }
