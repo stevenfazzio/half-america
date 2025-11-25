@@ -107,7 +107,7 @@ export function MethodTab() {
         {/* Data Sources */}
         <h2>Data Sources</h2>
         <p>
-          <strong>US Census Bureau TIGER/Line Shapefiles</strong> and <strong>ACS 5-Year Estimates</strong> provide
+          <strong>US Census Bureau TIGER/Line Shapefiles (2024)</strong> and <strong>ACS 5-Year Estimates (2022)</strong> provide
           tract geometries and population data. At ~73,000 tracts (vs. ~3,100 counties), this offers
           population resolution of 1,200–8,000 people per unit.
         </p>
@@ -115,6 +115,63 @@ export function MethodTab() {
           Raw shapefiles undergo topological cleaning: coordinates are quantized to eliminate
           micro-gaps, and geometries are validated to fix self-intersections before graph construction.
         </p>
+
+        <hr className="section-divider" />
+
+        {/* Data Scope & Limitations */}
+        <h2>Data Scope & Limitations</h2>
+
+        <div className="section-card">
+          <h3>Geographic Coverage</h3>
+          <p>
+            This analysis covers the <strong>conterminous United States only</strong>—the
+            48 states physically connected on the North American mainland, plus the
+            District of Columbia.
+          </p>
+          <p>
+            This totals 49 jurisdictions containing approximately <strong>328 million
+            people</strong> (~98.5% of U.S. population) across <strong>3.12 million
+            square miles</strong> (~82% of U.S. land area).
+          </p>
+        </div>
+
+        <div className="section-card">
+          <h3>Excluded Areas</h3>
+          <p>The following are excluded from this visualization:</p>
+          <ul className="exclusion-list">
+            <li><strong>Alaska</strong> — ~733,000 people, ~665,000 mi²</li>
+            <li><strong>Hawaii</strong> — ~1.4 million people, ~10,900 mi²</li>
+            <li><strong>Puerto Rico</strong> — ~3.2 million people, ~3,500 mi²</li>
+            <li><strong>Other territories</strong> — Guam, USVI, American Samoa, CNMI</li>
+          </ul>
+        </div>
+
+        <div className="section-card">
+          <h3>Why Conterminous U.S. Only?</h3>
+          <p>
+            <strong>Projection:</strong> The Albers Equal Area Conic projection (EPSG:5070)
+            used for accurate area calculations is optimized for the conterminous U.S.
+            Alaska would be significantly distorted, and Hawaii would require a separate
+            projection.
+          </p>
+          <p>
+            <strong>Visualization:</strong> The map assumes a continuous landmass.
+            Non-conterminous areas would require inset maps, adding complexity
+            beyond the scope of this demonstration.
+          </p>
+          <p>
+            <strong>Interpretation:</strong> Working with a connected landmass simplifies
+            both implementation and the visual story of population concentration.
+          </p>
+        </div>
+
+        <div className="terminology-note">
+          <p>
+            <strong>Terminology Note:</strong> When this visualization refers to
+            "America," "Americans," or "U.S.," these terms specifically refer to the
+            conterminous United States, or residents thereof, unless otherwise noted.
+          </p>
+        </div>
 
         <hr className="section-divider" />
 

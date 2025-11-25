@@ -78,13 +78,13 @@ Update text strings in SummaryPanel and MapTitle to use neutral "total" phrasing
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `cd web && npm run build`
-- [ ] Linting passes: `cd web && npm run lint`
+- [x] TypeScript compiles: `cd web && npm run build`
+- [x] Linting passes: `cd web && npm run lint`
 
 #### Manual Verification:
-- [ ] Text changes visible on Map tab (SummaryPanel shows "of Total Population" / "of Total Land Area")
-- [ ] MapTitle shows "Where 50% of the population lives"
-- [ ] No layout breaks on mobile viewport
+- [x] Text changes visible on Map tab (SummaryPanel shows "of Total Population" / "of Total Land Area")
+- [x] MapTitle shows "Where 50% of the population lives"
+- [x] No layout breaks on mobile viewport
 
 ---
 
@@ -277,16 +277,18 @@ export function SummaryPanel({ data, lambda }: SummaryPanelProps) {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `cd web && npm run build`
-- [ ] Linting passes: `cd web && npm run lint`
+- [x] TypeScript compiles: `cd web && npm run build`
+- [x] Linting passes: `cd web && npm run lint`
 
 #### Manual Verification:
-- [ ] Info icon appears next to "Half of America" title
-- [ ] Tooltip appears on hover
-- [ ] Tooltip appears on click (mobile)
-- [ ] Tooltip appears on keyboard focus
-- [ ] Tooltip dismisses correctly
-- [ ] Tooltip readable on mobile viewport
+- [x] Info icon appears *(positioning bug - see GitHub issue #3)*
+- [x] Tooltip appears on hover
+- [x] Tooltip appears on click (mobile)
+- [x] Tooltip appears on keyboard focus
+- [x] Tooltip dismisses correctly
+- [x] Tooltip readable on mobile viewport
+
+**Note:** Info icon has a phantom `position: absolute` CSS issue causing incorrect placement. Tracked in GitHub issue #3.
 
 ---
 
@@ -418,16 +420,16 @@ Add a "Data Scope & Limitations" section to the Method Tab with full technical e
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles: `cd web && npm run build`
-- [ ] Linting passes: `cd web && npm run lint`
+- [x] TypeScript compiles: `cd web && npm run build`
+- [x] Linting passes: `cd web && npm run lint`
 
 #### Manual Verification:
-- [ ] "Data Scope & Limitations" section appears after "Data Sources"
-- [ ] Section cards render with correct styling
-- [ ] Exclusion list renders as bulleted list
-- [ ] Terminology note has distinctive styling
-- [ ] Data Sources section shows "(2024)" and "(2022)" years
-- [ ] Section readable on mobile viewport
+- [x] "Data Scope & Limitations" section appears after "Data Sources"
+- [x] Section cards render with correct styling
+- [x] Exclusion list renders as bulleted list
+- [x] Terminology note has distinctive styling
+- [x] Data Sources section shows "(2024)" and "(2022)" years
+- [x] Section readable on mobile viewport
 
 ---
 

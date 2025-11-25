@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { FeatureCollection, Geometry } from 'geojson';
 import './SummaryPanel.css';
 
@@ -16,6 +17,8 @@ interface SummaryPanelProps {
 }
 
 export function SummaryPanel({ data, lambda }: SummaryPanelProps) {
+  const [showTooltip, setShowTooltip] = useState(false);
+
   if (!data || data.features.length === 0) {
     return null;
   }
@@ -38,11 +41,11 @@ export function SummaryPanel({ data, lambda }: SummaryPanelProps) {
       <div className="hero-stats">
         <div className="hero-stat">
           <span className="hero-value">{populationPercent}%</span>
-          <span className="hero-label">of U.S. Population</span>
+          <span className="hero-label">of Total Population</span>
         </div>
         <div className="hero-stat">
           <span className="hero-value">{landAreaPercent}%</span>
-          <span className="hero-label">of U.S. Land Area</span>
+          <span className="hero-label">of Total Land Area</span>
         </div>
       </div>
 
@@ -61,7 +64,38 @@ export function SummaryPanel({ data, lambda }: SummaryPanelProps) {
       {/* Technical stats (de-emphasized) */}
       <div className="technical-stats">
         <span className="technical-stat">λ = {lambda.toFixed(2)}</span>
+        <button
+          type="button"
+          className="info-icon"
+          aria-label="Geographic scope information"
+          onMouseEnter={() => setShowTooltip(true)}
+          onMouseLeave={() => setShowTooltip(false)}
+          onClick={() => setShowTooltip(!showTooltip)}
+          onFocus={() => setShowTooltip(true)}
+          onBlur={() => setShowTooltip(false)}
+        >
+          <span className="icon" aria-hidden="true">ⓘ</span>
+        </button>
       </div>
+
+      {showTooltip && (
+        <div className="scope-tooltip" role="tooltip">
+          <div className="tooltip-section">
+            <strong>Geographic Scope</strong>
+            <p>
+              This visualization covers the conterminous United States only
+              (48 states + DC).
+            </p>
+            <p>
+              Alaska, Hawaii, Puerto Rico, and other U.S. territories are
+              excluded due to map projection constraints.
+            </p>
+          </div>
+          <p className="tooltip-suggestion">
+            See the Method tab for details.
+          </p>
+        </div>
+      )}
     </div>
   );
 }

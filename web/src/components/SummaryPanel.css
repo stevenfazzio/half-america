@@ -6,7 +6,7 @@
   background: rgba(30, 30, 30, 0.95);
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  z-index: 1;
+  z-index: 100;
   color: #fff;
   min-width: 160px;
 }
@@ -27,6 +27,82 @@
   margin: 0 0 12px 0;
   padding-bottom: 8px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Info icon */
+.summary-panel .info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.summary-panel .info-icon:hover,
+.summary-panel .info-icon:focus {
+  background: rgba(0, 114, 178, 0.2);
+  border-color: rgba(0, 114, 178, 0.6);
+  color: #0072B2;
+  outline: none;
+}
+
+.summary-panel .info-icon:focus-visible {
+  outline: 2px solid #0072B2;
+  outline-offset: 2px;
+}
+
+/* Scope tooltip */
+.scope-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  margin-bottom: 8px;
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.98);
+  border: 1px solid rgba(0, 114, 178, 0.4);
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.scope-tooltip .tooltip-section {
+  margin-bottom: 12px;
+}
+
+.scope-tooltip .tooltip-section:last-child {
+  margin-bottom: 0;
+}
+
+.scope-tooltip .tooltip-section strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #56B4E9;
+  font-size: 12px;
+}
+
+.scope-tooltip .tooltip-section p {
+  margin: 0 0 6px 0;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.scope-tooltip .tooltip-suggestion {
+  margin: 0;
+  font-size: 11px;
+  font-style: italic;
+  color: rgba(86, 180, 233, 0.8);
 }
 
 /* Hero stats section */
@@ -86,6 +162,9 @@
 
 /* Technical stats (de-emphasized) */
 .technical-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-top: 12px;
   padding-top: 8px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -124,7 +203,24 @@
     gap: 4px;
   }
 
-  .technical-stats {
+  .technical-stats .technical-stat {
     display: none;
+  }
+
+  .technical-stats {
+    justify-content: flex-end;
+  }
+
+  .scope-tooltip {
+    font-size: 12px;
+    padding: 12px;
+  }
+
+  .scope-tooltip .tooltip-section p {
+    font-size: 11px;
+  }
+
+  .scope-tooltip .tooltip-suggestion {
+    font-size: 10px;
   }
 }
