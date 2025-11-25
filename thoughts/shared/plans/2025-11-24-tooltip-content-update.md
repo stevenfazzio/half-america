@@ -26,16 +26,16 @@ A single-section tooltip that:
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles without errors: `npm run build`
-- [ ] No linting errors: `npm run lint`
-- [ ] Dev server runs successfully: `npm run dev`
+- [x] TypeScript compiles without errors: `npm run build`
+- [x] No linting errors: `npm run lint`
+- [x] Dev server runs successfully: `npm run dev`
 
 #### Manual Verification:
-- [ ] Tooltip displays correctly on hover/click of info icon
-- [ ] Tooltip content is readable and well-formatted
-- [ ] Links to Story and Method tabs are clear and actionable
-- [ ] Tooltip positioning works on both mobile and desktop
-- [ ] No visual regressions in tooltip styling
+- [x] Tooltip displays correctly on hover/click of info icon
+- [x] Tooltip content is readable and well-formatted
+- [x] Links to Story and Method tabs are clear and actionable
+- [x] Tooltip positioning works on both mobile and desktop
+- [x] No visual regressions in tooltip styling
 
 ## What We're NOT Doing
 
@@ -120,17 +120,17 @@ Replace the current two-section tooltip content with the new unified educational
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles without errors: `npm run build`
-- [ ] No linting errors: `npm run lint`
-- [ ] Dev server runs without errors: `npm run dev`
+- [x] TypeScript compiles without errors: `npm run build`
+- [x] No linting errors: `npm run lint`
+- [x] Dev server runs without errors: `npm run dev`
 
 #### Manual Verification:
-- [ ] Tooltip displays on hover/click/focus of info icon
-- [ ] All three sections render correctly with proper formatting
-- [ ] Text wrapping and line breaks are natural and readable
-- [ ] "Learn more" section clearly directs to both tabs
-- [ ] Tooltip remains positioned correctly (not cut off on mobile)
-- [ ] No visual regressions compared to previous tooltip
+- [x] Tooltip displays on hover/click/focus of info icon
+- [x] All three sections render correctly with proper formatting
+- [x] Text wrapping and line breaks are natural and readable
+- [x] "Learn more" section clearly directs to both tabs
+- [x] Tooltip remains positioned correctly (not cut off on mobile)
+- [x] No visual regressions compared to previous tooltip
 
 ## Testing Strategy
 
