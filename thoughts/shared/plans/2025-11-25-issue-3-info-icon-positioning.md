@@ -143,17 +143,17 @@ Change all unscoped `.info-icon` selectors in LambdaSlider.css to be scoped unde
 ### Success Criteria
 
 #### Automated Verification:
-- [ ] Build succeeds: `cd web && npm run build`
-- [ ] Lint passes: `cd web && npm run lint`
-- [ ] No TypeScript errors (CSS changes only, but verify build)
+- [x] Build succeeds: `cd web && npm run build`
+- [x] Lint passes: `cd web && npm run lint`
+- [x] No TypeScript errors (CSS changes only, but verify build)
 
 #### Manual Verification:
-- [ ] SummaryPanel info icon appears next to λ value (bottom-right of panel)
-- [ ] SummaryPanel tooltip appears above the panel content (near bottom of screen)
-- [ ] LambdaSlider info icon still appears in top-right corner of slider panel
-- [ ] LambdaSlider tooltip still appears below the slider panel (desktop) / above (mobile)
-- [ ] Hover/focus states work correctly on both info icons
-- [ ] Test on mobile viewport (≤767px)
+- [x] SummaryPanel info icon appears next to λ value (bottom-right of panel)
+- [x] SummaryPanel tooltip appears below the panel
+- [x] LambdaSlider info icon still appears in top-right corner of slider panel
+- [x] LambdaSlider tooltip still appears below the slider panel (desktop) / above (mobile)
+- [x] Hover/focus states work correctly on both info icons
+- [x] Test on mobile viewport (≤767px)
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause for manual confirmation that the visual positioning is correct before closing the issue.
 
