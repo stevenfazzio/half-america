@@ -15,12 +15,26 @@ import './MapTab.css';
 
 const CARTO_DARK_MATTER = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
 
-const INITIAL_VIEW_STATE = {
-  longitude: -98.5795,
-  latitude: 39.8283,
-  zoom: 3.5,
+const DESKTOP_VIEW_STATE = {
+  longitude: -92.925,
+  latitude: 40.386,
+  zoom: 4.18,
   pitch: 0,
   bearing: 0,
+};
+
+const MOBILE_VIEW_STATE = {
+  longitude: -95.92,
+  latitude: 41.02,
+  zoom: 2.14,
+  pitch: 0,
+  bearing: 0,
+};
+
+// Use mobile view for narrow viewports (matches CSS breakpoint)
+const getInitialViewState = () => {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  return isMobile ? MOBILE_VIEW_STATE : DESKTOP_VIEW_STATE;
 };
 
 // Okabe-Ito Blue at 60% opacity
@@ -84,7 +98,7 @@ export function MapTab({ isActive, loaderState }: MapTabProps) {
         <>
           <Map
             ref={mapRef}
-            initialViewState={INITIAL_VIEW_STATE}
+            initialViewState={getInitialViewState()}
             style={{ width: '100%', height: '100vh' }}
             mapStyle={CARTO_DARK_MATTER}
           >

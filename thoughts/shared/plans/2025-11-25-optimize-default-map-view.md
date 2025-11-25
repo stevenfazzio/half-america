@@ -117,16 +117,16 @@ const INITIAL_VIEW_STATE = {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] TypeScript compiles without errors: `cd web && npm run build`
-- [ ] Linting passes: `cd web && npm run lint`
+- [x] TypeScript compiles without errors: `cd web && npm run build`
+- [x] Linting passes: `cd web && npm run lint`
 
 #### Manual Verification:
-- [ ] Desktop (1920x1080): US fully visible, well-centered with appropriate margins
-- [ ] Desktop (ultrawide): US fills more horizontal space than before
-- [ ] Tablet (768x1024): US fully visible in portrait and landscape
-- [ ] Mobile (375x667): US fully visible, not clipped by bottom slider
-- [ ] User can still pan and zoom after initial load
-- [ ] No visual regression in existing UI elements
+- [x] Desktop (1920x1080): US fully visible, well-centered with appropriate margins
+- [x] Desktop (ultrawide): US fills more horizontal space than before
+- [x] Tablet (768x1024): US fully visible in portrait and landscape
+- [x] Mobile (375x667): US fully visible, not clipped by bottom slider
+- [x] User can still pan and zoom after initial load
+- [x] No visual regression in existing UI elements
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause for manual testing across different viewport sizes.
 
