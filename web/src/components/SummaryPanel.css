@@ -11,6 +11,11 @@
   min-width: 160px;
 }
 
+/* Raise panel above other UI when tooltip is visible */
+.summary-panel:has(.scope-tooltip) {
+  z-index: 10000;
+}
+
 @media (max-width: 767px) {
   .summary-panel {
     top: 16px;
@@ -63,10 +68,10 @@
 /* Scope tooltip */
 .scope-tooltip {
   position: absolute;
-  bottom: 100%;
+  top: 100%;
   left: 0;
   right: 0;
-  margin-bottom: 8px;
+  margin-top: 8px;
   padding: 14px;
   background: rgba(0, 0, 0, 0.98);
   border: 1px solid rgba(0, 114, 178, 0.4);
