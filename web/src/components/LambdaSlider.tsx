@@ -40,22 +40,32 @@ export function LambdaSlider({ value, onChange, disabled }: LambdaSliderProps) {
       {showTooltip && (
         <div className="lambda-tooltip" role="tooltip">
           <div className="tooltip-section">
-            <strong>What it does:</strong>
+            <strong>What "Surface Tension" means here:</strong>
             <p>
-              Surface Tension (λ) controls the tradeoff between compact boundaries
-              and precise area selection. Lower values create scattered regions
-              that minimize land area. Higher values create smooth, organic shapes.
+              In liquids, surface tension causes water to bead into smooth, rounded shapes.
             </p>
-            <p className="tooltip-suggestion">Visit the Story tab to learn more.</p>
+            <p>
+              Here, increasing λ has a similar effect—pulling the selected regions into
+              smoother, more cohesive boundaries.
+            </p>
           </div>
           <div className="tooltip-section">
-            <strong>How it works:</strong>
+            <strong>Practically:</strong>
             <p>
-              Uses max-flow min-cut graph optimization with a perimeter
-              minimization term. λ weights the boundary smoothness penalty
-              in the energy function.
+              Low λ preserves fine detail but creates many tiny fragments.
             </p>
-            <p className="tooltip-suggestion">See the Method tab for full methodology.</p>
+            <p>
+              High λ smooths edges and merges nearby areas into clearer shapes.
+            </p>
+          </div>
+          <div className="tooltip-section">
+            <strong>Learn more:</strong>
+            <p className="tooltip-suggestion">
+              See the Story tab for examples and motivation.
+            </p>
+            <p className="tooltip-suggestion">
+              See the Method tab for the full formulation.
+            </p>
           </div>
         </div>
       )}

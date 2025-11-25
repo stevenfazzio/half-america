@@ -7,7 +7,7 @@
   background: rgba(30, 30, 30, 0.95);
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  z-index: 1;
+  z-index: 10;
   color: #fff;
 }
 
@@ -74,7 +74,7 @@
   border-radius: 6px;
   font-size: 13px;
   line-height: 1.5;
-  z-index: 100;
+  z-index: 1000;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
@@ -109,6 +109,10 @@
 /* Mobile: Adjust tooltip positioning and size */
 @media (max-width: 767px) {
   .lambda-tooltip {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: 8px;
     font-size: 12px;
     padding: 12px;
   }
