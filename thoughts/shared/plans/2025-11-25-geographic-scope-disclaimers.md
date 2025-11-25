@@ -11,12 +11,12 @@ The UI uses terms like "U.S. Population" and "U.S. Land Area" without qualificat
 ### Key Discoveries:
 - Tooltip pattern exists in `LambdaSlider.tsx:27-71` with hover/click/focus handling
 - Tooltip CSS in `LambdaSlider.css:32-127` can be largely reused
-- Text needing updates: `SummaryPanel.tsx:41,45`, `StoryTab.tsx:13,21`, `MapTitle.tsx:7`
+- Text needing updates: `SummaryPanel.tsx:41,45`, `MapTitle.tsx:7`
 - Method Tab has clear section structure with `section-card` styling
 
 ## Desired End State
 
-1. All UI text accurately references "contiguous U.S." where appropriate
+1. SummaryPanel and MapTitle use neutral "total" phrasing (tooltip provides geographic context)
 2. Summary Panel has an info icon with tooltip explaining geographic scope
 3. Method Tab has a "Data Scope & Limitations" section with full technical explanation
 4. Data Sources section includes specific years (TIGER 2024, ACS 2022)
@@ -44,7 +44,7 @@ Three phases: language updates, summary panel tooltip, method tab section. Each 
 ## Phase 1: Language Updates
 
 ### Overview
-Update text strings across 3 components to reference "contiguous U.S." instead of "U.S."
+Update text strings in SummaryPanel and MapTitle to use neutral "total" phrasing. The tooltip (Phase 2) provides geographic context.
 
 ### Changes Required:
 
@@ -56,31 +56,15 @@ Update text strings across 3 components to reference "contiguous U.S." instead o
 // Line 41: Change from
 <span className="hero-label">of U.S. Population</span>
 // To
-<span className="hero-label">of Contiguous U.S. Population</span>
+<span className="hero-label">of Total Population</span>
 
 // Line 45: Change from
 <span className="hero-label">of U.S. Land Area</span>
 // To
-<span className="hero-label">of Contiguous U.S. Land Area</span>
+<span className="hero-label">of Total Land Area</span>
 ```
 
-#### 2. StoryTab.tsx
-**File**: `web/src/components/StoryTab.tsx`
-**Changes**: Update subtitle and body text (lines 13, 21)
-
-```tsx
-// Line 13: Change from
-<p className="subtitle">Where do half of all Americans actually live?</p>
-// To
-<p className="subtitle">Where does half the population actually live?</p>
-
-// Line 21: Change from
-Half of the United States population—over <span className="stat-highlight">165 million people</span>—lives
-// To
-Half of the contiguous United States population—over <span className="stat-highlight">165 million people</span>—lives
-```
-
-#### 3. MapTitle.tsx
+#### 2. MapTitle.tsx
 **File**: `web/src/components/MapTitle.tsx`
 **Changes**: Update subtitle (line 7)
 
@@ -98,8 +82,8 @@ Half of the contiguous United States population—over <span className="stat-hig
 - [ ] Linting passes: `cd web && npm run lint`
 
 #### Manual Verification:
-- [ ] Text changes visible on Map tab (SummaryPanel, MapTitle)
-- [ ] Text changes visible on Story tab
+- [ ] Text changes visible on Map tab (SummaryPanel shows "of Total Population" / "of Total Land Area")
+- [ ] MapTitle shows "Where 50% of the population lives"
 - [ ] No layout breaks on mobile viewport
 
 ---
@@ -454,12 +438,12 @@ Add a "Data Scope & Limitations" section to the Method Tab with full technical e
 - ESLint catches any React/JSX issues
 
 ### Manual Testing Steps:
-1. Navigate to Map tab - verify SummaryPanel and MapTitle text updates
-2. Hover over info icon - verify tooltip appears
-3. Click info icon - verify tooltip toggles
-4. Tab to info icon - verify focus state and tooltip
-5. Navigate to Story tab - verify text updates
-6. Navigate to Method tab - verify new section and year updates
+1. Navigate to Map tab - verify SummaryPanel shows "of Total Population" / "of Total Land Area"
+2. Verify MapTitle shows "Where 50% of the population lives"
+3. Hover over info icon - verify tooltip appears with geographic scope info
+4. Click info icon - verify tooltip toggles
+5. Tab to info icon - verify focus state and tooltip
+6. Navigate to Method tab - verify new "Data Scope & Limitations" section and year updates
 7. Test all above on mobile viewport (Chrome DevTools)
 
 ## References
