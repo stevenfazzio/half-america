@@ -159,6 +159,7 @@ Polish for initial release
 - [x] Redesign legend: hero stats (Population % and Land Area %), removed Area/Region, de-emphasized λ (hidden on mobile)
 - [x] Add tab bar glassmorphism container (backdrop-filter blur) for desktop visibility
 - [ ] Create evolution diagram images for Story tab (San Bernardino → Tracts → Bridges → Smooth)
+- [ ] Optimize default map view: Adjust initial zoom/pan so contiguous US is maximally large while fully visible
 
 ---
 
