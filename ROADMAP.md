@@ -4,7 +4,7 @@ This document outlines the implementation plan for Half of America.
 
 ## Current Status
 
-**Phase 6: Final Touches** is in progress. The site is live at https://stevenfazzio.github.io/half-america
+**Phase 6: Map Final Touches** is in progress. The site is live at https://stevenfazzio.github.io/half-america
 
 ---
 
@@ -135,7 +135,7 @@ web/                        # Frontend application
 
 ---
 
-## Phase 6: Final Touches
+## Phase 6: Map Final Touches
 
 Polish for initial release
 
@@ -158,8 +158,28 @@ Polish for initial release
 - [x] Add slider endpoint labels ("Fragmented" ← → "Compact") to encourage exploration
 - [x] Redesign legend: hero stats (Population % and Land Area %), removed Area/Region, de-emphasized λ (hidden on mobile)
 - [x] Add tab bar glassmorphism container (backdrop-filter blur) for desktop visibility
+- [x] Optimize default map view: Adjust initial zoom/pan so contiguous US is maximally large while fully visible
+
+---
+
+## Phase 7: Story
+
+Enhance the Story tab with visual content.
+
+### Milestones
+
 - [ ] Create evolution diagram images for Story tab (San Bernardino → Tracts → Bridges → Smooth)
-- [ ] Optimize default map view: Adjust initial zoom/pan so contiguous US is maximally large while fully visible
+
+---
+
+## Phase 8: Methodology
+
+Enhance the Method tab with academic rigor.
+
+### Milestones
+
+- [ ] Add citations
+- [ ] Add benchmarking
 
 ---
 
