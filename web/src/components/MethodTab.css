@@ -1,14 +1,15 @@
+/* Layout */
 .method-tab {
   position: absolute;
   inset: 0;
   overflow-y: auto;
   background: #1a1a1a;
-  padding: 80px 24px 24px; /* Top padding for tab bar */
+  padding: 80px 24px 24px;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .method-tab {
-    padding: 24px 16px 80px; /* Bottom padding for mobile nav */
+    padding: 24px 16px 100px;
   }
 }
 
@@ -17,262 +18,57 @@
   margin: 0 auto;
 }
 
-.method-content h1 {
-  font-size: 32px;
-  font-weight: 700;
-  margin: 0 0 8px 0;
-}
-
-.method-content .subtitle {
-  font-size: 18px;
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0 0 32px 0;
-}
-
-.method-content .placeholder {
-  padding: 24px;
-  background: rgba(30, 30, 30, 0.95);
-  border-radius: 8px;
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-}
-
-.method-content .placeholder p {
-  margin: 0 0 8px 0;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.method-content .placeholder p:last-child {
-  margin-bottom: 0;
-}
-
-/* Typography */
-.method-content h2 {
-  font-size: 24px;
-  font-weight: 600;
-  margin: 32px 0 16px 0;
-  color: rgba(255, 255, 255, 0.95);
-}
-
-.method-content h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 24px 0 12px 0;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.method-content p {
-  font-size: 16px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.8);
-  margin: 0 0 16px 0;
-}
-
-.method-content .hook {
-  font-size: 20px;
-  font-style: italic;
-  color: rgba(255, 255, 255, 0.9);
-  margin: 0 0 32px 0;
-  padding-left: 20px;
-  border-left: 3px solid #0072B2;
-}
-
-.method-content .section-divider {
-  border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  margin: 32px 0;
-}
-
-.method-content strong {
-  color: rgba(255, 255, 255, 0.95);
-}
-
-/* Section cards */
-.method-content .section-card {
-  padding: 20px 24px;
-  background: rgba(30, 30, 30, 0.95);
-  border-radius: 8px;
-  margin: 24px 0;
-}
-
-.method-content .section-card h3 {
-  margin: 0 0 8px 0;
-}
-
-.method-content .section-card p {
-  margin: 0;
-  font-size: 14px;
-}
-
-.method-content .section-card p + p {
-  margin-top: 12px;
-}
-
-/* Exclusion list */
-.exclusion-list {
-  margin: 8px 0 0 0;
-  padding-left: 20px;
-}
-
-.exclusion-list li {
-  margin-bottom: 4px;
-  font-size: 14px;
-}
-
-.exclusion-list li strong {
-  color: #56B4E9;
-}
-
-/* Terminology note */
-.terminology-note {
-  margin-top: 16px;
-  padding: 12px 16px;
-  background: rgba(0, 114, 178, 0.1);
-  border-left: 3px solid #0072B2;
-  border-radius: 0 4px 4px 0;
-}
-
-.terminology-note p {
-  margin: 0;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.terminology-note strong {
-  color: #56B4E9;
-}
-
-/* Tab links */
-.method-content .tab-links {
+/* Navigation */
+.tab-links {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-top: 32px;
+  margin-top: 16px;
 }
 
-.method-content .tab-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+.tab-link {
+  display: inline-block;
   padding: 12px 20px;
-  background: rgba(0, 114, 178, 0.15);
+  background: rgba(0, 114, 178, 0.1);
   border: 1px solid rgba(0, 114, 178, 0.3);
   border-radius: 8px;
   color: #0072B2;
-  font-size: 16px;
-  font-weight: 500;
   text-decoration: none;
-  cursor: pointer;
-  transition: background-color 0.15s, border-color 0.15s;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
-.method-content .tab-link:hover {
-  background: rgba(0, 114, 178, 0.25);
+.tab-link:hover {
+  background: rgba(0, 114, 178, 0.2);
   border-color: rgba(0, 114, 178, 0.5);
 }
 
-/* External links */
-.method-content a {
-  color: #0072B2;
+.repo-link {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.repo-link a {
+  color: rgba(255, 255, 255, 0.5);
   text-decoration: none;
-}
-
-.method-content a:hover {
-  text-decoration: underline;
-}
-
-/* Equation hero box */
-.method-content .equation-hero {
-  background: rgba(0, 114, 178, 0.08);
-  border: 1px solid rgba(0, 114, 178, 0.2);
-  border-radius: 12px;
-  padding: 24px;
-  margin: 0 0 32px 0;
-}
-
-.method-content .equation-hero h2 {
-  margin-top: 0;
-  color: #0072B2;
-}
-
-/* Equation block with horizontal scroll for mobile */
-.method-content .equation-block {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: 16px 0;
-  margin: 16px 0;
-  position: relative;
-}
-
-.method-content .equation-block .katex-display {
-  margin: 0;
-}
-
-/* Equation legend */
-.method-content .equation-legend {
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(0, 114, 178, 0.15);
-}
-
-.method-content .equation-legend p {
   font-size: 14px;
-  margin: 0 0 8px 0;
 }
 
-.method-content .equation-legend p:last-child {
-  margin-bottom: 0;
+.repo-link a:hover {
+  color: rgba(255, 255, 255, 0.7);
 }
 
-/* Variable list */
-.method-content .variable-list {
-  background: rgba(30, 30, 30, 0.95);
-  border-radius: 8px;
-  padding: 16px 20px;
-  margin: 16px 0;
+/* Section divider (used by navigation section) */
+.section-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 32px 0;
 }
 
-.method-content .variable-list p {
-  font-size: 15px;
-  margin: 0 0 8px 0;
-}
-
-.method-content .variable-list p:last-child {
-  margin-bottom: 0;
-}
-
-/* Stack list */
-.method-content .stack-list {
-  background: rgba(30, 30, 30, 0.95);
-  border-radius: 8px;
-  padding: 16px 20px;
-}
-
-.method-content .stack-list p {
-  font-size: 15px;
-  margin: 0 0 8px 0;
-}
-
-.method-content .stack-list p:last-child {
-  margin-bottom: 0;
-}
-
-/* Repo link */
-.method-content .repo-link {
-  margin-top: 24px;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-/* Mobile scroll hint for equations */
-@media (max-width: 767px) {
-  .method-content .equation-block {
-    margin-left: -16px;
-    margin-right: -16px;
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  .method-content .equation-hero {
-    padding: 20px 16px;
-  }
+/* Explore heading */
+.method-content > h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  color: rgba(255, 255, 255, 0.95);
 }

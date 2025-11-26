@@ -141,14 +141,14 @@ This totals 49 jurisdictions containing approximately **328 million people** (~9
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] METHODOLOGY.md has valid markdown syntax (no broken formatting)
-- [ ] All LaTeX equations are properly delimited with `$` or `$$`
+- [x] METHODOLOGY.md has valid markdown syntax (no broken formatting)
+- [x] All LaTeX equations are properly delimited with `$` or `$$`
 
 #### Manual Verification:
-- [ ] METHODOLOGY.md renders correctly on GitHub
-- [ ] All content from MethodTab.tsx is now present in METHODOLOGY.md
-- [ ] No information has been lost
-- [ ] Document reads well as a cohesive whole
+- [x] METHODOLOGY.md renders correctly on GitHub
+- [x] All content from MethodTab.tsx is now present in METHODOLOGY.md
+- [x] No information has been lost
+- [x] Document reads well as a cohesive whole
 
 **Implementation Note**: After completing this phase and all verification passes, pause here for manual confirmation before proceeding to the technical implementation phases.
 
@@ -187,11 +187,11 @@ declare module '*.md?raw' {
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Dependencies install without errors: `npm install`
-- [ ] TypeScript recognizes `*.md?raw` imports: `npm run build` (no type errors)
+- [x] Dependencies install without errors: `npm install`
+- [x] TypeScript recognizes `*.md?raw` imports: `npm run build` (no type errors)
 
 #### Manual Verification:
-- [ ] None required for this phase
+- [x] None required for this phase
 
 ---
 
@@ -370,11 +370,11 @@ Extract and consolidate the shared prose styles from MethodTab.css and StoryTab.
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Component compiles without TypeScript errors: `npm run build`
-- [ ] No linting errors: `npm run lint`
+- [x] Component compiles without TypeScript errors: `npm run build`
+- [x] No linting errors: `npm run lint`
 
 #### Manual Verification:
-- [ ] None required—will test in Phase 3
+- [x] None required—will test in Phase 3
 
 ---
 
@@ -515,17 +515,17 @@ Remove the duplicated typography styles (now in MarkdownRenderer.css) and keep o
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Build succeeds: `npm run build`
-- [ ] No TypeScript errors
-- [ ] No linting errors: `npm run lint`
+- [x] Build succeeds: `npm run build`
+- [x] No TypeScript errors
+- [x] No linting errors: `npm run lint`
 
 #### Manual Verification:
-- [ ] MethodTab renders with LaTeX equations displaying correctly
-- [ ] Navigation links work (clicking "View the Interactive Map" goes to map tab)
-- [ ] GitHub repo link opens in new tab
-- [ ] Styling is acceptable (may be simpler than before—this is OK)
-- [ ] Mobile layout works correctly
-- [ ] METHODOLOGY.md still renders nicely on GitHub
+- [x] MethodTab renders with LaTeX equations displaying correctly
+- [x] Navigation links work (clicking "View the Interactive Map" goes to map tab)
+- [x] GitHub repo link opens in new tab
+- [x] Styling is acceptable (may be simpler than before—this is OK)
+- [x] Mobile layout works correctly
+- [x] METHODOLOGY.md still renders nicely on GitHub
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that the manual testing was successful before proceeding to the next phase.
 
@@ -550,16 +550,16 @@ npm uninstall @matejmazur/react-katex
 ### Success Criteria:
 
 #### Automated Verification:
-- [ ] Build succeeds: `npm run build`
-- [ ] No unused dependencies warning
+- [x] Build succeeds: `npm run build`
+- [x] No unused dependencies warning
 
 #### Manual Verification:
-- [ ] Full app works correctly
-- [ ] MethodTab renders content from METHODOLOGY.md
-- [ ] StoryTab still works (unchanged)
-- [ ] LaTeX equations display properly
-- [ ] Navigation works
-- [ ] GitHub renders METHODOLOGY.md nicely with LaTeX
+- [x] Full app works correctly
+- [x] MethodTab renders content from METHODOLOGY.md
+- [x] StoryTab still works (unchanged)
+- [x] LaTeX equations display properly
+- [x] Navigation works
+- [x] GitHub renders METHODOLOGY.md nicely with LaTeX
 
 ---
 
