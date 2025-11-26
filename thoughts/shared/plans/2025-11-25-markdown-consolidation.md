@@ -1,8 +1,8 @@
-# Markdown Documentation Consolidation Implementation Plan
+# MethodTab Markdown Consolidation Implementation Plan
 
 ## Overview
 
-Consolidate documentation by creating a single-source-of-truth pattern where markdown files (`METHODOLOGY.md`, new `STORY.md`) serve both as GitHub-readable documentation AND as rendered content in the web application. This eliminates ~70-80% content duplication between markdown files and React components.
+Consolidate the Method tab documentation by making `METHODOLOGY.md` the single source of truth—readable on GitHub AND rendered in the web application via react-markdown. This eliminates ~70-80% content duplication between METHODOLOGY.md and MethodTab.tsx.
 
 ## Current State Analysis
 
@@ -24,21 +24,16 @@ Consolidate documentation by creating a single-source-of-truth pattern where mar
 - Detailed exclusion list with population/area for each excluded region (Alaska, Hawaii, Puerto Rico, territories)
 - Expanded "Why Conterminous U.S. Only?" section with detailed rationale
 
-**StoryTab.tsx** (100 lines) contains narrative content that has no markdown equivalent—this content will be extracted to a new `STORY.md`.
-
 ### Current Implementation
 
 - **MethodTab.tsx**: Uses `@matejmazur/react-katex` for LaTeX rendering, JSX for content structure
-- **StoryTab.tsx**: Pure JSX, no math rendering
-- **CSS**: Both use similar patterns (`.section-card`, `.hook`, `.tab-links`) with scoped CSS files
+- **CSS**: Uses patterns like `.section-card`, `.hook`, `.tab-links` with scoped CSS
 - **Navigation**: Hash-based routing via `handleTabClick` pattern
 
 ### Key Files
 - `METHODOLOGY.md:1-117` - Codebase documentation
 - `web/src/components/MethodTab.tsx:1-227` - Web component with LaTeX
-- `web/src/components/StoryTab.tsx:1-100` - Web component, plain text
 - `web/src/components/MethodTab.css:1-278` - Method styling
-- `web/src/components/StoryTab.css:1-143` - Story styling
 - `web/package.json:17-18` - Already has katex dependency
 
 ## Desired End State
@@ -46,23 +41,21 @@ Consolidate documentation by creating a single-source-of-truth pattern where mar
 After implementation:
 
 1. **METHODOLOGY.md** serves as the single source for technical methodology (readable on GitHub, rendered in MethodTab)
-2. **STORY.md** (new) serves as the single source for the narrative story (readable on GitHub, rendered in StoryTab)
-3. **MethodTab.tsx** imports and renders `METHODOLOGY.md` via react-markdown
-4. **StoryTab.tsx** imports and renders `STORY.md` via react-markdown
-5. **MarkdownRenderer.tsx** (new) provides shared rendering configuration with KaTeX support
-6. Content updates only need to happen in one place (the markdown files)
+2. **MethodTab.tsx** imports and renders `METHODOLOGY.md` via react-markdown
+3. **MarkdownRenderer.tsx** (new) provides rendering configuration with KaTeX support
+4. Content updates only need to happen in one place (METHODOLOGY.md)
+5. **StoryTab.tsx** remains unchanged (JSX-based, allowing future interactive content)
 
 ### How to Verify
 
-1. METHODOLOGY.md renders correctly on GitHub (equations display as raw LaTeX—acceptable)
+1. METHODOLOGY.md renders correctly on GitHub with LaTeX equations
 2. METHODOLOGY.md renders in web app with proper LaTeX equations
-3. STORY.md renders correctly on GitHub
-4. STORY.md renders in web app with proper styling
-5. Navigation links still work in both tabs
-6. Visual appearance matches current implementation (close enough, simpler styling accepted)
+3. Navigation links still work in MethodTab
+4. Visual appearance is acceptable (simpler styling than before is OK)
 
 ## What We're NOT Doing
 
+- NOT consolidating StoryTab — it may need interactive content (graphs, diagrams) or embedded images in the future; keeping it as JSX preserves flexibility
 - NOT using MDX (LaTeX escaping issues)
 - NOT using vite-plugin-markdown (unnecessary complexity)
 - NOT adding custom remark plugins for `.section-card` styling (accept simpler styling)
@@ -538,174 +531,7 @@ Remove the duplicated typography styles (now in MarkdownRenderer.css) and keep o
 
 ---
 
-## Phase 4: Create STORY.md and Refactor StoryTab
-
-### Overview
-Extract StoryTab content to a new STORY.md file and refactor StoryTab to render it.
-
-### Changes Required:
-
-#### 1. Create STORY.md
-**File**: `STORY.md` (in repository root)
-
-```markdown
-# Half of America
-
-*Where do half of all Americans actually live?*
-
-> What if half of all Americans lived in an area smaller than you'd expect?
-
-## The Surprising Answer
-
-Half of the United States population—over **165 million people**—lives in just **1.1% of the country's land area**. That's roughly the size of Virginia.
-
-The blue shapes on the map represent these areas: dense urban cores and their surrounding suburbs where Americans have concentrated. The rest of the country? Mostly empty.
-
----
-
-## Why This Map Looks Different
-
-You've probably seen maps like this before. They usually show counties, and they usually look wrong. Here's why we took a different approach:
-
-### The San Bernardino Problem
-
-San Bernardino County, California is larger than nine US states. It's also mostly desert. When you highlight it on a "half of America" map, you're including thousands of square miles where almost nobody lives.
-
-### Going Smaller: Census Tracts
-
-We used Census Tracts instead—about 73,000 small neighborhoods across the country. This gives us much higher resolution, but creates a new problem: thousands of tiny disconnected dots that are hard to visually process.
-
-### Finding the Shape
-
-The solution was to let the boundaries find themselves. Using an optimization technique from computer vision, we minimize the *perimeter* of the selected regions. This produces smooth, organic shapes that are both accurate and visually clear.
-
----
-
-## The Smoothness Slider
-
-The slider on the map controls a tradeoff between precision and visual clarity:
-
-**Low values** give you maximum precision. You see every dense neighborhood, but as scattered dots that are hard to reason about.
-
-**High values** give you maximum smoothness. The regions merge into coherent shapes that reveal the overall pattern of where Americans live.
-
-There's no "correct" setting—it depends on what you want to see.
-```
-
-#### 2. Refactor StoryTab.tsx
-**File**: `web/src/components/StoryTab.tsx`
-
-```tsx
-import { MarkdownRenderer } from './MarkdownRenderer'
-import storyContent from '../../../STORY.md?raw'
-import './StoryTab.css'
-
-export function StoryTab() {
-  const handleTabClick = (tab: string) => (e: React.MouseEvent) => {
-    e.preventDefault()
-    window.location.hash = tab
-  }
-
-  return (
-    <div className="story-tab" role="tabpanel" id="story-tab" aria-labelledby="story">
-      <div className="story-content">
-        <MarkdownRenderer content={storyContent} />
-
-        {/* Navigation - kept as JSX for interactivity */}
-        <hr className="section-divider" />
-        <h2>Explore</h2>
-        <div className="tab-links">
-          <a href="#map" className="tab-link" onClick={handleTabClick('map')}>
-            View the Interactive Map →
-          </a>
-          <a href="#method" className="tab-link" onClick={handleTabClick('method')}>
-            Read the Full Methodology →
-          </a>
-        </div>
-      </div>
-    </div>
-  )
-}
-```
-
-#### 3. Simplify StoryTab.css
-**File**: `web/src/components/StoryTab.css`
-
-Similar to MethodTab.css, keep only layout and navigation:
-
-```css
-/* Layout */
-.story-tab {
-  position: absolute;
-  inset: 0;
-  overflow-y: auto;
-  background: #1a1a1a;
-  padding: 80px 24px 24px;
-}
-
-@media (max-width: 768px) {
-  .story-tab {
-    padding: 24px 16px 100px;
-  }
-}
-
-.story-content {
-  max-width: 680px;
-  margin: 0 auto;
-}
-
-/* Navigation */
-.tab-links {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.tab-link {
-  display: inline-block;
-  padding: 12px 20px;
-  background: rgba(0, 114, 178, 0.1);
-  border: 1px solid rgba(0, 114, 178, 0.3);
-  border-radius: 8px;
-  color: #0072B2;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.tab-link:hover {
-  background: rgba(0, 114, 178, 0.2);
-  border-color: rgba(0, 114, 178, 0.5);
-}
-
-/* Section divider (used by navigation section) */
-.section-divider {
-  border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin: 32px 0;
-}
-```
-
-### Success Criteria:
-
-#### Automated Verification:
-- [ ] Build succeeds: `npm run build`
-- [ ] No TypeScript errors
-- [ ] No linting errors: `npm run lint`
-
-#### Manual Verification:
-- [ ] StoryTab renders correctly with all content
-- [ ] Navigation links work
-- [ ] Styling is acceptable
-- [ ] Mobile layout works
-- [ ] STORY.md renders nicely on GitHub
-
-**Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human that the manual testing was successful before proceeding to the next phase.
-
----
-
-## Phase 5: Cleanup and Documentation
+## Phase 4: Cleanup and Documentation
 
 ### Overview
 Remove unused code, update documentation references, and verify final state.
@@ -721,40 +547,19 @@ npm uninstall @matejmazur/react-katex
 #### 2. Remove react-katex type declaration
 **File**: Delete `web/src/types/react-katex.d.ts`
 
-#### 3. Update CLAUDE.md
-**File**: `CLAUDE.md`
-
-Update the Documentation section to mention STORY.md:
-
-```markdown
-## Documentation
-
-- [README.md](README.md) - Project overview, installation, and usage
-- [STORY.md](STORY.md) - Narrative explanation of the visualization
-- [docs/API.md](docs/API.md) - Python API reference
-- [METHODOLOGY.md](METHODOLOGY.md) - Mathematical formulation and algorithm details
-- [ROADMAP.md](ROADMAP.md) - Implementation phases and roadmap
-- [docs/archive/tab_strategy.md](docs/archive/tab_strategy.md) - Tab structure design rationale (archived)
-```
-
-#### 4. Update README.md
-**File**: `README.md`
-
-Add STORY.md to any documentation section if one exists.
-
 ### Success Criteria:
 
 #### Automated Verification:
 - [ ] Build succeeds: `npm run build`
 - [ ] No unused dependencies warning
-- [ ] All tests pass (if any): `npm test`
 
 #### Manual Verification:
 - [ ] Full app works correctly
-- [ ] Both tabs render content from markdown
+- [ ] MethodTab renders content from METHODOLOGY.md
+- [ ] StoryTab still works (unchanged)
 - [ ] LaTeX equations display properly
 - [ ] Navigation works
-- [ ] GitHub renders both markdown files nicely
+- [ ] GitHub renders METHODOLOGY.md nicely with LaTeX
 
 ---
 
@@ -770,11 +575,10 @@ No new unit tests required—this is primarily a refactoring that preserves beha
 ### Manual Testing Steps
 1. Run `npm run dev` and open localhost:5173
 2. Navigate to Method tab—verify LaTeX equations render
-3. Navigate to Story tab—verify content displays
+3. Navigate to Story tab—verify it still works (unchanged)
 4. Click navigation links—verify tab switching works
 5. View on mobile viewport—verify responsive layout
-6. Open METHODOLOGY.md on GitHub—verify readable
-7. Open STORY.md on GitHub—verify readable
+6. Open METHODOLOGY.md on GitHub—verify readable with LaTeX
 
 ## Performance Considerations
 
@@ -787,4 +591,3 @@ No new unit tests required—this is primarily a refactoring that preserves beha
 - Research document: `thoughts/shared/research/2025-11-25-markdown-consolidation.md`
 - METHODOLOGY.md: `METHODOLOGY.md:1-117`
 - MethodTab.tsx: `web/src/components/MethodTab.tsx:1-227`
-- StoryTab.tsx: `web/src/components/StoryTab.tsx:1-100`
