@@ -130,6 +130,6 @@ Year constants in `src/half_america/config.py`: `TIGER_YEAR=2024`, `ACS_YEAR=202
 
 - [README.md](README.md) - Project overview, installation, and usage
 - [docs/API.md](docs/API.md) - Python API reference
-- [METHODOLOGY.md](METHODOLOGY.md) - Mathematical formulation and algorithm details
+- [METHODOLOGY.md](METHODOLOGY.md) - Mathematical formulation and algorithm details (also rendered in web app's Method tab via react-markdown)
 - [ROADMAP.md](ROADMAP.md) - Implementation phases and roadmap
 - [docs/archive/tab_strategy.md](docs/archive/tab_strategy.md) - Tab structure design rationale (archived)

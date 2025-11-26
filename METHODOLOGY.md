@@ -1,5 +1,9 @@
 # Technical Methodology
 
+*Technical details for replication, critique, and extension*
+
+> This project frames population visualization as a constrained optimization problem, solved exactly using max-flow min-cut.
+
 ## Motivation
 
 Traditional "half of America" visualizations face several technical limitations:
@@ -28,15 +32,20 @@ Raw census shapefiles often contain "slivers," overlaps, and self-intersections 
 
 This analysis covers the **conterminous United States only**—the 48 states physically connected on the North American mainland, plus the District of Columbia.
 
+This totals 49 jurisdictions containing approximately **328 million people** (~98.5% of U.S. population) across **3.12 million square miles** (~82% of U.S. land area).
+
 **Excluded Areas:**
-- Alaska, Hawaii, Puerto Rico, and other territories
+- **Alaska** — ~733,000 people, ~665,000 mi²
+- **Hawaii** — ~1.4 million people, ~10,900 mi²
+- **Puerto Rico** — ~3.2 million people, ~3,500 mi²
+- **Other territories** — Guam, USVI, American Samoa, CNMI
 
 **Rationale:**
-- **Projection**: Albers Equal Area Conic (EPSG:5070) is optimized for conterminous U.S.
-- **Visualization**: Assumes continuous landmass without inset maps
-- **Interpretation**: Connected landmass simplifies visual story
+- **Projection:** The Albers Equal Area Conic projection (EPSG:5070) used for accurate area calculations is optimized for the conterminous U.S. Alaska would be significantly distorted, and Hawaii would require a separate projection.
+- **Visualization:** The map assumes a continuous landmass. Non-conterminous areas would require inset maps, adding complexity beyond the scope of this demonstration.
+- **Interpretation:** Working with a connected landmass simplifies both implementation and the visual story of population concentration.
 
-**Terminology**: "America" in this document refers specifically to the conterminous United States.
+**Terminology:** When this visualization refers to "America," "Americans," or "U.S.," these terms specifically refer to the conterminous United States, or residents thereof, unless otherwise noted.
 
 ## 2. Mathematical Formulation
 
