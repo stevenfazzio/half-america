@@ -369,6 +369,79 @@ Adding variable population targets affects the optimization and export layers bu
 
 The `target_fraction` parameter already exists in `find_optimal_mu()` (search.py:30) and `sweep_lambda()` (sweep.py:63)—it's just hardcoded to 0.5 at the CLI level (cli.py:75-79).
 
+## Implementation Experiment (2025-11-29)
+
+### What Was Attempted
+
+Based on the research above, we attempted to implement Approach 1 (Parametric Max-Flow) using the Hochbaum Pseudoflow library. The implementation was done on branch `feature/population-percentage-slider`.
+
+**Changes made:**
+1. Added `pseudoflow>=2022.12.0` and `networkx>=3.0` to dependencies
+2. Created `src/half_america/optimization/parametric.py` with:
+   - `solve_parametric()` - finds all μ breakpoints in one pass per λ
+   - `sweep_lambda_parametric()` - runs parametric solve for each λ
+   - `find_partition_for_target()` - finds closest breakpoint to target population
+3. Updated CLI `precompute` command to use parametric max-flow
+4. Updated `export` command for 2D (λ, population) file naming
+5. Created frontend `PopulationSlider` component
+6. Updated `useTopoJsonLoader` for 2D data grid (380 files: 20λ × 19pop)
+
+### Why It Failed
+
+**Critical scalability issue**: Building a NetworkX graph for pseudoflow is dramatically slower than PyMaxflow's C++ backend.
+
+**Observed behavior:**
+- Small test data (18 nodes): Completed instantly, found correct breakpoints
+- Full census data (83,777 nodes, 264,620 edges): First λ value took 10+ minutes and was still running
+
+**Root cause analysis:**
+
+| Library | Backend | Graph Construction | Max-Flow Solve |
+|---------|---------|-------------------|----------------|
+| PyMaxflow (current) | C++ | ~1 second | ~0.1-0.5 seconds |
+| Pseudoflow | NetworkX (Python) | ~10+ minutes | Unknown (never completed) |
+
+The pseudoflow library requires building a NetworkX DiGraph with:
+- Source edges to all 83,777 nodes
+- Sink edges from all 83,777 nodes
+- Interior edges: 264,620 × 2 (both directions)
+- **Total: ~700,000 edges per λ value**
+
+NetworkX's pure Python graph construction is O(E) with significant constant factors. Building this graph 19 times (once per λ) is infeasible.
+
+**Time estimates:**
+- At 10+ minutes per λ value × 19 λ values = **3+ hours** minimum for precomputation
+- This compares to ~5 minutes for the current binary search approach
+
+### Lessons Learned
+
+1. **Library evaluation was insufficient**: The research correctly identified pseudoflow as the only Python parametric max-flow library, but didn't benchmark it on realistic data sizes.
+
+2. **The theoretical O(1 max-flow solve) advantage is real, but dominated by graph construction overhead**: Pseudoflow's parametric algorithm is efficient, but NetworkX's graph construction negates the benefit.
+
+3. **PyMaxflow's C++ backend is essential for performance**: The current approach works because PyMaxflow handles graph construction in C++.
+
+### Possible Future Approaches
+
+If revisiting this feature:
+
+1. **Hybrid approach**: Use PyMaxflow (fast) with multiple binary searches:
+   - 19 λ values × 19 population targets × ~15 iterations = ~5,400 solves
+   - At 0.5s each ≈ 45 minutes (vs current 5 minutes)
+   - Still 9× slower but feasible
+
+2. **C++ parametric implementation**: Write a C++ wrapper around a parametric max-flow algorithm (IBFS or HPF C code) with Python bindings. High development effort.
+
+3. **Coarse population grid**: Reduce to 5 population targets (25%, 40%, 50%, 60%, 75%) for 5× increase instead of 19×.
+
+4. **Accept current limitation**: Keep the fixed 50% population target. The visualization still effectively demonstrates population concentration.
+
+### Branch Status
+
+The `feature/population-percentage-slider` branch was abandoned. All changes were discarded with `git checkout -- . && git clean -fd`.
+
+The code was functionally correct (tests passed, types checked, lint passed) but operationally infeasible at scale.
+
 ## Related Research
 
 - Gallo, G., Grigoriadis, M. D., & Tarjan, R. E. (1989). "A fast parametric maximum flow algorithm and applications"
