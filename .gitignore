@@ -25,6 +25,9 @@ htmlcov/
 # Data cache (large files)
 /data/
 
+# Development notes
+thoughts/
+
 # Node.js (web frontend)
 web/node_modules/
 web/dist/

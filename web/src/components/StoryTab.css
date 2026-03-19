@@ -29,22 +29,6 @@
   margin: 0 0 32px 0;
 }
 
-.story-content .placeholder {
-  padding: 24px;
-  background: rgba(30, 30, 30, 0.95);
-  border-radius: 8px;
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-}
-
-.story-content .placeholder p {
-  margin: 0 0 8px 0;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.story-content .placeholder p:last-child {
-  margin-bottom: 0;
-}
-
 .story-content h2 {
   font-size: 24px;
   font-weight: 600;
@@ -129,15 +113,4 @@
 .story-content .tab-link:hover {
   background: rgba(0, 114, 178, 0.25);
   border-color: rgba(0, 114, 178, 0.5);
-}
-
-.story-content .image-placeholder {
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px dashed rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  padding: 40px 20px;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 14px;
-  margin: 24px 0;
 }

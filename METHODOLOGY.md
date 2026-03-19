@@ -94,7 +94,7 @@ We construct a flow network $G = (V, E)$ with a Source ($S$, selected) and Sink 
 ### 3.2 Nested Optimization Strategy
 Since the population constraint ($\sum p_i \approx 0.5 P_{total}$) is hard, but graph cuts are soft, we employ a nested solver:
 
-1.  **Outer Loop (The User Slider):** Iterate through target $\lambda$ values (e.g., $0.0, 0.1, \dots 1.0$).
+1.  **Outer Loop (The User Slider):** Iterate through target $\lambda$ values (e.g., $0.0, 0.1, \dots 0.9$).
 2.  **Inner Loop (The Constraint Tuner):**
     * We define a target population $P_{target} = 0.5 \times P_{total}$.
     * Since the selected population is monotonic with respect to $\mu$, we use **Binary Search** to find the optimal $\mu$.

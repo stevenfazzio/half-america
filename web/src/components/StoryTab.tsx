@@ -61,10 +61,6 @@ export function StoryTab() {
           </p>
         </div>
 
-        <div className="image-placeholder">
-          [Evolution diagram: County → Tracts → Bridges → Smooth - Coming in Phase 6]
-        </div>
-
         <hr className="section-divider" />
 
         <h2>The Smoothness Slider</h2>

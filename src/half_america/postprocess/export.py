@@ -80,7 +80,7 @@ def export_to_topojson(
         crs="EPSG:5070",
     )
 
-    # Transform to WGS84 for web (Mapbox GL JS expects EPSG:4326)
+    # Transform to WGS84 for web (MapLibre GL JS expects EPSG:4326)
     gdf_wgs84 = gdf.to_crs("EPSG:4326")
 
     # Create TopoJSON

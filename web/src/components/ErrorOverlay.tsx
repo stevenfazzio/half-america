@@ -11,7 +11,7 @@ export function ErrorOverlay({ message, onRetry }: ErrorOverlayProps) {
       <div className="error-content">
         <h1>Error Loading Data</h1>
         <p>{message}</p>
-        <button onClick={onRetry} className="retry-button">
+        <button type="button" onClick={onRetry} className="retry-button">
           Try Again
         </button>
       </div>
