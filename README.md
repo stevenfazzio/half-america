@@ -46,8 +46,8 @@ See [METHODOLOGY.md](METHODOLOGY.md) for the mathematical formulation and algori
 Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/).
 
 ```bash
-git clone <repo-url>
-cd half_america
+git clone https://github.com/stevenfazzio/half-america.git
+cd half-america
 uv sync
 ```
 
@@ -148,8 +148,6 @@ See [docs/API.md](docs/API.md) for post-processing (dissolve, simplify, export) 
 
 ## Project Status
 
-**Current Phase**: Map Final Touches Complete (Phase 6)
-
 The interactive visualization is live at https://stevenfazzio.github.io/half-america
 
 **Features:**
@@ -161,11 +159,9 @@ The interactive visualization is live at https://stevenfazzio.github.io/half-ame
 - Responsive design (desktop and mobile optimized)
 
 For more information:
-- [ROADMAP.md](ROADMAP.md) - Implementation plan and future enhancements
+- [ROADMAP.md](ROADMAP.md) - Development history
 - [METHODOLOGY.md](METHODOLOGY.md) - Mathematical details
 
 ## License
 
 MIT License. See [LICENSE](LICENSE).
-
-*This is a personal experimental project exploring topology optimization and cartography. Not intended as a production tool.*

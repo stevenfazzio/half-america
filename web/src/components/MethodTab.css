@@ -7,7 +7,7 @@
   padding: 80px 24px 24px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .method-tab {
     padding: 24px 16px 100px;
   }

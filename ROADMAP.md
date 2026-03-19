@@ -1,10 +1,10 @@
 # Roadmap
 
-This document outlines the implementation plan for Half of America.
+This document records the development history of Half of America.
 
 ## Current Status
 
-**Phase 6: Map Final Touches** is complete. The site is live at https://stevenfazzio.github.io/half-america
+The site is live at https://stevenfazzio.github.io/half-america
 
 ---
 
@@ -94,29 +94,14 @@ Build the interactive visualization and deploy to GitHub Pages.
 - **Hosting**: GitHub Pages (static site)
 - **CI/CD**: GitHub Actions
 
-deck.gl renders the census tract polygons as a visualization layer on top of MapLibre's basemap. This separation provides better performance for large polygon datasets and built-in transition support. See [thoughts/shared/research/2025-11-22-deck-gl-feasibility.md](thoughts/shared/research/2025-11-22-deck-gl-feasibility.md) for detailed research.
-
-### Project Structure
-
-```
-web/                        # Frontend application
-├── public/
-│   └── data/               # Pre-computed TopoJSON files
-├── src/
-│   ├── components/
-│   │   ├── Map.tsx
-│   │   └── LambdaSlider.tsx
-│   └── App.tsx
-├── vite.config.ts          # base: '/half-america/'
-└── package.json
-```
+deck.gl renders the census tract polygons as a visualization layer on top of MapLibre's basemap. This separation provides better performance for large polygon datasets and built-in transition support.
 
 ### Sub-Phase 5.1: Project Setup
 
 - [x] Set up React + Vite application in `web/` directory
 - [x] Configure Vite with `base: '/half-america/'` for GitHub Pages
 - [x] Copy TopoJSON files to `web/public/data/`
-- [ ] Configure GitHub Pages source to "GitHub Actions" in repository settings (deferred to Sub-Phase 5.3)
+- [x] Configure GitHub Pages source to "GitHub Actions" in repository settings
 
 ### Sub-Phase 5.2: Core Visualization
 
@@ -149,7 +134,6 @@ Polish for initial release
 - [x] Add content to Story tab (narrative explanation for general audience)
   - Key statistics, evolution story, slider explanation
   - Navigation links to Map and Method tabs
-  - Image placeholder for evolution diagram
 - [x] Add content to Method tab (technical methodology)
   - KaTeX math rendering with prominent objective function
   - Variable definitions, algorithm details, data sources, post-processing
@@ -159,27 +143,6 @@ Polish for initial release
 - [x] Redesign legend: hero stats (Population % and Land Area %), removed Area/Region, de-emphasized λ (hidden on mobile)
 - [x] Add tab bar glassmorphism container (backdrop-filter blur) for desktop visibility
 - [x] Optimize default map view: Adjust initial zoom/pan so contiguous US is maximally large while fully visible
-
----
-
-## Phase 7: Story
-
-Enhance the Story tab with visual content.
-
-### Milestones
-
-- [ ] Create evolution diagram images for Story tab (San Bernardino → Tracts → Bridges → Smooth)
-
----
-
-## Phase 8: Methodology
-
-Enhance the Method tab with academic rigor.
-
-### Milestones
-
-- [ ] Add citations
-- [ ] Add benchmarking
 
 ---
 

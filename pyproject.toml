@@ -17,7 +17,7 @@ dependencies = [
     "geopandas>=0.14",
     "shapely>=2.0",
 
-    # Graph construction (Phase 2)
+    # Graph construction
     "libpysal>=4.9",
     "PyMaxflow>=1.3",
 

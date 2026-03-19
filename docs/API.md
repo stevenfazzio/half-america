@@ -54,7 +54,7 @@ The graph module builds spatial adjacency graphs from Census Tract data for Max-
 from half_america.data import load_all_tracts
 from half_america.graph import load_graph_data, get_graph_summary
 
-# Load tract data (from Phase 1)
+# Load tract data
 gdf = load_all_tracts()
 
 # Build or load graph (cached after first run)
@@ -109,7 +109,7 @@ uv run half-america precompute
 
 # Options
 uv run half-america precompute --force           # Rebuild cache
-uv run half-america precompute --lambda-step 0.05  # Finer granularity
+uv run half-america precompute --lambda-step 0.01  # Match production (99 values)
 uv run half-america precompute --skip-failures   # Continue on convergence errors
 ```
 

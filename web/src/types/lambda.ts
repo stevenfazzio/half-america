@@ -23,9 +23,3 @@ export type LambdaValue = (typeof LAMBDA_VALUES)[number];
  */
 export const getTopoJsonPath = (lambda: LambdaValue): string =>
   `${import.meta.env.BASE_URL}data/lambda_${lambda.toFixed(2)}.json`;
-
-/**
- * Get the path to the combined TopoJSON file (all lambda values).
- */
-export const getCombinedTopoJsonPath = (): string =>
-  `${import.meta.env.BASE_URL}data/combined.json`;
