@@ -4,18 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Half of America is a portfolio project exploring the application of max-flow min-cut optimization to cartographic data visualization. It produces an interactive map where users control a "surface tension" parameter (λ) to balance area minimization vs. perimeter smoothness when selecting census tracts, revealing surprising population concentration across the United States.
-
-**Portfolio Value:**
-This project showcases:
-- Graph optimization applied to spatial problems (operations research)
-- Interactive parameter exploration (computational cartography)
-- Full-stack implementation from data pipeline to web visualization
-
-**Project Goals:**
-- Demonstrate methodological exploration: applying optimization techniques to geographic data
-- Create compelling, interactive visualization (not just static analysis)
-- Showcase end-to-end data science skills for portfolio purposes
+Half of America applies max-flow min-cut optimization to cartographic data visualization. It produces an interactive map where users control a "surface tension" parameter (λ) to balance area minimization vs. perimeter smoothness when selecting census tracts, revealing surprising population concentration across the United States.
 
 The implementation uses Census Tract data (~73,000 tracts) with Max-Flow Min-Cut optimization to generate smooth, organic shapes controlled by a "surface tension" parameter (λ).
 
